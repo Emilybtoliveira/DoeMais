@@ -1,11 +1,13 @@
 import React from 'react';
 import {Container} from './styles'
-
+import Header from '../../components/Header'
+import Introducao from '../../components/Introducao'
 
 function Portal (){
     return(
         <Container>
-            Opa     
+            <Header/>
+            <Introducao/>
         </Container>
     )
 }
