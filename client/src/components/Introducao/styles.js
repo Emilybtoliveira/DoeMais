@@ -2,7 +2,8 @@ import styled from 'styled-components'
 import * as palette from "../../utils/variablesColor"
 
 export const Container = styled.div`
-    height:80vh;
+    /* height:80vh; */
+    padding: 5% 0;
     display:flex;
     justify-content: space-around;
     align-items: center;

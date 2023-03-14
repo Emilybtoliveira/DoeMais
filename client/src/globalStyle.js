@@ -1,7 +1,22 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-  
+  :root {
+      font-size: 60%;
+      ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: rgba(239, 235, 235, 1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color:#BFBABA;
+      border-radius: 5px;
+      /* border: 3px solid #ffffff; */  
+    }
+  }
   * {
     margin: 0;
     padding: 0;

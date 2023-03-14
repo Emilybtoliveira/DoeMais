@@ -63,11 +63,15 @@ ScrollTop.propTypes = {
 
 
 export default function Header(props) {
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
     const url = window.location.pathname
     return (
     <React.Fragment>
       <CssBaseline />
-      <Bar style={{background: 'rgba(239, 235, 235, 1)'}} elevation={0}>
+      <Bar style={{background: 'rgba(239, 235, 235, 1)', marginTop: 0}}  elevation={trigger? 4 : 0} >
         <Toolbar className='toolbar'>
             <Link to='/' >
                 <img src={logo} alt='logo' className='logo' />
@@ -84,11 +88,11 @@ export default function Header(props) {
         </Toolbar>
       </Bar>
       <Toolbar id="back-to-top-anchor" />
-      <Container>
-        <Box sx={{ my: 2 }}>
-          
+      {/* <Container>
+        <Box sx={{ my: 2, border: '1px solid red' }}>
+          Opa
         </Box>
-      </Container>
+      </Container> */}
       <ScrollTop {...props}>
         <Fab size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />

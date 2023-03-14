@@ -2,9 +2,7 @@ import styled from 'styled-components'
 import * as palette from "../../utils/variablesColor"
 
 export const Container = styled.div`
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
+   
     padding: 4%;
     background-color: rgba(197, 23, 23, 0.06);
     @media (max-width: 720px) {
@@ -30,6 +28,13 @@ export const Container = styled.div`
     }
     .text{
         width: 40%
+    }
+    .desc{
+        display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4% 0%;
+
     }
 `
     
