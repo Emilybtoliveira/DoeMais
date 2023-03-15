@@ -23,7 +23,7 @@ export const Bar = styled(AppBar)`
     h3{
         font-family: 'Cagliostro', sans-serif;
         @media (max-width: 720px) {
-            font-size: 0.8em;
+            font-size: 1.4em;
         }
     }
     .logo{

@@ -49,7 +49,7 @@ export const Textos = styled.div`
         color: rgba(64, 64, 64, 0.9);
         font-family: 'Radio Canada', sans-serif ;
         @media (max-width: 720px) {
-            font-size: 1.2em;
+            font-size: 16px;
             text-align: center;
         }
     }
