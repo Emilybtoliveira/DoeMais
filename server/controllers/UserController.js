@@ -1,5 +1,4 @@
 const { User } = require('../models')
-const bcrypt = require('bcrypt')
 
 const UserController = {};  
 
@@ -69,32 +68,21 @@ UserController.delete = async function(req, res){
 }
 
 UserController.register = async function(req, res){
-    try {
-        const salt = await bcrypt.genSalt(10)
-        pwd = await bcrypt.hash(req.body.password, salt)
-
-        var user = {
-            name: req.body.name,
-            email: req.body.email,
-            password: pwd,
-            phone: req.body.phone
-        }
-        
-        created_user = await User.create(user)
-        res.status(201).json({message: "user successfully created"});
-    } catch (error) {
-        res.status(404).json({ message: error })
+    const user = await User.findOne( { where: { email: req.body.email } } )
+    if (!user) {
+        this.create(req, res)
+    } else {
+        res.status(400).json({ error: "Email already exists" })
     }
-
 }
 
 UserController.login = async function(req, res){
     try {
         const user = await User.findOne( { where: { email: req.body.email} })
         if (user) {
-            const password_valid = await bcrypt.compare(req.body.password, user.password)
+            const password_valid = (req.body.password == user.password)
             if (password_valid) {
-                res.status(200).json({message: "user successfully created"}, user)
+                res.status(200).json( {user: user} )
             } else {
                 res.status(400).json({ error: "Password Incorrect" })
             }
