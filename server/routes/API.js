@@ -9,4 +9,7 @@ router.post('/create-user',(req, res) => {Controllers.UserController.create(req,
 router.put('/update-user/:id',(req, res) => {Controllers.UserController.update(req,res);})
 router.delete('/delete-user/:id',(req, res) => {Controllers.UserController.delete(req,res);})
 
+router.post('/login',(req, res) => {Controllers.UserController.login(req,res);})
+router.post('/register',(req, res) => {Controllers.UserController.register(req,res);})
+
 module.exports = router;

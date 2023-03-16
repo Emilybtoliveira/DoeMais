@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      
     }
   }
 
@@ -26,10 +26,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  (async () => {
-    await Donator.sync();
-    // Code here
-  })()
+  Donator.associate = function(models) {
+    Donator.hasOne(models.User, {
+      foreignKey: 'DonatorId'
+    })
+  };
 
   return Donator;
 };

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      
     }
   }
 
@@ -27,17 +27,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function(models) {
-    // associations can be defined here
     User.belongsTo(models.Donator, {
-      foreignKey: 'UserId',
-      onDelete: 'CASCADE'
+      foreignKey: 'DonatorId'
     })
   };
-
-  (async () => {
-    await User.sync();
-    // Code here
-  })()
 
   return User;
 };
