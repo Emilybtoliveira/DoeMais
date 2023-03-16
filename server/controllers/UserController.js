@@ -9,8 +9,7 @@ UserController.getAll = async function(req, res){
     {
         const data = await User.findAll();
         
-        console.log(data);
-        res.status(200).json({ message: "Connection successful", data: data });        
+        res.status(200).json({ message: "Here is your data.", data: data });        
     } catch (error) 
     {
         res.status(404).json({ message: "something went wrong" });        
