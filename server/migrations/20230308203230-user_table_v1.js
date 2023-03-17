@@ -11,20 +11,29 @@ module.exports = {
         allowNull: false 
       },
       name: { 
-        type: Sequelize.STRING(60), 
+        type: Sequelize.STRING(60),
         allowNull: false 
       },
       email: { 
-        type: Sequelize.STRING(40), 
+        type: Sequelize.STRING(40),
+        unique: true,
         allowNull: false
       },
       password: { 
-        type: Sequelize.STRING(20), 
+        type: Sequelize.STRING,
         allowNull: false 
       },
       phone: { 
         type: Sequelize.STRING(20) 
       },
+      DonatorId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Donator',
+          key: 'id',
+          as: 'DonatorId'
+        }
+      }
     });
   },
   async down(queryInterface, Sequelize) {
