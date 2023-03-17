@@ -60,17 +60,10 @@ UserController.register = async function(req, res){
         const user = await User.findOne( { where: { email: req.body.email } } )
 
         if (!user) {
-            // criptografar
-            const cipher = crypto.createCipher(DADOS_CRIPTOGRAFAR.algoritmo, DADOS_CRIPTOGRAFAR.segredo);
-            cipher.update(req.body.password);
-            let newPwd = cipher.final(DADOS_CRIPTOGRAFAR.tipo);
-
-            console.log(newPwd)
-
             await User.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: newPwd,
+                password: req.body.password,
                 phone: req.body.phone,
             })
             
@@ -88,11 +81,7 @@ UserController.login = async function(req, res){
     try {
         const user = await User.findOne( { where: { email: req.body.email} })
         if (user) {
-            const decipher = crypto.createDecipher(DADOS_CRIPTOGRAFAR.algoritmo, DADOS_CRIPTOGRAFAR.segredo);
-            decipher.update(user.password, DADOS_CRIPTOGRAFAR.tipo);
-            let pwd = decipher.final();
-
-            const password_valid = (req.body.password == pwd)
+            const password_valid = (req.body.password == user.password)
             if (password_valid) {
                 res.status(200).json( {user: user} )
             } else {
