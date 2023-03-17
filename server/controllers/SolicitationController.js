@@ -28,12 +28,16 @@ SolicitationController.create = async function(req, res){
     }
 }
 
-SolicitationController.getAll = async function(req, res){
+SolicitationController.getSolicitations = async function(req, res){
     try 
-    {
-        const data = await Solicitation_Person.findAll({include: Solicitation});
-        
-        res.status(200).json({ data: data });        
+    {   
+        if(req.query.userId){
+            //adiciona o codigo que retorna as solicitações do usuario
+        } else { //retorno de todas as solicitacoes
+            const data = await Solicitation_Person.findAll({include: Solicitation});
+            
+            res.status(200).json({ data: data });        
+        }
     } catch (error) 
     {
         res.status(404).json({ message: "something went wrong" });        
@@ -87,7 +91,7 @@ SolicitationController.disable = async function(req, res){
             }
         });
 
-        res.status(200).json(result);           
+        res.status(200).json();           
 
     } catch (error) {
         res.status(404).json({ message: error });
@@ -95,10 +99,6 @@ SolicitationController.disable = async function(req, res){
 }
 
 SolicitationController.getUserFeed = async function(req, res){
-
-}
-
-SolicitationController.getUserSolicitations = async function(req, res){
 
 }
 
