@@ -1,37 +1,24 @@
 
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter} from "react-router-dom";
+// import { PersistGate } from "redux-persist/integration/react";
+// import { Provider } from "react-redux";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = { message: 'deu certo não' };
-  }
-  componentDidMount() {
-    fetch('/testes/object')
-      .then(res => {
-        console.log(res);
-        return res.json()
-      })
-      .then(message => {
-        console.log(message);
-        this.setState({ message })
-      });
-  }
+import Routes from "./routes";
+// import history from "./services/history";
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <h1 className="App-intro">{this.state.message.title}</h1>
-        <h4 className="App-intro">{this.state.message.subtitle}</h4>
-      </div>
-    );
-  }
+// import { store, persistor } from "./store";
+
+import GlobalStyle from "./globalStyle";
+
+
+function App() {
+  return (
+      <BrowserRouter>
+      <Routes/>
+      <GlobalStyle />
+    </BrowserRouter>  
+  );
 }
 
 export default App;
