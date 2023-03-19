@@ -27,7 +27,15 @@ module.exports = (sequelize, DataTypes) => {
 
   Solicitation.associate = function(models) {
     Solicitation.belongsTo(models.Solicitation_Person, {
-      foreignKey: 'solicitationPersonId'
+      as: 'person',
+      foreignKey: 'solicitationPersonId',
+      onDelete: 'CASCADE'
+    }),
+
+    Solicitation.belongsTo(models.User, {
+      as: 'user', 
+      foreignKey: 'solicitationUserId',
+      onDelete: 'CASCADE'
     })
   };
 

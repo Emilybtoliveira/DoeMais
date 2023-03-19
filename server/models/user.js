@@ -27,8 +27,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function(models) {
-    User.belongsTo(models.Donator, {
-      foreignKey: 'DonatorId'
+    User.hasOne(models.Donator, {
+      as: 'donator',
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    }),
+
+    User.hasMany(models.Solicitation, {
+      as: 'solicitations',
+      foreignKey: 'solicitationUserId',
+      onDelete: 'CASCADE'
     })
   };
 

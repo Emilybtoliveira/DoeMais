@@ -25,14 +25,6 @@ module.exports = {
       },
       phone: { 
         type: Sequelize.STRING(20) 
-      },
-      DonatorId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Donator',
-          key: 'id',
-          as: 'DonatorId'
-        }
       }
     });
   },

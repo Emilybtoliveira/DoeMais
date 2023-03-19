@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
 
   Donator.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
-    blood_type: { type: DataTypes.STRING(60), allowNull: false },
+    blood_type: { type: DataTypes.STRING(5) },
     flag_chat: { type: DataTypes.BOOLEAN },
-    gender: { type: DataTypes.STRING(20), allowNull: false },
-    aptitude_status: { type: DataTypes.STRING(20), allowNull: false},
+    gender: { type: DataTypes.STRING(10), allowNull: false },
+    aptitude_status: { type: DataTypes.STRING(15)},
   }, {
     sequelize,
     modelName: 'Donator',
@@ -27,10 +27,11 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Donator.associate = function(models) {
-    Donator.hasOne(models.User, {
-      foreignKey: 'DonatorId'
+    Donator.belongsTo(models.User, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
     })
-  };
+  }; 
 
   return Donator;
 };

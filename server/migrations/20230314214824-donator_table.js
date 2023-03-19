@@ -10,6 +10,15 @@ module.exports = {
         autoIncrement: true, 
         allowNull: false 
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'userId'
+        }
+      },
       blood_type: { 
         type: Sequelize.STRING(60), 
         allowNull: false 

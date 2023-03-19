@@ -19,6 +19,7 @@ SolicitationController.create = async function(req, res){
         const solicitation = await Solicitation.create({
             status: "open",
             solicitationPersonId: person.id,
+            solicitationUserId: req.body.userId,
             creation_date: today.toUTCString()
         });
 
@@ -31,8 +32,16 @@ SolicitationController.create = async function(req, res){
 SolicitationController.getSolicitations = async function(req, res){
     try 
     {   
-        if(req.query.userId){
-            //adiciona o codigo que retorna as solicitações do usuario
+        if(req.query.userId){ //retorna as solicitações do usuario
+            const data = await Solicitation.findAll({
+                where:{
+                    solicitationUserId: req.query.userId,
+                    status: "open"
+                },
+                include: {model: Solicitation_Person, as: 'person'}
+            });
+
+            res.status(200).json({ data: data });
         } else { //retorno de todas as solicitacoes
             const data = await Solicitation_Person.findAll({include: Solicitation});
             

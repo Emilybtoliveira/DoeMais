@@ -18,6 +18,15 @@ module.exports = {
           as: 'solicitationPersonId',
         }
       },
+      solicitationUserId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'solicitationUserId',
+        }
+      },
       status: {
         type: Sequelize.STRING(15),
         allowNull: false
