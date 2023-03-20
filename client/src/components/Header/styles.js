@@ -4,6 +4,8 @@ import * as palette from "../../utils/variablesColor"
 
 export const Bar = styled(AppBar)`
     margin-top: 1%;
+    overflow-x: hidden;
+
     .toolbar{
         display: flex;
         justify-content: space-between;

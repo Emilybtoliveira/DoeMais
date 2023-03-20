@@ -1,7 +1,7 @@
 import React from 'react'
 import {Container} from './styles'
 import Header from '../../components/Header'
-import FormCadastro from '../../components/FormCadastro'
+import FormLogin from '../../components/FormLogin'
 
 
 function Cadastro (){
@@ -10,7 +10,7 @@ function Cadastro (){
         <div style={{overflowX: 'hidden'}}>
         <Header/>
         <Container>
-            <FormCadastro/>    
+            <FormLogin/>    
         </Container>
         </div>
         

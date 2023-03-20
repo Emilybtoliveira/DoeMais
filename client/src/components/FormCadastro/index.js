@@ -54,6 +54,7 @@ function FormCadastro (){
     const [errorNome, setErrorNome] = useState("")
     const [errorEmail, setErrorEmail] = useState("")
     const [errorSenha, setErrorSenha] = useState("")
+    const [errorGenero, setErrorGenero] = useState("")
     const [errorTipo, setErrorTipo] = useState("")
     // const [errorLocal, setErrorLocal] = useState("")
     // const [errorCidade, setErrorCidade] = useState("")
@@ -69,37 +70,68 @@ function FormCadastro (){
       };
 
 
-    const handleConfirm = async () => {
+    const handleValidar =  () => {
+        
+        let isValid = true      
 
-        !data.nome? setErrorNome("Você não informou o seu nome!") : setErrorNome("") 
-        !data.email? setErrorEmail("Você não informou o email!") : setErrorEmail("")
-        !senha? setErrorSenha("Você não informou a senha!") : setErrorSenha("")
-        !data.tipo_sanguineo? setErrorTipo("Você não preencheu esse campo!") : setErrorTipo("")
-        !repetirSenha? setErrorRepetirSenha("Você não preencheu esse campo!") : setErrorRepetirSenha("")
+        if(!data.nome){
+            setErrorNome("Preencha esse campo!")
+            isValid = false
+        }else{
+            setErrorNome("")
+        }
 
-        if (
-            !errorNome &&
-            !errorEmail &&
-            !errorSenha &&
-            !errorTipo &&
-            !errorRepetirSenha
-          ) {
-            console.log('Passou')
-            console.log('errorNome:', errorNome)
-            console.log('errorEmail:', errorEmail)
-            console.log('errorSenha:', errorSenha)
-            console.log('errorTipo:', errorTipo)
-            console.log('errorRepetirSenha:', errorRepetirSenha)
-            const hashedPassword = await hashPassword(senha);
-            setData({...data, senha_cripto: hashedPassword})
-            handleSubmit()            
-          } else{
-            console.log('Erro')
-          }
+        if(!data.email){
+            setErrorEmail("Preencha esse campo!")
+            isValid = false
+        }else if(errorEmail){
+            isValid = false
+        }
+
+        if(!senha){
+            setErrorSenha("Preencha esse campo!")
+            isValid = false
+        }else{
+            setErrorSenha("")
+        }
+        
+        if(!repetirSenha){
+            setErrorRepetirSenha("Preencha esse campo!")
+            isValid = false
+        }else if(errorRepetirSenha){
+            isValid = false
+        }
+        
+        if(!data.genero){
+            setErrorGenero("Preencha esse campo!")
+            isValid = false
+        }else{
+            setErrorGenero("")
+        }
+
+        if(!data.tipo_sanguineo){
+            setErrorTipo("Preencha esse campo!")
+            isValid = false
+        }else{
+            setErrorTipo("")
+        }
+        
+          handleSubmit(isValid)
     }
 
-    const handleSubmit = () =>{
-        console.log(data)
+    const handleSubmit = async (isValid) =>{
+        
+        if(isValid){
+            const formData = {
+                nome: data.nome,
+                email: data.email, 
+                senha_cripto: await hashPassword(senha) , 
+                genero: data.genero, 
+                telefone: data.telefone, 
+                tipo_sanguineo: data.tipo_sanguineo
+              };
+              console.log(formData)
+        }
     }
 
 
@@ -112,6 +144,9 @@ function FormCadastro (){
         const nomeCompleto = e.target.value;
         setData({...data, nome: nomeCompleto})
         sessionStorage.setItem("nome", nomeCompleto)
+        if(!errorNome){
+            
+        }
     }
 
     
@@ -154,12 +189,12 @@ function FormCadastro (){
     }
 
     const handleRepetirSenha = (e) => {
-        setRepetirSenha(e.target.value)
-        if(e.target.value !== data.senha_cripto){
+        if(e.target.value !== senha){
             setErrorRepetirSenha('Senhas diferentes')
         }else{
             setErrorRepetirSenha('')
         }
+        setRepetirSenha(e.target.value)
     }
 
 
@@ -254,6 +289,7 @@ s                    />
                         <FormControlLabel value="m" control={<Radio />} label="Masculino" />
                     </div>
                 </RadioGroup>
+                {errorGenero && <FormHelperText error>{errorGenero}</FormHelperText>}
                 </Grid>
               
                 <Grid item xs={6} md={6} >
@@ -289,7 +325,7 @@ s                    />
                 </FormControl>
                 </Grid>
             </Grid>
-            <Button variant="contained" className='button' onClick={handleConfirm} >Cadastrar</Button>
+            <Button variant="contained" className='button' onClick={handleValidar} >Cadastrar</Button>
         </Container>    
         </ThemeProvider>
         
@@ -298,4 +334,43 @@ s                    />
 
 export default FormCadastro
 
-// sx={{border: '1px solid red'}}
+
+// if (!data.nome) {
+//     isValid = false
+//     setErrorNome("Você não informou o seu nome!");
+// } else {
+//     setErrorNome("");
+// }
+  
+// if (!data.email) {
+//     isValid = false
+//     setErrorEmail("Você não informou o email!");
+// }else if(errorEmail.length > 0){
+//     isValid = false
+// }else{
+//     setErrorEmail("")
+// }
+
+// if (!senha) {
+// isValid = false
+// setErrorSenha("Você não informou a senha!");
+// } else {
+// setErrorSenha("");
+// }
+
+// if (!data.tipo_sanguineo) {
+// isValid = false
+// setErrorTipo("Você não preencheu esse campo!");
+// } else {
+// setErrorTipo("");
+// }
+
+// if (!repetirSenha) {
+// isValid = false
+// setErrorRepetirSenha("Você não preencheu esse campo!");
+// }else if(repetirSenha.length > 0) {
+// isValid = false
+// }else{
+// setErrorRepetirSenha("")
+// }
+  
