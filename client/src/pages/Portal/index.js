@@ -3,6 +3,7 @@ import {Container} from './styles'
 import Header from '../../components/Header'
 import Introducao from '../../components/Introducao'
 import Solicitacao from '../../components/SolicitacaoIntro'
+import InfoSecao from '../../components/InfoSecao'
 import Rodape from '../../components/Rodape'
 import { useRef } from 'react';
 
@@ -23,10 +24,12 @@ function Portal (){
             <Header/>
             <Introducao button={handleClick}/>
             <div ref={targetRef}>
-                <Solicitacao />
+                <Solicitacao/>
             </div>
+            <InfoSecao/>
             <Rodape/>
         </Container>    
+        
     )
 }
 
