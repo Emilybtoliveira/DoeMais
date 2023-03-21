@@ -16,7 +16,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux'
 import { logIn } from '../../store/actions/authActions';
-
+import {Link} from 'react-router-dom'
 const theme = createTheme({
  
     palette: {
@@ -150,6 +150,7 @@ function FormCadastro (){
                 </Grid>
                 </Grid>
             <Button variant="contained" className='button' onClick={handleValidar} >Cadastrar</Button>
+            <h4 style={{fontWeight: '400', marginTop: '5%'}}>Ainda não é cadastrado? <Link to='/cadastro' style={{color: 'red'}}>Cadastre-se</Link></h4>
         </Container>    
         </ThemeProvider>
         
