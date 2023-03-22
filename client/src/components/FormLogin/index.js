@@ -44,8 +44,6 @@ function FormCadastro (){
     const [errorEmail, setErrorEmail] = useState("")
     const [errorSenha, setErrorSenha] = useState("")
 
-    
-
 
     const handleValidar =  () => {
         
@@ -74,7 +72,7 @@ function FormCadastro (){
         if(isValid){
             const formData = {
                 email: data.email, 
-                password: await bcrypt.hash(data.senha_cripto, 8), 
+                password: await bcrypt.hash(data.senha_cripto, "$2a$08$bEnwhtx4TktxTs0MU6KuJu"), 
               };
               console.log(formData);
             const response = await api.post("/login", formData).then(function (response) {
@@ -170,5 +168,6 @@ function FormCadastro (){
 }
 
 export default FormCadastro
+
 
 

@@ -112,13 +112,15 @@ function FormCadastro (){
           handleSubmit(isValid)
     }
 
+
+
     const handleSubmit = async (isValid) =>{
         
         if(isValid){
             const formData = {
                 name: data.nome,
                 email: data.email, 
-                password: await bcrypt.hash(senha, 8), 
+                password: await bcrypt.hash(senha, "$2a$08$bEnwhtx4TktxTs0MU6KuJu"), 
                 gender: data.genero, 
                 phone: data.telefone, 
                 blood_type: data.tipo_sanguineo
@@ -126,6 +128,13 @@ function FormCadastro (){
               console.log(formData)
               try {
                 const response = await api.post('/register', formData);
+                
+                sessionStorage.removeItem('nome')
+                sessionStorage.removeItem('email')
+                sessionStorage.removeItem('genero')
+                sessionStorage.removeItem('telefone') 
+                sessionStorage.removeItem('tipo') 
+
                 navigate("/login")
               } catch (error) {
                 console.log(error);
@@ -333,42 +342,3 @@ s                    />
 export default FormCadastro
 
 
-// if (!data.nome) {
-//     isValid = false
-//     setErrorNome("Você não informou o seu nome!");
-// } else {
-//     setErrorNome("");
-// }
-  
-// if (!data.email) {
-//     isValid = false
-//     setErrorEmail("Você não informou o email!");
-// }else if(errorEmail.length > 0){
-//     isValid = false
-// }else{
-//     setErrorEmail("")
-// }
-
-// if (!senha) {
-// isValid = false
-// setErrorSenha("Você não informou a senha!");
-// } else {
-// setErrorSenha("");
-// }
-
-// if (!data.tipo_sanguineo) {
-// isValid = false
-// setErrorTipo("Você não preencheu esse campo!");
-// } else {
-// setErrorTipo("");
-// }
-
-// if (!repetirSenha) {
-// isValid = false
-// setErrorRepetirSenha("Você não preencheu esse campo!");
-// }else if(repetirSenha.length > 0) {
-// isValid = false
-// }else{
-// setErrorRepetirSenha("")
-// }
-  
