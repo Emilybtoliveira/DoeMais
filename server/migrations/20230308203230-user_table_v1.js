@@ -25,7 +25,23 @@ module.exports = {
       },
       phone: { 
         type: Sequelize.STRING(20) 
-      }
+      },
+      blood_type: { 
+        type: Sequelize.STRING(60), 
+        allowNull: false 
+      },
+      flag_chat: { 
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+      gender: { 
+        type: Sequelize.STRING(20),
+        allowNull: false
+      },
+      aptitude_status: { 
+        type: Sequelize.STRING(20),
+        allowNull: false
+      },
     });
   },
   async down(queryInterface, Sequelize) {

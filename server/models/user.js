@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING(40), allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     phone: { type: DataTypes.STRING(20) },
+
+    blood_type: { type: DataTypes.STRING(5) },
+    flag_chat: { type: DataTypes.BOOLEAN, defaultValue: true },
+    gender: { type: DataTypes.STRING(10), allowNull: false },
+    aptitude_status: { type: DataTypes.STRING(15)},
   }, {
     sequelize,
     modelName: 'User',
@@ -27,9 +32,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function(models) {
-    User.hasOne(models.Donator, {
-      as: 'donator',
-      foreignKey: 'userId',
+    User.hasMany(models.DonationRegister, {
+      as: 'donationsRegistry',
+      foreignKey: 'userDonationRegisterId',
       onDelete: 'CASCADE'
     }),
 

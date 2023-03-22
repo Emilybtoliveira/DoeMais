@@ -64,10 +64,7 @@ UserController.register = async function(req, res){
                 email: req.body.email,
                 password: req.body.password,
                 phone: req.body.phone,
-            })
 
-            await Donator.create({
-                userId: user.id,
                 blood_type: req.body.blood_type,
                 flag_chat: req.body.flag_chat,
                 gender: req.body.gender,
