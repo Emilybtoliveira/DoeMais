@@ -1,3 +1,7 @@
+export function IsRegister() {
+  return { type: 'IS_REGISTER' };
+}
+
 export function logIn() {
     return { type: 'LOG_IN' };
   }

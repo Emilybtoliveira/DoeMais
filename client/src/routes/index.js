@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Routes,Navigate } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { Route, Routes,Navigate,Redirect  } from 'react-router-dom';
 // import Route from './Route';
 
 import Portal from '../pages/Portal';
@@ -10,8 +10,10 @@ import {useSelector} from 'react-redux'
 
 
 export default function Rotas() {
-  
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isRegister = useSelector(state => state.auth.isRegister)
+
+  console.log(isLoggedIn)
 
   return (
     <Routes>

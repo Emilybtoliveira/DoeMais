@@ -17,6 +17,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux'
 import { logIn } from '../../store/actions/authActions';
 import {Link} from 'react-router-dom'
+import bcrypt from 'bcryptjs';
+import api from '../../services/api';
 const theme = createTheme({
  
     palette: {
@@ -42,7 +44,7 @@ function FormCadastro (){
     const [errorEmail, setErrorEmail] = useState("")
     const [errorSenha, setErrorSenha] = useState("")
 
-
+    
 
 
     const handleValidar =  () => {
@@ -72,8 +74,18 @@ function FormCadastro (){
         if(isValid){
             const formData = {
                 email: data.email, 
-                senha_cripto: data.senha_cripto, 
+                password: await bcrypt.hash(data.senha_cripto, 8), 
               };
+              console.log(formData);
+            const response = await api.post("/login", formData).then(function (response) {
+                console.log(response);
+                dispatch(logIn())
+                })
+                .catch(function (error) {
+                console.error(error);
+                });
+            
+            
               dispatch(logIn())
         }
     }

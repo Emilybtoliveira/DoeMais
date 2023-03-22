@@ -21,6 +21,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as options from '../../utils/options'
 import bcrypt from 'bcryptjs';
+import api from '../../services/api'
+import { useNavigate } from "react-router-dom";
+
 
 const theme = createTheme({
  
@@ -34,6 +37,7 @@ const theme = createTheme({
   });
 
 function FormCadastro (){
+    const navigate = useNavigate()
     const [data, setData] = useState({
         nome: sessionStorage.getItem('nome') || '', 
         email:sessionStorage.getItem('email') || '', 
@@ -56,18 +60,7 @@ function FormCadastro (){
     const [errorSenha, setErrorSenha] = useState("")
     const [errorGenero, setErrorGenero] = useState("")
     const [errorTipo, setErrorTipo] = useState("")
-    // const [errorLocal, setErrorLocal] = useState("")
-    // const [errorCidade, setErrorCidade] = useState("")
-    // const [errorNomeMinistrante, setErrorNomeMinistrante] = useState("")
-    // const [errorQnt_Vagas, setErrorQnt_Vagas] = useState("")
-    // const [errorData_inicio, setErrorData_inicio] = useState("")
-    // const [errorData_encerramento, setErrorData_encerramento] = useState("")
-    
-    const hashPassword = async (password) => {
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
-        return hash;
-      };
+
 
 
     const handleValidar =  () => {
@@ -123,14 +116,20 @@ function FormCadastro (){
         
         if(isValid){
             const formData = {
-                nome: data.nome,
+                name: data.nome,
                 email: data.email, 
-                senha_cripto: await hashPassword(senha) , 
-                genero: data.genero, 
-                telefone: data.telefone, 
-                tipo_sanguineo: data.tipo_sanguineo
+                password: await bcrypt.hash(senha, 8), 
+                gender: data.genero, 
+                phone: data.telefone, 
+                blood_type: data.tipo_sanguineo
               };
               console.log(formData)
+              try {
+                const response = await api.post('/register', formData);
+                navigate("/login")
+              } catch (error) {
+                console.log(error);
+              }
         }
     }
 
@@ -151,7 +150,6 @@ function FormCadastro (){
 
     
     const handleEmail = (e) =>{
-        console.log(e.target.value)
         const email_ = e.target.value;
         let regex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(email_) ;
         setData({...data, email: email_})
