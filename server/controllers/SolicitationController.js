@@ -1,4 +1,4 @@
-const { Solicitation, Solicitation_Person} = require('../models')
+const { Solicitation, Solicitation_Person, Donator} = require('../models')
 
 const SolicitationController = {}; 
 
@@ -108,7 +108,56 @@ SolicitationController.disable = async function(req, res){
 }
 
 SolicitationController.getUserFeed = async function(req, res){
+    const compatibily_map = {
+        "A+": ["AB+", "A+"],
+        "A-": ["A+", "A-", "AB+", "AB-"],
+        "B+": ["B+", "AB+"],
+        "B-": ["B+", "B-", "AB+", "AB-"],
+        "AB+": ["AB+"],
+        "AB-": ["AB+", "AB-"],
+        "O+": ["A+", "B+", "O+", "AB+"],
+        "O-": ["A+", "B+", "O+", "AB+", "A-", "B-", "O-", "AB-"]
+    }
 
+    try {
+        const city = req.query.city;
+        const userId = req.query.userId;
+
+        const user_donator = await Donator.findOne({
+            where: {
+                userId: userId
+            }
+        })
+
+        if (!user_donator){
+            res.status(400).json({ message: 'user not found'});
+            return;
+        }
+
+        if(user_donator.blood_type){
+            const user_compatibilities = compatibily_map[user_donator.blood_type];
+            console.log(user_compatibilities)
+
+            const compatible_solicitations = await Solicitation_Person.findAll({
+                where: {
+                    city: city,
+                    bloodtype: user_compatibilities
+                }
+            })
+            res.status(200).json({compatible_solicitations});
+
+        } else {
+            const compatible_solicitations = await Solicitation_Person.findAll({
+                where: {
+                    city: city
+                }
+            })
+            res.status(500).json({compatible_solicitations});
+        }
+
+    } catch (error) {
+        res.status(400).json({ message: error})
+    }
 }
 
 module.exports = SolicitationController;
