@@ -1,0 +1,1 @@
+export const tipos_sanguineos= ['Desconhecido','A-', 'A+','B+', 'B-', 'AB+', 'AB-', 'O-', 'O+']

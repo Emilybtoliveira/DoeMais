@@ -80,7 +80,7 @@ export default function Header(props) {
                 <Link  className='link' to='/' style={{borderBottom: url === '/'? "3px solid rgba(204, 0, 0, 1)":'none'}}>
                      <h3>Portal</h3>
                 </Link>
-                <Link  className='link' to='/entrar' style={{borderBottom: url === '/entrar'? "3px solid rgba(204, 0, 0, 1)":'none'}}>
+                <Link  className='link' to='/login' style={{borderBottom: url === '/login' || url === '/cadastro' ? "3px solid rgba(204, 0, 0, 1)":'none'}}>
                     <h3>Quero Doar!</h3>
                 </Link>
 
