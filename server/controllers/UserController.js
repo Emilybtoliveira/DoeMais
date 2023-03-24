@@ -64,14 +64,17 @@ UserController.register = async function(req, res){
                 email: req.body.email,
                 password: req.body.password,
                 phone: req.body.phone,
+            })
 
+            const donator = await Donator.create({
+                userId: user.id,
                 blood_type: req.body.blood_type,
                 flag_chat: req.body.flag_chat,
                 gender: req.body.gender,
                 aptitude_status: "undefined",
             })
             
-            res.status(200).json({ user });
+            res.status(200).json({ user, donator });
         }
         else {
             res.status(400).json({ error: "Email already exists" })

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   DonationRegister.associate = function(models) {
-    DonationRegister.belongsTo(models.User, {
+    DonationRegister.belongsTo(models.Donator, {
         as: 'user',
         foreignKey: 'userDonationRegisterId',
         onDelete: 'CASCADE'
