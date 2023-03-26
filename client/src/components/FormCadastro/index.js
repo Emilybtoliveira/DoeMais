@@ -14,8 +14,12 @@ import {TextField,
     FormControl,
     IconButton ,
     Select,
-    MenuItem 
+    MenuItem,
+    Snackbar,
+    Alert 
  } from '@mui/material';
+ import CircularProgress from '@mui/material/CircularProgress';
+
  import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -38,6 +42,14 @@ const theme = createTheme({
 
 function FormCadastro (){
     const navigate = useNavigate()
+    // navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       console.log(position.coords.latitude, position.coords.longitude);
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
     const [data, setData] = useState({
         nome: sessionStorage.getItem('nome') || '', 
         email:sessionStorage.getItem('email') || '', 
@@ -61,6 +73,17 @@ function FormCadastro (){
     const [errorGenero, setErrorGenero] = useState("")
     const [errorTipo, setErrorTipo] = useState("")
 
+    const [errorMessage, setErrorMessage] = React.useState('');
+    const [openFailure, setOpenFailure] = React.useState(false);
+    const [openSuccess, setOpenSuccess] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        });
+    const { vertical, horizontal, open } = state;
 
 
     const handleValidar =  () => {
@@ -115,7 +138,7 @@ function FormCadastro (){
 
 
     const handleSubmit = async (isValid) =>{
-        
+        setIsLoading(true);
         if(isValid){
             const formData = {
                 name: data.nome,
@@ -125,7 +148,6 @@ function FormCadastro (){
                 phone: data.telefone, 
                 blood_type: data.tipo_sanguineo
               };
-              console.log(formData)
               try {
                 const response = await api.post('/register', formData);
                 
@@ -134,10 +156,14 @@ function FormCadastro (){
                 sessionStorage.removeItem('genero')
                 sessionStorage.removeItem('telefone') 
                 sessionStorage.removeItem('tipo') 
-
-                navigate("/login")
+                setOpenSuccess(true)
+                setTimeout(() => {
+                    setIsLoading(false);
+                    navigate("/login");
+                  }, 2000);
               } catch (error) {
-                console.log(error);
+                setErrorMessage(error.response.data.error)
+                setOpenFailure(true)
               }
         }
     }
@@ -208,6 +234,8 @@ function FormCadastro (){
     return(
         <ThemeProvider theme={theme}>
             <Container>
+            {isLoading && <CircularProgress />}
+            {/* {!isLoading && ( */}
             <h1>Cadastro</h1>
             <Grid container spacing={2} >
                 <Grid item xs={12} md={12} >
@@ -333,6 +361,17 @@ s                    />
                 </Grid>
             </Grid>
             <Button variant="contained" className='button' onClick={handleValidar} >Cadastrar</Button>
+           
+            <Snackbar anchorOrigin={{ vertical, horizontal }}  key={vertical + horizontal} open={openFailure} autoHideDuration={6000} onClose={()=>{setOpenFailure(false)}}>
+                    <Alert onClose={()=>{setOpenFailure(false)}} severity="error" variant="filled" sx={{ width: '100%' }}>
+                        {errorMessage}
+                    </Alert>
+            </Snackbar>
+            <Snackbar anchorOrigin={{ vertical, horizontal }}  key={vertical + horizontal} open={openSuccess} autoHideDuration={6000} onClose={()=>{setOpenSuccess(false)}}>
+                    <Alert onClose={()=>{setOpenSuccess(false)}} severity="success" variant="filled" sx={{ width: '100%' }}>
+                        Cadastro realizado com sucesso!
+                    </Alert>
+            </Snackbar>
         </Container>    
         </ThemeProvider>
         
