@@ -106,6 +106,11 @@
             }
         }
 
+        const handleKeyPress = (e) => {
+            if (e.key === 'Enter') {
+                handleValidar();
+            }
+          };
 
 
         const handleMouseDownPassword = (event) => {
@@ -136,7 +141,7 @@
 
         return(
             <ThemeProvider theme={theme}>
-                <Container>
+                <Container onKeyPress={handleKeyPress} >
                 <h1>Login</h1>
                 <Grid container spacing={2} >
                     

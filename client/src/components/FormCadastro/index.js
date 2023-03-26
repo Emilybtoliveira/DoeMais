@@ -84,10 +84,10 @@ function FormCadastro (){
         horizontal: 'center',
         });
     const { vertical, horizontal, open } = state;
+    
 
 
     const handleValidar =  () => {
-        
         let isValid = true      
 
         if(!data.nome){
@@ -138,8 +138,8 @@ function FormCadastro (){
 
 
     const handleSubmit = async (isValid) =>{
-        setIsLoading(true);
         if(isValid){
+            setIsLoading(true);
             const formData = {
                 name: data.nome,
                 email: data.email, 
@@ -162,17 +162,24 @@ function FormCadastro (){
                     navigate("/login");
                   }, 2000);
               } catch (error) {
+
                 setErrorMessage(error.response.data.error)
                 setOpenFailure(true)
+                setIsLoading(false)
               }
         }
     }
 
 
-
     const handleMouseDownPassword = (event) => {
       event.preventDefault();
     };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleValidar();
+        }
+      };
 
     const handleNome = (e) =>{
         const nomeCompleto = e.target.value;
@@ -237,7 +244,7 @@ function FormCadastro (){
             {isLoading && <CircularProgress />}
             {/* {!isLoading && ( */}
             <h1>Cadastro</h1>
-            <Grid container spacing={2} >
+            <Grid container spacing={2} onKeyPress={handleKeyPress} >
                 <Grid item xs={12} md={12} >
                     <TextField 
                     label="Nome Completo"
@@ -248,7 +255,7 @@ function FormCadastro (){
                     helperText={errorNome? errorNome: false}
                     value={data.nome}
                     onChange={handleNome}
-s                    />
+                  />
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <TextField required fullWidth label="Email" variant="outlined" 
@@ -360,7 +367,7 @@ s                    />
                 </FormControl>
                 </Grid>
             </Grid>
-            <Button variant="contained" className='button' onClick={handleValidar} >Cadastrar</Button>
+            <Button variant="contained"  className='button' onClick={handleValidar}>Cadastrar</Button>
            
             <Snackbar anchorOrigin={{ vertical, horizontal }}  key={vertical + horizontal} open={openFailure} autoHideDuration={6000} onClose={()=>{setOpenFailure(false)}}>
                     <Alert onClose={()=>{setOpenFailure(false)}} severity="error" variant="filled" sx={{ width: '100%' }}>
