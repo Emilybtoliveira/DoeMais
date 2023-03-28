@@ -32,7 +32,8 @@ import histNoSelect from '../../assets/Feed/histNoSelect.svg'
 import histSelect from '../../assets/Feed/histSelect.svg'
 import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
-
+import { useDispatch } from 'react-redux'
+import { logOut } from '../../store/actions/authActions';
 const theme = createTheme({
     components: {
         MuiListItemButton: {
@@ -55,6 +56,7 @@ const drawerWidth = 280;
 
 function Feed(props) {
   const { window } = props;
+  const dispatch = useDispatch()
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedComponent, setSelectedComponent] = React.useState({ index:0,component: <Solicitacoes/>}); // Novo estado
   const handleDrawerToggle = () => {
@@ -63,6 +65,12 @@ function Feed(props) {
   const handleListItemClick = (event, component) => {
     setSelectedComponent({index: component.index, component: component.component}); 
   };
+
+  const LogOut = () => {
+    console.log('clicpu ')
+    dispatch(logOut())
+    window.reload()
+  }
 
   const componentes = [
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
@@ -79,7 +87,7 @@ function Feed(props) {
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
         </IconButton> */}
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#4B4B4B' }}/>
+      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
       <div style={{marginTop: '2%',width:'70%', backgroundColor: '#D9D9D9', borderRadius: '5px', display: 'flex', justifyContent:'space-between', padding: '8px'}} >
         <h3>Maria da Silva</h3>
         <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
@@ -121,6 +129,8 @@ function Feed(props) {
     </ListItem>
   ))}
 </List>
+<div style={{color: "rgba(204, 0, 0, 1)", textDecoration: 'underline', cursor:'pointer', marginLeft: '5%'}} onClick={LogOut} >SAIR</div>
+
       </ThemeProvider>
      
     </div>

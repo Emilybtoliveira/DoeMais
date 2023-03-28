@@ -10,7 +10,6 @@ import {useSelector} from 'react-redux'
 
 function RotaPrivada(props) {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-  // const navigate = useNavigate()
   return (
     <>
     {isLoggedIn ? (
@@ -23,14 +22,27 @@ function RotaPrivada(props) {
   );
 }
 
+function RotaPublica(props) {
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  return (
+    <>
+    {!isLoggedIn ? (
+          props.element
+          ) : (
+            <Navigate to='/dashboard'/>
+          )}
+    </>
+        
+  );
+}
 
 export default function Rotas() {
   return (
     <Fragment>
       <Routes>
-      <Route path='/' exact element={<Portal/>} />
-      <Route path='/cadastro' exact element={<Cadastro/>} />
-      <Route path='/login' exact element={<Login/>} />
+      <Route path='/' exact element={<RotaPublica element={<Portal/>}/>} />
+      <Route path='/cadastro' exact element={<RotaPublica element={<Cadastro/>}/>} />
+      <Route path='/login' exact element={<RotaPublica element={<Login/>}/>} />
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path='*' exact element={<h1>Erro 404 :)</h1>} />
     </Routes>
