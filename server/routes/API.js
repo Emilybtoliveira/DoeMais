@@ -10,6 +10,8 @@ router.delete('/user/:id',(req, res) => {Controllers.UserController.delete(req,r
 router.post('/login',(req, res) => {Controllers.UserController.login(req,res);})
 router.post('/register',(req, res) => {Controllers.UserController.register(req,res);})
 
+router.get('/confirm-email', (req, res) => {Controllers.UserController.confirmEmail(req, res);})
+
 //Rotas de Solicitações
 router.get('/solicitations',(req, res) => {Controllers.SolicitationController.getSolicitations(req,res);})
 router.post('/solicitations',(req, res) => {Controllers.SolicitationController.create(req,res);})

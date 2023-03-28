@@ -26,6 +26,15 @@ module.exports = {
       phone: { 
         type: Sequelize.STRING(20) 
       },
+      active: {
+        type: Sequelize.BOOLEAN
+      },
+      confirmationCodeExpiration: {
+        type: Sequelize.DATEONLY
+      },
+      confirmationCode: {
+        type: Sequelize.STRING
+      }
     });
   },
   async down(queryInterface, Sequelize) {
