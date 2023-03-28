@@ -9,8 +9,8 @@ const today = new Date(timeElapsed);
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'SEU-EMAIL@gmail.com',
-        pass: 'SUA-SENHA',
+        user: process.env.EMAIL,
+        pass: process.env.EMAILPASSWORD,
     },
 });
 
@@ -71,7 +71,8 @@ UserController.register = async function(req, res){
     try {
         const user = await User.findOne( { where: { email: req.body.email } } )
 
-        today.setDate(today.getDate() + 3)
+        const date = new Date()
+        date.setDate(today.getDate() + 3)
 
         if (!user) {
             const user = await User.create({
@@ -80,7 +81,7 @@ UserController.register = async function(req, res){
                 password: req.body.password,
                 phone: req.body.phone,
                 active: false,
-                confirmationCodeExpiration: today.toUTCString(),
+                confirmationCodeExpiration: date,
                 confirmationCode: randomstring.generate(6)
             })
 
@@ -94,7 +95,7 @@ UserController.register = async function(req, res){
 
             // configurar email
             const mailOptions = {
-                from: 'SEU-EMAIL@gmail.com',
+                from: process.env.EMAIL,
                 to: req.body.email,
                 subject: 'Confirmação de e-mail',
                 text: 'Olá, obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:',
