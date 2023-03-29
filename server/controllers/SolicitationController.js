@@ -1,4 +1,4 @@
-const { Solicitation, Solicitation_Person} = require('../models')
+const { Solicitation, Solicitation_Person, Donator} = require('../models')
 
 const SolicitationController = {}; 
 
@@ -25,7 +25,7 @@ SolicitationController.create = async function(req, res){
 
         res.status(200).json(solicitation);        
     } catch (error) {
-        res.status(404).json({ message: error });
+        res.status(500).json({ error: error });
     }
 }
 
@@ -38,18 +38,18 @@ SolicitationController.getSolicitations = async function(req, res){
                     solicitationUserId: req.query.userId,
                     status: "open"
                 },
-                include: {model: Solicitation_Person, as: 'person'}
+                include: { model: Solicitation_Person, as: 'person' }
             });
 
-            res.status(200).json({ data: data });
+            res.status(200).json({ data });
         } else { //retorno de todas as solicitacoes
             const data = await Solicitation_Person.findAll({include: Solicitation});
             
-            res.status(200).json({ data: data });        
+            res.status(200).json({ data });        
         }
     } catch (error) 
     {
-        res.status(404).json({ message: "something went wrong" });        
+        res.status(500).json({ error: error });        
     }
 }
 
@@ -69,26 +69,20 @@ SolicitationController.update = async function(req, res){
             }
         });
 
-        if (result == 1){
+        if (result[0]){
             res.status(200).json();    
         } else{
-            res.status(404).json({ message: "Não existe solicitação com esse id."});    
+            res.status(404).json({ error: "Não existe solicitação com esse id."});    
         }
 
     } catch (error) {
-        res.status(404).json({ message: error });
+        res.status(500).json({ error: error });
     }
 }
 
 SolicitationController.disable = async function(req, res){
     try {
-        const person_id = req.params.id;
-
-        const solicitation_id = await Solicitation.findOne({
-            where: {
-                solicitationPersonId: person_id
-            }
-          });
+        const solicitation_id = req.params.id;
 
         const result = await Solicitation.update({ 
             status: "closed",
@@ -96,19 +90,88 @@ SolicitationController.disable = async function(req, res){
         }, 
         {
             where: {
-              id: solicitation_id.id
+              id: solicitation_id
             }
         });
 
-        res.status(200).json();           
+        if(result){
+            res.status(200).json();           
+        }else{
+            res.status(404).json({ error: "Não existe solicitação com esse id."});    
+        }
 
     } catch (error) {
-        res.status(404).json({ message: error });
+        res.status(500).json({ error: error });
     }
 }
 
 SolicitationController.getUserFeed = async function(req, res){
+    const compatibily_map = {
+        "A+": ["AB+", "A+"],
+        "A-": ["A+", "A-", "AB+", "AB-"],
+        "B+": ["B+", "AB+"],
+        "B-": ["B+", "B-", "AB+", "AB-"],
+        "AB+": ["AB+"],
+        "AB-": ["AB+", "AB-"],
+        "O+": ["A+", "B+", "O+", "AB+"],
+        "O-": ["A+", "B+", "O+", "AB+", "A-", "B-", "O-", "AB-"]
+    }
 
+    try {
+        const city = req.query.city;
+        const userId = req.query.userId;
+
+        const user_donator = await Donator.findOne({
+            where: {
+                userId: userId
+            }
+        })
+
+        if (!user_donator){
+            res.status(404).json({ error: 'Nenhum usuário encontrado para o id fornecido.'});
+            return;
+        }
+
+        if(city){
+
+            if(user_donator.blood_type){
+                const user_compatibilities = compatibily_map[user_donator.blood_type];
+                console.log(user_compatibilities)
+
+                const data = await Solicitation_Person.findAll({
+                    where: {
+                        city: city,
+                        bloodtype: user_compatibilities
+                    }
+                })
+                res.status(200).json({ data });
+
+            } else {
+                const data = await Solicitation_Person.findAll({
+                    where: {
+                        city: city
+                    }
+                })
+                res.status(200).json({ data });
+            }
+        }
+        else {
+            const count_recs = await Solicitation_Person.count();
+            console.log(count_recs);
+
+            if (count_recs <= 3){
+                const data = await Solicitation_Person.findAll();
+                res.status(200).json({ data });
+            }
+            else{
+                const data = await Solicitation_Person.findAll({ offset: 2, limit: 10 });
+                res.status(200).json({ data });
+            }
+
+        }
+    } catch (error) {
+        res.status(500).json({ message: error})
+    }
 }
 
 module.exports = SolicitationController;
