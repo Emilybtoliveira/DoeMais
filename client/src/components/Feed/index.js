@@ -87,7 +87,7 @@ function Feed(props) {
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
         </IconButton> */}
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
+      <Avatar alt="Memy Sharp" src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
       <div style={{marginTop: '2%',width:'70%', backgroundColor: '#D9D9D9', borderRadius: '5px', display: 'flex', justifyContent:'space-between', padding: '8px'}} >
         <h3>Maria da Silva</h3>
         <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
