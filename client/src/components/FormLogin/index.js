@@ -19,7 +19,7 @@
     import { createTheme, ThemeProvider } from '@mui/material/styles';
     import { useDispatch } from 'react-redux'
     import { logIn } from '../../store/actions/authActions';
-    import { emailLogged } from '../../store/actions/userActions.js';
+    import { IdLogged } from '../../store/actions/userActions.js';
     import {Link} from 'react-router-dom'
     import bcrypt from 'bcryptjs';
     import api from '../../services/api';
@@ -90,11 +90,9 @@
                     email: data.email, 
                     password: await bcrypt.hash(data.senha_cripto, "$2a$08$bEnwhtx4TktxTs0MU6KuJu"), 
                 };
-                console.log(formData);
                 const response = await api.post("/login", formData).then(function (response) {
-                    console.log(response);
                     dispatch(logIn())                    
-                    dispatch(emailLogged(formData.email))
+                    dispatch(IdLogged(response.data.user.id))
                     navigate('/dashboard')
                     })
                     .catch(function (error) {
