@@ -19,6 +19,7 @@
     import { createTheme, ThemeProvider } from '@mui/material/styles';
     import { useDispatch } from 'react-redux'
     import { logIn } from '../../store/actions/authActions';
+    import { emailLogged } from '../../store/actions/userActions.js';
     import {Link} from 'react-router-dom'
     import bcrypt from 'bcryptjs';
     import api from '../../services/api';
@@ -92,7 +93,9 @@
                 console.log(formData);
                 const response = await api.post("/login", formData).then(function (response) {
                     console.log(response);
-                    dispatch(logIn())
+                    dispatch(logIn())                    
+                    dispatch(emailLogged(formData.email))
+                    navigate('/dashboard')
                     })
                     .catch(function (error) {
                         setErrorMessage(error.response.data.error)
@@ -101,11 +104,14 @@
                     });
                 
                 
-                dispatch(logIn())
-                navigate('/dashboard')
             }
         }
 
+        const handleKeyPress = (e) => {
+            if (e.key === 'Enter') {
+                handleValidar();
+            }
+          };
 
 
         const handleMouseDownPassword = (event) => {
@@ -136,7 +142,7 @@
 
         return(
             <ThemeProvider theme={theme}>
-                <Container>
+                <Container onKeyPress={handleKeyPress} >
                 <h1>Login</h1>
                 <Grid container spacing={2} >
                     
