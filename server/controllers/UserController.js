@@ -8,13 +8,24 @@ UserController.getAll = async function(req, res){
     {
         const data = await User.findAll({ include: [{model: Donator, as: 'donator'}, {model: Solicitation, as: 'solicitations'}] }); 
 
-        /* include: [{ model: User, attributes: { exclude: ['password'] },
-                        model : Job , as: 'jobs', }], */
-
-        res.status(200).json({ data });        
+        res.status(200).json({ data });                
     } catch (error) 
     {
-        res.status(500).json({ message: error });        
+        res.status(500).json({ error: error });        
+    }
+}
+
+UserController.getUser = async function(req, res){
+    try {
+        const data = await User.findOne({where: { id: req.params.id }, attributes: { exclude: ['password'] }, include: [{model: Donator, as: 'donator'}] }); 
+        if (!data){
+            res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." });   
+        }
+        else {
+            res.status(200).json({ data });       
+        }
+    } catch (error) {
+        res.status(500).json({ error: error})
     }
 }
 
@@ -25,15 +36,14 @@ UserController.update = async function(req, res){
         const user = await User.findOne({ where: { id }})
 
         if (!user) {
-            res.status(401).json({ message: "No user found." })
+            res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." })
         } else {
             await User.update({ name, email, password, phone }, { where: { id: id } });
             await Donator.update({ blood_type, flag_chat, gender, aptitude_status }, { where: { userId: id } });
             res.status(200).json()
         }
-
     } catch (error) {
-        res.status(404).json({ message: error })
+        res.status(500).json({ error: error })
     }
 }
 
@@ -44,19 +54,19 @@ UserController.delete = async function(req, res){
         const user = await User.findOne({ where: { id: id }})
         
         if (!user) {
-            res.status(401).json({ message: "No user found." })
+            res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." })
         } else {
             await User.destroy({ where: { id: id } })
             res.status(200).json()
         }
     } catch (error) {
-        res.status(404).json({ message: error })
+        res.status(500).json({ error: error })
     }
 }
 
 UserController.register = async function(req, res){
     try {
-        const user = await User.findOne( { where: { email: req.body.email } } )
+        const user = await User.findOne( { where: { email: req.body.email },  attributes: {exclude: ['password']} })
 
         if (!user) {
             const user = await User.create({
@@ -77,32 +87,34 @@ UserController.register = async function(req, res){
             res.status(200).json({ user });
         }
         else {
-            res.status(400).json({ error: "Email already exists" })
+            res.status(400).json({ error: "Já existe uma usuário com o email escolhido." })
         }
     } catch (error) {
-        res.status(500).json({ message: error });
+        res.status(500).json({ error: error });
     }
 }
 
 UserController.login = async function(req, res){
     try {
-        const user = await User.findOne( { where: { email: req.body.email} })
+        const user = await User.findOne({ where: { email: req.body.email}, include: [{model: Donator, as: 'donator'}] })
         if (user) {
             const password_valid = (req.body.password == user.password)
             if (password_valid) {
+
+                delete user.dataValues.password;
                 res.status(200).json( {user: user} )
+
             } else {
-                res.status(400).json({ error: "Password Incorrect" })
+                res.status(400).json({ error: "Senha incorreta." })
             }
         } else {
-            res.status(400).json({ error: "User does not exist" })
+            res.status(400).json({ error: "Não foi encontrado usuário com email correspondente." })
         }
 
     } catch (error) {
-        res.status(404).json({ message: error })
+        res.status(404).json({ error: error })
     }
 }
-
 
 
 module.exports = UserController;

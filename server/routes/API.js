@@ -5,6 +5,7 @@ const router = Express.Router();
 
 //Rotas de Usuario
 router.get('/user',(req, res) => {Controllers.UserController.getAll(req,res);})
+router.get('/user/:id',(req, res) => {Controllers.UserController.getUser(req,res);})
 router.put('/user',(req, res) => {Controllers.UserController.update(req,res);})
 router.delete('/user/:id',(req, res) => {Controllers.UserController.delete(req,res);})
 router.post('/login',(req, res) => {Controllers.UserController.login(req,res);})
