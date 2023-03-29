@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     bloodtype: { type:DataTypes.STRING(5), allowNull: false},
     description: {type:DataTypes.STRING(200), allowNull: false},
     picture: DataTypes.STRING,
-    city: { type: DataTypes.STRING(20), allowNull: false},
+    city: { type: DataTypes.STRING(100), allowNull: false},
     hospital:{ type: DataTypes.STRING(60) }
   }, {
     sequelize,

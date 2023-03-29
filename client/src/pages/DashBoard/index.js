@@ -8,21 +8,22 @@ import api from '../../services/api'
 
 function Cadastro (){
     
-    const user_email = useSelector(state => state.user.email);
+    const id_user = useSelector(state => state.user.id_user);
+    console.log(id_user)
     const profile_user = []
-    React.useEffect( () => {
-            api.get('/user').then(response => {
-                const users = response
-                for (const us in users.data.data) {
-                    console.log(us.email)
-                    if (us.email === user_email) {
-                        console.log(us.name)
-                    }
-                }
-            }).catch(error =>{
-                console.log(error)
-            })
-    }, [])
+    // React.useEffect( () => {
+    //         api.get('/user').then(response => {
+    //             const users = response
+    //             for (const us in users.data.data) {
+    //                 console.log(us.email)
+    //                 if (us.email === user_email) {
+    //                     console.log(us.name)
+    //                 }
+    //             }
+    //         }).catch(error =>{
+    //             console.log(error)
+    //         })
+    // }, [])
      
 
 
