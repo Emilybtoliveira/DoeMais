@@ -52,14 +52,13 @@ export default function Solicitacoes () {
           </Tooltip>
           }
         </div>
-        <div style={{marginTop: '5%'}} >
-          <Grid container spacing={2}>
+        <div >
+          <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {minhas_solicitacoes.reverse().map((item,i) =>(
-              <Grid item key={i} xs={12} md={4}>
+              <Grid item key={i}  xs={12} md={4}  xl={2} >
                 <Card  solicitacao={item}/>
               </Grid>            
-))}
-
+          ))}
           </Grid>
         </div>
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
