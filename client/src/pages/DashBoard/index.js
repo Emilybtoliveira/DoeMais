@@ -1,7 +1,4 @@
-import React from 'react'
-import {Container} from './styles'
-import Header from '../../components/Header'
-import FormCadastro from '../../components/FormCadastro'
+import React, {useEffect}from 'react'
 import Feed from '../../components/Feed'
 import {useSelector, useDispatch} from 'react-redux'
 import api from '../../services/api'
@@ -10,15 +7,15 @@ function Cadastro (){
     const dispatch = useDispatch()
     const id_user = useSelector(state => state.user.id_user);
     
-    React.useEffect( () => {
-            api.get(`/user/${id_user}`).then(response => {
+  
+    useEffect(() => {
+        api.get(`/user/${id_user}`).then((response) =>{
                 dispatch(profile(response.data.data))
-            }).catch(error =>{
-                console.log(error)
+            }).catch((error) => {
+            console.log(error)
+                
             })
-    }, [])
-     
-
+    })
 
     return(
         <div style={{overflowX: 'hidden'}}>
