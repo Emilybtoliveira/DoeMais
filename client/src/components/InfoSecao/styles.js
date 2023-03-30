@@ -12,19 +12,25 @@ export const Container = styled.div`
         border-radius: 20px;
         background-color: rgba(204, 0, 0, 1);
         padding:1%;
+        font-size: 3em;
     }
     button a{
         color: white;
-        
         text-decoration: none;
         font-family: 'Ropa Sans', sans-serif;
-        font-size: 2em;
+        
     }
     .buttonSection{
         display: flex;
-        justify-content: space-around;
+        /*flex-wrap: wrap;*/
+        justifyContent: "flex-end";
         padding: 1%;
     }
+    @media(min-width: 200px) {
+        button{
+         font-size: 1.5em;
+        }
+       }
 `
 
 export const ContainerA = styled.div`
@@ -93,7 +99,7 @@ export const ContainerA = styled.div`
     }
 
     .pictures{
-        width: 600px;
+        width: 50%;
         padding 1%;
         margin: auto;
         display: block;
