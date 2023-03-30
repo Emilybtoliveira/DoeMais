@@ -79,7 +79,7 @@ function Cards(props) {
                 {solicitacao.person.name}  {solicitacao.person.idade?solicitacao.person.idade: ''} 
               </Typography>
               <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
-                {solicitacao.person.description?solicitacao.person.description: '#AjudeQuemPrecisa'}
+                {solicitacao.person.description?solicitacao.person.description: '#DoeSangueSalveVidas'}
               </Typography>
               <div className="informacoes">
                 <div>
