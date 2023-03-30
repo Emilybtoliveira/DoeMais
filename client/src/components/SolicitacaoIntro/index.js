@@ -10,47 +10,41 @@ import img3 from '../../assets/Portal/CardsEstatico/img3.svg';
 
 const solicitacao = [
     {
-      person : {
         picture: img1,
-        name: 'José Lima da Silva',
-        idade: 30,
+        name: 'Nicolas Lima da Silva',
+        idade: '- 32 anos',
         description:
-          'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+          'Se você é doador de sangue ou conhece alguém que é, por favor, considere a possibilidade de doar sangue. A sua doação pode salvar a vida dessa pessoa querida e trazer esperança para toda a família.',
         city: 'Maceió',
         estado: 'Alagoas',
         hospital: 'Hospital Santa Fé',
-        bloodtype: 'O-',
-      },
+        bloodtype: 'A+',
       creation_date: '14/02/2023',
     },
   
     {
-      person : {
         picture: img2,
-        name: 'José Lima da Silva',
-        idade: 30,
+        name: 'Paulo Oliveira da Silva',
+        idade: '- 30 anos',
         description:
-          'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+          'Alguém que eu amo muito precisa urgentemente de uma transfusão de sangue do tipo O-. As doações desse tipo sanguíneo estão muito baixas e a situação é crítica. Preciso de ajuda!',
         city: 'Maceió',
         estado: 'Alagoas',
         hospital: 'Hospital Santa Fé',
         bloodtype: 'O-',
-    },
 
       creation_date: '14/02/2023',
     },
   
     {
-      person : {
         picture: img3,
         name: 'José Lima da Silva',
-        idade: 30,
+        idade: '- 64 anos',
         description:
-          'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+          'O meu avô está passando por um momento difícil e precisa urgentemente de doações de sangue do tipo O-. ',
         city: 'Maceió',
         estado: 'Alagoas',
         hospital: 'Hospital Santa Fé',
-    },
 
       bloodtype: 'O-',
       creation_date: '14/02/2023',
