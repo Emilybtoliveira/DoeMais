@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect}from 'react'
 import {Container} from './styles'
 import Header from '../../components/Header'
 import FormCadastro from '../../components/FormCadastro'
@@ -10,7 +10,7 @@ function Cadastro (){
     const dispatch = useDispatch()
     const id_user = useSelector(state => state.user.id_user);
     
-    React.useEffect( () => {
+    useEffect( () => {
             api.get(`/user/${id_user}`).then(response => {
                 dispatch(profile(response.data.data))
             }).catch(error =>{
