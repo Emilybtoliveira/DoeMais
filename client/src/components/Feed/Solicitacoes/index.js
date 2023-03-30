@@ -1,60 +1,38 @@
 import React, { Component } from 'react'
-import {Typography}from '@mui/material';
+import {Grid}from '@mui/material';
 import {Container} from './styles'
 import Card from '../../CardSolicitacao'
 import img1 from '../../../assets/Portal/CardsEstatico/img1.svg'
+import api from '../../../services/api'
+import {useSelector} from 'react-redux'
 
 
-const solicitacao = [
-  {
-    img: img1,
-    nome: 'José Lima da Silva',
-    idade: 30,
-    descricao:
-      'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-    cidade: 'Maceió',
-    estado: 'Alagoas',
-    hospital: 'Hospital Santa Fé',
-    publicado: '14/02/2023',
-    tipo_sanguineo: 'O-',
-    hora_publicacao: '16',
-  },
-
-  {
-    img: img1,
-    nome: 'José Lima da Silva',
-    idade: 30,
-    descricao:
-      'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-    cidade: 'Maceió',
-    estado: 'Alagoas',
-    hospital: 'Hospital Santa Fé',
-    publicado: '14/02/2023',
-    tipo_sanguineo: 'O-',
-    hora_publicacao: '16',
-  },
-
-  {
-    img: img1,
-    nome: 'José Lima da Silva',
-    idade: 30,
-    descricao:
-      'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-    cidade: 'Maceió',
-    estado: 'Alagoas',
-    hospital: 'Hospital Santa Fé',
-    publicado: '14/02/2023',
-    tipo_sanguineo: 'O-',
-    hora_publicacao: '16',
-  },
-];
 
 export default function Solicitacoes () {
-    return (
+  const [solicitacoes, setSolicitacoes] = React.useState([])
+  const id_user = useSelector(state => state.user.id_user);
+  React.useEffect(() => {
+    const response = api.get(`/solicitations/feed?userId=${id_user}`).then(response => {
+      setSolicitacoes(response.data.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }, [])
+  
+  
+  return (
       <Container>
         <h1>Solicitações para doação</h1>
         <h4>Ajude pessoas que estão precisando de doação próximos a você!</h4>
-
+        <div >
+          <Grid container spacing={ 2} rowSpacing={0} className='grid'>
+            {solicitacoes.map((item,i) =>(
+              <Grid item key={i}  xs={12} md={4}  xl={2}  >
+                <Card solicitacao={item}/>
+              </Grid>            
+          ))}
+          </Grid>
+        </div>
       </Container>
     )
 }
