@@ -80,6 +80,10 @@ export default function Solicitacoes (props) {
         foto_receptor: sessionStorage.getItem('foto_receptor') || null, 
     })
     const [openSuccess, setOpenSuccess] = useState(false);
+    
+    const maxLength = 200; // limite de 50 caracteres
+    const remainingChars = maxLength - data.descricao.length; // caracteres restantes 
+
     const StyledButton = styled(Button)({
         width: '100%',
         color: '#000',
@@ -175,13 +179,8 @@ export default function Solicitacoes (props) {
                 sessionStorage.removeItem('descricao') 
                 sessionStorage.removeItem('foto_receptor') 
 
-                // console.log(response)
                 setOpenSuccess(true)
-                // setOpenSuccess(true)
-                // setTimeout(() => {
-                //     setIsLoading(false);
-                //     navigate("/login");
-                //   }, 2000);
+               
               } catch (error) {
                 console.log(error);
                 // setErrorMessage(error.response.data.error)
@@ -353,7 +352,11 @@ export default function Solicitacoes (props) {
                         fullWidth
                         value={data.descricao}
                         onChange={handleDescricao}
+                        inputProps={{
+                            maxLength: maxLength
+                          }}
                         />
+                        <p>Caracteres restantes: {remainingChars}/200</p>
                     </Grid>
                     <Grid item xs={12}>
                             <h3 style={{marginBottom: '2%'}} >Adicione uma foto do receptor (opcional):</h3>
