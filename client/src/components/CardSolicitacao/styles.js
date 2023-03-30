@@ -3,7 +3,8 @@ import * as palette from "../../utils/variablesColor"
 import Card from '@mui/material/Card';
 
 export const CardPrincipal = styled(Card)`
-    max-width: 345px;
+    max-width: 90%;
+    max-height: 70%;
     padding: 15px;
     padding-bottom:0;
     display: flex;

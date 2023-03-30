@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import * as palette from "../../../utils/variablesColor"
 
 export const Container = styled.div`
-    
+
     h1{
         color: #404040;
     }
@@ -24,7 +24,9 @@ export const Container = styled.div`
         align-items: flex-end;
         justify-content: space-between;
     }
-
+    @media (max-width: 768px) {
+        margin-top: 10%;
+    }
 `
 
 

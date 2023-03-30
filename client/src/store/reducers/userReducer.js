@@ -1,5 +1,5 @@
 const initialState = {
-    profile: [],
+    profile: null,
     id_user: null
   };
   

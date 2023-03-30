@@ -10,45 +10,50 @@ import img3 from '../../assets/Portal/CardsEstatico/img3.svg';
 
 const solicitacao = [
     {
-      img: img1,
-      nome: 'José Lima da Silva',
-      idade: 30,
-      descricao:
-        'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-      cidade: 'Maceió',
-      estado: 'Alagoas',
-      hospital: 'Hospital Santa Fé',
-      publicado: '14/02/2023',
-      tipo_sanguineo: 'O-',
-      hora_publicacao: '16',
+      person : {
+        picture: img1,
+        name: 'José Lima da Silva',
+        idade: 30,
+        description:
+          'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+        city: 'Maceió',
+        estado: 'Alagoas',
+        hospital: 'Hospital Santa Fé',
+        bloodtype: 'O-',
+      },
+      creation_date: '14/02/2023',
     },
   
     {
-      img: img2,
-      nome: 'José Lima da Silva',
-      idade: 30,
-      descricao:
-        'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-      cidade: 'Maceió',
-      estado: 'Alagoas',
-      hospital: 'Hospital Santa Fé',
-      publicado: '14/02/2023',
-      tipo_sanguineo: 'O-',
-      hora_publicacao: '16',
+      person : {
+        picture: img2,
+        name: 'José Lima da Silva',
+        idade: 30,
+        description:
+          'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+        city: 'Maceió',
+        estado: 'Alagoas',
+        hospital: 'Hospital Santa Fé',
+        bloodtype: 'O-',
+    },
+
+      creation_date: '14/02/2023',
     },
   
     {
-      img: img3,
-      nome: 'José Lima da Silva',
-      idade: 30,
-      descricao:
-        'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-      cidade: 'Maceió',
-      estado: 'Alagoas',
-      hospital: 'Hospital Santa Fé',
-      publicado: '14/02/2023',
-      tipo_sanguineo: 'O-',
-      hora_publicacao: '16',
+      person : {
+        picture: img3,
+        name: 'José Lima da Silva',
+        idade: 30,
+        description:
+          'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+        city: 'Maceió',
+        estado: 'Alagoas',
+        hospital: 'Hospital Santa Fé',
+    },
+
+      bloodtype: 'O-',
+      creation_date: '14/02/2023',
     },
   ];
 
