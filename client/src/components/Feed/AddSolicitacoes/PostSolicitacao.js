@@ -164,7 +164,7 @@ export default function Solicitacoes (props) {
                 userId: id_user
               };
               try {
-                const response = await api.post('/solicitations', formData);
+                const response = await api.post(`/solicitations`, formData);
                 
                 sessionStorage.removeItem('nomeSolic')
                 sessionStorage.removeItem('hospital')
@@ -175,7 +175,7 @@ export default function Solicitacoes (props) {
                 sessionStorage.removeItem('descricao') 
                 sessionStorage.removeItem('foto_receptor') 
 
-                console.log("Sucesso")
+                // console.log(response)
                 setOpenSuccess(true)
                 // setOpenSuccess(true)
                 // setTimeout(() => {

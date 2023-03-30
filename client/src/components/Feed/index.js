@@ -32,7 +32,7 @@ import histNoSelect from '../../assets/Feed/histNoSelect.svg'
 import histSelect from '../../assets/Feed/histSelect.svg'
 import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
-import { useDispatch } from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 const theme = createTheme({
     components: {
@@ -55,6 +55,7 @@ const theme = createTheme({
 const drawerWidth = 280;
 
 function Feed(props) {
+  const profile = useSelector(state => state.user.profile)
   const { window } = props;
   const dispatch = useDispatch()
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -87,11 +88,11 @@ function Feed(props) {
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
         </IconButton> */}
-      <Avatar alt="Memy Sharp" src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
+      <Avatar alt={profile.name} src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
       <div style={{marginTop: '2%',width:'70%', backgroundColor: '#D9D9D9', borderRadius: '5px', display: 'flex', justifyContent:'space-between', padding: '8px'}} >
-        <h3>Maria da Silva</h3>
+        <h3>{profile.name}</h3>
         <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
-            <h4 style={{color: 'red', margin:0}} >O-</h4>
+            <h4 style={{color: 'red', margin:0}} >{profile.donator.blood_type}</h4>
         </div>
       </div>
       </div>
@@ -103,7 +104,7 @@ function Feed(props) {
     <ListItem key={index} disablePadding sx={{ borderRadius: '15px', mb: 1 }}>
       {!(selectedComponent.index === item.index) ? (
         <ListItemButton
-          emButton
+          // emButton
           onClick={(event) => handleListItemClick(event, item)}
           sx={{ borderRadius: '15px',height: 50 }}
           selected={selectedComponent.index === item.index}
@@ -115,7 +116,7 @@ function Feed(props) {
         </ListItemButton>
       ) : (
         <ListItemButton
-          emButton
+          // emButton
           onClick={(event) => handleListItemClick(event, item)}
           sx={{ borderRadius: '15px',height: 50 }}
           selected={selectedComponent.index === item.index}
@@ -202,8 +203,6 @@ function Feed(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         {selectedComponent.component}
-        {console.log(selectedComponent)
-        }
       </Box>
     </Box>
   );
