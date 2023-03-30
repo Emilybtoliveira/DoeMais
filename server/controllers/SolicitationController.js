@@ -53,6 +53,25 @@ SolicitationController.getSolicitations = async function(req, res){
     }
 }
 
+SolicitationController.getASolicitation = async function(req, res){
+    try {
+        const data = await Solicitation.findOne({
+            where:{
+                id: req.params.id,
+            },
+            include: { model: Solicitation_Person, as: 'person' }
+        });
+
+        if(data){
+            res.status(200).json({ data });
+        } else{
+            res.status(404).json({ error: "Não existe solicitação para o id informado." });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error });        
+    }
+}
+
 SolicitationController.update = async function(req, res){
     try {
         const result = await Solicitation_Person.update({ 
@@ -60,7 +79,9 @@ SolicitationController.update = async function(req, res){
             bloodtype: req.body.bloodtype,
             description: req.body.description,
             picture: req.body.picture,
+            age: req.body.age,
             city: req.body.city,
+            state: req.body.state,
             hospital: req.body.hospital, 
         }, 
         {
