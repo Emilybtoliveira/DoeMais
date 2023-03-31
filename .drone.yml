@@ -1,0 +1,57 @@
+kind: pipeline
+type: kubernetes
+name: standard-pipeline
+
+steps:
+- name: build-backend-image
+  image: plugins/ecr
+  settings:
+    access_key:
+      from_secret: access_key
+    secret_key:
+      from_secret: secret_key
+    repo: pds-2022-2-04
+    registry: 716814888065.dkr.ecr.us-east-2.amazonaws.com
+    region: us-east-2
+    context: server
+    dockerfile: server/Dockerfile
+    tags:
+      - backend-${DRONE_BRANCH}
+
+- name: build-frontend-image
+  image: plugins/ecr
+  settings:
+    access_key:
+      from_secret: access_key
+    secret_key:
+      from_secret: secret_key
+    repo: pds-2022-2-04
+    registry: 716814888065.dkr.ecr.us-east-2.amazonaws.com
+    region: us-east-2
+    context: client
+    dockerfile: client/Dockerfile
+    tags:
+      - frontend-${DRONE_BRANCH}
+
+- name: deploy
+  image: sinlead/drone-kubectl
+  settings:
+    kubernetes_server:
+      from_secret: k8s_server
+    kubernetes_cert:
+      from_secret: k8s_cert
+    kubernetes_token:
+      from_secret: k8s_token
+  commands:
+    - kubectl apply -f kubernetes/pds-2022-2-04.yml
+
+tolerations:
+- dedicated: jenkinsAgents
+  operator: Exists
+  effect: NoSchedule
+
+trigger:
+  branch:
+    - main
+  event:
+  - push
