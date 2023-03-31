@@ -12,7 +12,9 @@ SolicitationController.create = async function(req, res){
             bloodtype: req.body.bloodtype,
             description: req.body.description,
             picture: req.body.picture,
+            age: req.body.age,
             city: req.body.city,
+            state: req.body.state,
             hospital: req.body.hospital,
         });
         
@@ -49,25 +51,6 @@ SolicitationController.getSolicitations = async function(req, res){
         }
     } catch (error) 
     {
-        res.status(500).json({ error: error });        
-    }
-}
-
-SolicitationController.getASolicitation = async function(req, res){
-    try {
-        const data = await Solicitation.findOne({
-            where:{
-                id: req.params.id,
-            },
-            include: { model: Solicitation_Person, as: 'person' }
-        });
-
-        if(data){
-            res.status(200).json({ data });
-        } else{
-            res.status(404).json({ error: "Não existe solicitação para o id informado." });
-        }
-    } catch (error) {
         res.status(500).json({ error: error });        
     }
 }
@@ -147,7 +130,7 @@ SolicitationController.getUserFeed = async function(req, res){
                 userId: userId
             }
         })
-
+        
         if (!user_donator){
             res.status(404).json({ error: 'Nenhum usuário encontrado para o id fornecido.'});
             return;
@@ -155,14 +138,19 @@ SolicitationController.getUserFeed = async function(req, res){
 
         if(city){
 
-            if(user_donator.blood_type){
+            if (user_donator.blood_type){
                 const user_compatibilities = compatibily_map[user_donator.blood_type];
-                console.log(user_compatibilities)
 
                 const data = await Solicitation_Person.findAll({
                     where: {
                         city: city,
                         bloodtype: user_compatibilities
+                    },
+                    include: {
+                        model: Solicitation,
+                        where: {
+                            status: "open"
+                        }
                     }
                 })
                 res.status(200).json({ data });
@@ -178,14 +166,13 @@ SolicitationController.getUserFeed = async function(req, res){
         }
         else {
             const count_recs = await Solicitation_Person.count();
-            console.log(count_recs);
 
             if (count_recs <= 3){
-                const data = await Solicitation_Person.findAll();
+                const data = await Solicitation_Person.findAll({ include: { model: Solicitation } });
                 res.status(200).json({ data });
             }
             else{
-                const data = await Solicitation_Person.findAll({ offset: 2, limit: 10 });
+                const data = await Solicitation_Person.findAll({ include: { model: Solicitation },  limit: 10 });
                 res.status(200).json({ data });
             }
 
