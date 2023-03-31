@@ -12,42 +12,48 @@ const solicitacao = [
     {
         picture: img1,
         name: 'Nicolas Lima da Silva',
-        idade: '- 32 anos',
+        age: 32,
         description:
           'Se você é doador de sangue ou conhece alguém que é, por favor, considere a possibilidade de doar sangue. A sua doação pode salvar a vida dessa pessoa querida e trazer esperança para toda a família.',
         city: 'Maceió',
-        estado: 'Alagoas',
+        state: 'Alagoas',
         hospital: 'Hospital Santa Fé',
         bloodtype: 'A+',
-      creation_date: '14/02/2023',
+        Solicitation:{
+          creation_date: '14/02/2023',
+        }
     },
   
     {
         picture: img2,
         name: 'Paulo Oliveira da Silva',
-        idade: '- 30 anos',
+        age: 30,
         description:
           'Alguém que eu amo muito precisa urgentemente de uma transfusão de sangue do tipo O-. As doações desse tipo sanguíneo estão muito baixas e a situação é crítica. Preciso de ajuda!',
         city: 'Maceió',
-        estado: 'Alagoas',
+        state: 'Alagoas',
         hospital: 'Hospital Santa Fé',
         bloodtype: 'O-',
 
-      creation_date: '14/02/2023',
+        Solicitation:{
+          creation_date: '14/02/2023',
+        }
     },
   
     {
         picture: img3,
         name: 'José Lima da Silva',
-        idade: '- 64 anos',
+        age: 64,
         description:
           'O meu avô está passando por um momento difícil e precisa urgentemente de doações de sangue do tipo O-. ',
         city: 'Maceió',
-        estado: 'Alagoas',
+        state: 'Alagoas',
         hospital: 'Hospital Santa Fé',
 
       bloodtype: 'O-',
-      creation_date: '14/02/2023',
+      Solicitation:{
+        creation_date: '14/02/2023',
+      }
     },
   ];
 

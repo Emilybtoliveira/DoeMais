@@ -124,7 +124,11 @@ export default function Solicitacoes (props) {
         if(!data.idade){
             setErrorIdade("Preencha esse campo!")
             isValid = false
+        }else if(data.idade < 0) {
+            setErrorIdade("Você escolheu um número negativo")
+            isValid = false
         }else{
+
             setErrorIdade("")
         }
         
@@ -160,10 +164,11 @@ export default function Solicitacoes (props) {
                 name: data.nome,
                 bloodtype: data.tipo_sanguineo, 
                 description: data.descricao, 
-                // city: data.cidade + ", " + data.estado.nome, 
-                city: "Maceió", 
+                city: data.cidade, 
+                state: data.estado.nome, 
                 hospital: data.hospital,
                 // picture: data.foto_receptor,
+                age: data.idade,
                 picture: "",
                 userId: id_user
               };
@@ -268,17 +273,17 @@ export default function Solicitacoes (props) {
                     </Grid>
                     
                     <Grid item xs={3}>
-                        <TextField
-                        label="Idade"
-                        name="Idade"
-                        required
-                        type="number"
-                        fullWidth
-                        error={errorIdade? true: false}
-                        helperText={errorIdade? errorIdade: false}
-                        value={data.idade}
-                        onChange={handleIdade}
-                        />
+                            <TextField
+                            label="Idade"
+                            name="Idade"
+                            required
+                            type="number"
+                            fullWidth
+                            error={errorIdade? true: false}
+                            helperText={errorIdade? errorIdade: false}
+                            value={data.idade}
+                            onChange={handleIdade}
+                            />
                     </Grid>
                     <Grid item xs={3}>
                         <FormControl fullWidth>
