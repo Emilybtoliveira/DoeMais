@@ -54,6 +54,7 @@ const ModalExcluir = (props) =>{
 
 function Cards(props) {
   const {solicitacao} = props;
+  console.log(solicitacao)
   const [excluirSolic, setExcluirSolic] = React.useState(false)
   const handleExcluir = async () => {
     const response = await api.put(`/solicitations/${solicitacao.solicitationPersonId}`).then(response => {
@@ -79,7 +80,7 @@ function Cards(props) {
             
             <CardContent sx={{pt:1, pb: 0}}>
               <Typography gutterBottom variant="h5" component="div" className="title">
-                {solicitacao.person.name}  {solicitacao.person.idade?solicitacao.person.idade: ''} 
+                {solicitacao.person.name} - {solicitacao.person.age?solicitacao.person.age + ' anos': ''} 
               </Typography>
             </CardContent>
             <CardContent sx={{ paddingBottom: 1, minHeight: 95, p: 0, mt:1}}>
@@ -94,7 +95,7 @@ function Cards(props) {
                   <div className="icones">
                     <img src={local} alt="local" />
                     <Typography variant="h6" color="text.secondary" className="info">
-                      {solicitacao.person.city?solicitacao.person.city :  'Não informado'} {solicitacao.person.estado? ','+solicitacao.person.estado:''}
+                      {solicitacao.person.city?solicitacao.person.city:  'Não informado'}{solicitacao.person.state? ', '+solicitacao.person.state:''}
                     </Typography>
                   </div>
                   <div className='icones' >
@@ -115,7 +116,7 @@ function Cards(props) {
             </div>
         <CardContent sx={{pt:1, pb: 0}}>
           <Typography variant="h5" component="div" className="title">
-            {solicitacao.name}  {solicitacao.idade?solicitacao.idade: ''} 
+            {solicitacao.name} - {solicitacao.age} anos
           </Typography>
         </CardContent>
 
@@ -131,7 +132,7 @@ function Cards(props) {
                 <div className="icones">
                   <img src={local} alt="local" />
                   <Typography variant="h6" color="text.secondary" className="info">
-                    {solicitacao.city?solicitacao.city :  'Não informado'} {solicitacao.estado? ','+solicitacao.estado:''}
+                    {solicitacao.city?solicitacao.city :  'Não informado'}, {solicitacao.state}
                   </Typography>
                 </div>
                 <div className='icones' >
@@ -143,7 +144,7 @@ function Cards(props) {
               </div>
               <Typography variant="h4" className='tipo'>{solicitacao.bloodtype}</Typography>
             </div>
-              <Typography variant="body2" className='publicado'>Publicado em {solicitacao.creation_date}</Typography>
+              <Typography variant="body2" className='publicado'>Publicado em {solicitacao.Solicitation.creation_date}</Typography>
         </CardContent>
 
       </CardPrincipal>
