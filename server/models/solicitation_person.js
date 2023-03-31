@@ -16,9 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
     name: { type:DataTypes.STRING(60), allowNull: false},
     bloodtype: { type:DataTypes.STRING(5), allowNull: false},
-    description: {type:DataTypes.STRING(200), allowNull: false},
+    description: { type:DataTypes.STRING(200) },
     picture: DataTypes.STRING,
-    city: { type: DataTypes.STRING(20), allowNull: false},
+    age:  DataTypes.INTEGER,
+    city: { type: DataTypes.STRING, allowNull: false},
+    state: { type: DataTypes.STRING, allowNull: false},
     hospital:{ type: DataTypes.STRING(60) }
   }, {
     sequelize,

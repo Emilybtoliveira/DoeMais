@@ -19,13 +19,19 @@ module.exports = {
       },
       description: {
         type: Sequelize.STRING(200),
-        allowNull: false
       },
       picture: {
         type: Sequelize.STRING
       },
+      age: {
+        type: Sequelize.INTEGER,
+      },
       city:{
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      state:{
+        type: Sequelize.STRING,
         allowNull: false
       },
       hospital:{
