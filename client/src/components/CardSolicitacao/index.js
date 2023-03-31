@@ -54,12 +54,9 @@ const ModalExcluir = (props) =>{
 
 function Cards(props) {
   const {solicitacao} = props;
-  console.log(solicitacao)
   const [excluirSolic, setExcluirSolic] = React.useState(false)
   const handleExcluir = async () => {
     const response = await api.put(`/solicitations/${solicitacao.solicitationPersonId}`).then(response => {
-      // setExcluirSolic(true)
-      console.log(response)
       window.location.reload()
     }).catch(error =>{
       console.log(error)

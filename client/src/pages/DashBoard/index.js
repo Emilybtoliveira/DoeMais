@@ -2,11 +2,26 @@ import React, {useEffect}from 'react'
 import Feed from '../../components/Feed'
 import {useSelector, useDispatch} from 'react-redux'
 import api from '../../services/api'
-import {profile} from '../../store/actions/userActions'
+import {profile, Location} from '../../store/actions/userActions'
+
 function Cadastro (){
     const dispatch = useDispatch()
-    const id_user = useSelector(state => state.user.id_user);
-    
+    const id_user = useSelector(state => state.user.id_user); 
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+          if(position.coords.latitude && position.coords.longitude){
+            const location = {latitude: position.coords.latitude, longitude: position.coords.longitude}
+            dispatch(Location(location))
+          }
+          else{
+            alert("Você precisa ativar a localização para podermos mostrar os solicitantes próximos a você.")
+            window.location.reload();
+          }
+          
+        },
+        (error) => {
+          console.log(error);
+        })
   
     useEffect(() => {
         api.get(`/user/${id_user}`).then((response) =>{

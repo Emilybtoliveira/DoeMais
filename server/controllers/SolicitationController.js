@@ -123,6 +123,7 @@ SolicitationController.getUserFeed = async function(req, res){
 
     try {
         const city = req.query.city;
+        console.log(req.query.city)
         const userId = req.query.userId;
 
         const user_donator = await Donator.findOne({

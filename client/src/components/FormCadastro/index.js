@@ -42,14 +42,7 @@ const theme = createTheme({
 
 function FormCadastro (){
     const navigate = useNavigate()
-    // navigator.geolocation.getCurrentPosition(
-    //     (position) => {
-    //       console.log(position.coords.latitude, position.coords.longitude);
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
+    
     const [data, setData] = useState({
         nome: sessionStorage.getItem('nome') || '', 
         email:sessionStorage.getItem('email') || '', 
