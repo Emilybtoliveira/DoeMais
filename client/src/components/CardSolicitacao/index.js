@@ -66,46 +66,46 @@ function Cards(props) {
       <ThemeProvider theme={theme}>
           {solicitacao.person?
                <CardPrincipal sx={{ borderRadius: 3 }}>
-              <div style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent: 'flex-end'}}>
-                <div style={{cursor: 'pointer'}} ><EditIcon fontSize="small" color='primary'/></div>
-                <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></div>
-              </div>
-            <div sx={{minHeight: '50%'}} >
-
-              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? solicitacao.person.picture: wallpaperDoeMais } />
-            </div>
-            
-            <CardContent sx={{pt:1, pb: 0}}>
-              <Typography gutterBottom variant="h5" component="div" className="title">
-                {solicitacao.person.name} - {solicitacao.person.age?solicitacao.person.age + ' anos': ''} 
-              </Typography>
-            </CardContent>
-            <CardContent sx={{ paddingBottom: 1, minHeight: 95, p: 0, mt:1}}>
-              <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
-                {solicitacao.person.description?solicitacao.person.description: '#DoeSangueSalveVidas'}
-              </Typography>
-        </CardContent>
-        <CardContent sx={{ p: 0}}>
-
-              <div className="informacoes">
-                <div>
-                  <div className="icones">
-                    <img src={local} alt="local" />
-                    <Typography variant="h6" color="text.secondary" className="info">
-                      {solicitacao.person.city?solicitacao.person.city:  'Não informado'}{solicitacao.person.state? ', '+solicitacao.person.state:''}
-                    </Typography>
-                  </div>
-                  <div className='icones' >
-                    <img src={hospital} alt='hospital'/>
-                    <Typography variant="h6" color="text.secondary" className='info'>
-                    {solicitacao.person.hospital?solicitacao.person.hospital:'Não informado'}
-                  </Typography>
-                  </div>
+                <div style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent: 'flex-end'}}>
+                  <div style={{cursor: 'pointer'}} ><EditIcon fontSize="small" color='primary'/></div>
+                  <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></div>
                 </div>
-                <Typography variant="h4" className='tipo'>{solicitacao.person.bloodtype}</Typography>
+              <div sx={{minHeight: '50%'}} >
+
+                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? solicitacao.person.picture: wallpaperDoeMais } />
               </div>
-                <Typography variant="body2" className='publicado'>Publicado em {solicitacao.creation_date}</Typography>
-            </CardContent>
+              
+              <CardContent sx={{pt:1, pb: 0}}>
+                <Typography gutterBottom variant="h5" component="div" className="title">
+                  {solicitacao.person.name} - {solicitacao.person.age?solicitacao.person.age + ' anos': ''} 
+                </Typography>
+              </CardContent>
+              <CardContent sx={{ paddingBottom: 1, minHeight: 95, p: 0, mt:1}}>
+                <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
+                  {solicitacao.person.description?solicitacao.person.description: '#DoeSangueSalveVidas'}
+                </Typography>
+          </CardContent>
+          <CardContent sx={{ p: 0}}>
+
+                <div className="informacoes">
+                  <div>
+                    <div className="icones">
+                      <img src={local} alt="local" />
+                      <Typography variant="h6" color="text.secondary" className="info">
+                        {solicitacao.person.city?solicitacao.person.city:  'Não informado'}{solicitacao.person.state? ', '+solicitacao.person.state:''}
+                      </Typography>
+                    </div>
+                    <div className='icones' >
+                      <img src={hospital} alt='hospital'/>
+                      <Typography variant="h6" color="text.secondary" className='info'>
+                      {solicitacao.person.hospital?solicitacao.person.hospital:'Não informado'}
+                    </Typography>
+                    </div>
+                  </div>
+                  <Typography variant="h4" className='tipo'>{solicitacao.person.bloodtype}</Typography>
+                </div>
+                  <Typography variant="body2" className='publicado'>Publicado em {solicitacao.creation_date}</Typography>
+              </CardContent>
           </CardPrincipal>:
           <CardPrincipal sx={{ borderRadius: 3, height: '100%'}}>
             <div sx={{minHeight: '50%'}} >
