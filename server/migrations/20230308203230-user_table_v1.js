@@ -34,6 +34,10 @@ module.exports = {
       },
       confirmationCode: {
         type: Sequelize.STRING
+      },
+      image: {
+        type: Sequelize.BLOB('long'),
+        allowNull: true
       }
     });
   },

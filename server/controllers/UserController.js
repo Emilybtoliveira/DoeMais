@@ -75,6 +75,8 @@ UserController.register = async function(req, res){
         date.setDate(today.getDate() + 3)
 
         if (!user) {
+            const image = req.file ? req.file.buffer : null;
+
             const user = await User.create({
                 name: req.body.name,
                 email: req.body.email,
@@ -82,7 +84,8 @@ UserController.register = async function(req, res){
                 phone: req.body.phone,
                 active: false,
                 confirmationCodeExpiration: date,
-                confirmationCode: randomstring.generate(6)
+                confirmationCode: randomstring.generate(6),
+                image: image
             })
 
             const donator = await Donator.create({

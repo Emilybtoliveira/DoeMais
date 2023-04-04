@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     phone: { type: DataTypes.STRING(20) },
     active: { type: DataTypes.BOOLEAN },
     confirmationCodeExpiration: { type: DataTypes.DATEONLY },
-    confirmationCode: { type: DataTypes.STRING }
+    confirmationCode: { type: DataTypes.STRING },
+    image: { type:DataTypes.BLOB('long'), allowNull: true }
   }, {
     sequelize,
     modelName: 'User',
