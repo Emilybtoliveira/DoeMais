@@ -7,11 +7,13 @@ const today = new Date(timeElapsed);
 
 SolicitationController.create = async function(req, res){
     try {
+        const image = req.file ? req.file.buffer : null;
+
         const person = await Solicitation_Person.create({
             name: req.body.name,
             bloodtype: req.body.bloodtype,
             description: req.body.description,
-            picture: req.body.picture,
+            picture: image,
             city: req.body.city,
             hospital: req.body.hospital,
         });

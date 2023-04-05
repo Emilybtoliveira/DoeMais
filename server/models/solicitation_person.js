@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     name: { type:DataTypes.STRING(60), allowNull: false},
     bloodtype: { type:DataTypes.STRING(5), allowNull: false},
     description: {type:DataTypes.STRING(200), allowNull: false},
-    picture: DataTypes.STRING,
+    picture: {type: DataTypes.BLOB('long'), allowNull: true },
     city: { type: DataTypes.STRING(20), allowNull: false},
     hospital:{ type: DataTypes.STRING(60) }
   }, {

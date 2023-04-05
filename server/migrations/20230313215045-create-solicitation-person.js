@@ -22,7 +22,8 @@ module.exports = {
         allowNull: false
       },
       picture: {
-        type: Sequelize.STRING
+        type: Sequelize.BLOB('long'),
+        allowNull: true
       },
       city:{
         type: Sequelize.STRING(20),
