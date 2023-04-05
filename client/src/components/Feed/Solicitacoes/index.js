@@ -58,7 +58,7 @@ React.useEffect(() => {
         <div >
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {solicitacoes.map((item,i) =>(
-              <Grid item key={i}  xs={12} md={4}  xl={2}  >
+              <Grid item key={i}  xs={12} md={6}  xl={4}  >
                 <Card solicitacao={item}/>
               </Grid>            
           ))}

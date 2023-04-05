@@ -55,7 +55,7 @@ export default function Solicitacoes () {
         <div >
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {minhas_solicitacoes.reverse().map((item,i) =>(
-              <Grid item key={i}  xs={12} md={4}  xl={2} >
+              <Grid item key={i}  xs={12} md={4}  xl={4} >
                 <Card  solicitacao={item}/>
               </Grid>            
           ))}
