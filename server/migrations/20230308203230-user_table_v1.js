@@ -29,12 +29,20 @@ module.exports = {
       active: {
         type: Sequelize.BOOLEAN
       },
+
       confirmationCodeExpiration: {
         type: Sequelize.DATEONLY
       },
       confirmationCode: {
         type: Sequelize.STRING
-      }
+      },
+
+      passwordResetCodeExpiration: {
+        type: Sequelize.DATEONLY
+      },
+      passwordResetCode: {
+        type: Sequelize.STRING
+      },
     });
   },
   async down(queryInterface, Sequelize) {

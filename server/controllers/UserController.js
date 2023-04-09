@@ -122,28 +122,48 @@ UserController.register = async function(req, res){
 }
 
 UserController.confirmEmail = async function(req, res){
-    const email = req.query.email;
-    const codigo = req.query.codigo;
+    try {
+        const email = req.query.email;
+        const codigo = req.query.codigo;
 
-    console.log(`Endereço de e-mail: ${email}`);
-    console.log(`Código de confirmação: ${codigo}`);
+        console.log(`Endereço de e-mail: ${email}`);
+        console.log(`Código de confirmação: ${codigo}`);
 
-    const user = await User.findOne( { where: { email: email } } )
-    
-    const date = new Date(user.confirmationCodeExpiration);
+        const user = await User.findOne( { where: { email: email } } )
 
-    console.log(today)
-    console.log(date)
-    
-    if (today <= date)
-    {
+        if (!user)
+        {
+            res.status(400).json({ error: "Usuário não existe" })
+            return;
+        }
+        
+        const date = new Date(user.confirmationCodeExpiration);
+
+        console.log(today)
+        console.log(date)
+
+        if (codigo != user.confirmationCode)
+        {
+            res.status(400).json({ error: "Código incorreto" })
+            return;
+        }
+
+        if (today > date)
+        {
+            res.status(400).json({ error: "Excedido o tempo limite para confirmar o email" })
+            return;
+        }
+        
+        if (user.active)
+        {
+            res.status(400).json({ error: "Usuário já está ativo" })
+            return;
+        }
         user.active = true
         await user.save()
         res.status(200).json(user)
-    }
-    else
-    {
-        res.status(400).json({ error: "Excedido o tempo limite para confirmar o email" })
+    } catch (error) {
+        res.status(500).json({ message: error });
     }
 }
 
@@ -174,6 +194,96 @@ UserController.login = async function(req, res){
         
     } catch (error) {
         res.status(404).json({ message: error })
+    }
+}
+
+UserController.forgotPassword = async function(req, res){
+    try {
+        const user = await User.findOne( { where: { email: req.body.email} })
+        if (!user)
+        {
+            res.status(400).json({ error: "Usuário não existe" })
+            return
+        }
+
+        if (!user.active)
+        {
+            res.status(400).json({ error: "Usuário não está ativo" })
+            return
+        }
+
+        const date = new Date()
+        date.setDate(today.getDate() + 3)
+
+        user.passwordResetCodeExpiration = date
+        user.passwordResetCode = randomstring.generate(6)
+
+        // configurar email
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: req.body.email,
+            subject: 'Recuperação de senha',
+            text: 'Por favor, clique no link abaixo para continuar a recuperação da senha:',
+            html: '<p>Olá,</p><p>Por favor, clique no link abaixo para continuar a recuperação da senha:</p><a href="http://localhost:3000/recover-password?email=' + req.body.email + '&codigo=' + user.passwordResetCode + '">Clique aqui para confirmar</a>'
+        };
+
+        //enviar email
+        transporter.sendMail(mailOptions, async (error, info) => {
+            if (error) {
+                console.log(error);
+                res.send('Erro ao enviar o e-mail');
+            } else {
+                await user.save()
+                console.log('E-mail enviado: ' + info.response);
+                res.status(200).json({ user });
+            }
+        });
+    } catch (error) {
+        res.status(404).json({ message: error })
+    }
+}
+
+UserController.recoverPassword = async function(req, res){
+    try {
+        const email = req.query.email;
+        const codigo = req.query.codigo;
+
+        console.log(`Endereço de e-mail: ${email}`);
+        console.log(`Código de confirmação: ${codigo}`);
+
+        const user = await User.findOne( { where: { email: email } } )
+
+        if (!user.passwordResetCode)
+        {
+            console.log(user.passwordResetCode)
+            res.status(400).json({ error: "Sem pedido para recuperar senha" })
+            return;
+        }
+
+        if (codigo != user.passwordResetCode)
+        {
+            res.status(400).json({ error: "Código incorreto" })
+            return;
+        }
+        
+        const date = new Date(user.passwordResetCodeExpiration);
+
+        console.log(today)
+        console.log(date)
+
+        if (today > date)
+        {
+            res.status(400).json({ error: "Excedido o tempo limite para recuperar senha" })
+            return;
+        }
+        
+        user.passwordResetCode = null
+        user.passwordResetCodeExpiration = null
+        user.password = req.body.password
+        await user.save()
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).json({ message: error });
     }
 }
 

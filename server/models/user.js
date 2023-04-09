@@ -20,8 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     password: { type: DataTypes.STRING, allowNull: false },
     phone: { type: DataTypes.STRING(20) },
     active: { type: DataTypes.BOOLEAN },
+
     confirmationCodeExpiration: { type: DataTypes.DATEONLY },
-    confirmationCode: { type: DataTypes.STRING }
+    confirmationCode: { type: DataTypes.STRING },
+    
+    passwordResetCodeExpiration: { type: DataTypes.DATEONLY },
+    passwordResetCode: { type: DataTypes.STRING },
   }, {
     sequelize,
     modelName: 'User',
