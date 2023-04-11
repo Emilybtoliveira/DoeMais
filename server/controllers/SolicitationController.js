@@ -160,6 +160,12 @@ SolicitationController.getUserFeed = async function(req, res){
                 const data = await Solicitation_Person.findAll({
                     where: {
                         city: city
+                    },
+                    include: {
+                        model: Solicitation,
+                        where: {
+                            status: "open"
+                        }
                     }
                 })
                 res.status(200).json({ data });
@@ -169,11 +175,26 @@ SolicitationController.getUserFeed = async function(req, res){
             const count_recs = await Solicitation_Person.count();
 
             if (count_recs <= 3){
-                const data = await Solicitation_Person.findAll({ include: { model: Solicitation } });
+                const data = await Solicitation_Person.findAll({ 
+                    include: { 
+                        model: Solicitation,
+                        where: {
+                            status: "open"
+                        }
+                    } 
+                });
                 res.status(200).json({ data });
             }
             else{
-                const data = await Solicitation_Person.findAll({ include: { model: Solicitation },  limit: 10 });
+                const data = await Solicitation_Person.findAll({ 
+                    include: {
+                        model: Solicitation,
+                        where: {
+                            status: "open"
+                        }
+                    },  
+                    limit: 10 
+                });
                 res.status(200).json({ data });
             }
 
