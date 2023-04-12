@@ -38,15 +38,14 @@ React.useEffect(() => {
 
 
 React.useEffect(() => {
-  // if(cidade){
-    console.log(cidade)
-    const response = api.get(`/solicitations/feed?userId=${id_user}`).then(response => {
+  if(cidade){
+    const response = api.get(`/solicitations/feed?city=${cidade}&userId=${id_user}`).then(response => {
       setSolicitacoes(response.data.data)
     }).catch(err => {
       console.log(err)
     })
-  // }
-}, [])
+  }
+}, [cidade])
 
 
 
@@ -59,7 +58,7 @@ React.useEffect(() => {
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {solicitacoes.map((item,i) =>(
               <Grid item key={i}  xs={12} md={6}  xl={4}  >
-                <Card solicitacao={item}/>
+                <Card  solicitacao={item}/>
               </Grid>            
           ))}
           </Grid>
