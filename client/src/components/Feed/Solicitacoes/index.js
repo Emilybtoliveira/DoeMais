@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import {Grid}from '@mui/material';
 import {Container} from './styles'
 import Card from '../../CardSolicitacao'
-import img1 from '../../../assets/Portal/CardsEstatico/img1.svg'
+import clinica from '../../../assets/Feed/clinica.svg'
 import api from '../../../services/api'
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 
@@ -54,6 +55,12 @@ React.useEffect(() => {
 
         <h1>Solicitações para doação</h1>
         <h4>Ajude pessoas que estão precisando de doação próximos a você!</h4>
+        <Link to='/locais-doacao' style={{color: 'rgba(204, 0, 0, 1)'}} >
+          <div className='local'>
+            <img src={clinica} alt='local de doação' width='3%' />
+            <h3>Locais de doação próximos</h3>
+          </div>
+        </Link>
         <div >
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {solicitacoes.map((item,i) =>(

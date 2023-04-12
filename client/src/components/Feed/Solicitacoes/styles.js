@@ -23,6 +23,15 @@ export const Container = styled.div`
         color: #404040;
         font-weight: lighter;
     }
+    h3{
+        color: ${palette.vermelho}
+    }
+
+    .local{
+        display: flex;
+        justify-content: end;
+        align-items: end;
+    }
     .grid{
         margin-top: 3%;
         display: flex;
