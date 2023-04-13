@@ -5,16 +5,17 @@ import SubsecaoPorqueDoar from '../SubsecaoPorqueDoar';
 import SubsecaoPossoDoar from '../SubsecaoPossoDoar';
 import SubsecaoComoDoar from '../SubsecaoComoDoar';
 import SubsecaoMitos from '../SubsecaoMitos';
+import SubsecaoFontes from '../SubsecaoFontes';
 
 function InfoSecao (props){
     return(
         <Container>
             <div className='buttonSection'>
-                <button><a href='#who'>Quem somos?</a></button>
                 <button><a href='#why'>Por que doar?</a></button>
                 <button><a href='#can'>Posso doar?</a></button>
                 <button><a href='#how'>Como é o processo de doação?</a></button>
                 <button><a href='#mitos'>Mitos sobre a doação</a></button>
+                <button><a href='#source'>Fontes</a></button>
             </div>
             <ContainerA>
             <SubsecaoQuemSomos/>
@@ -26,6 +27,8 @@ function InfoSecao (props){
             <SubsecaoComoDoar/>
             <br/><br/>
             <SubsecaoMitos/>
+            <br/><br/>
+            <SubsecaoFontes/>
             </ContainerA>
         </Container>
             
