@@ -6,8 +6,8 @@ import clinica from '../../../assets/Feed/clinica.svg'
 import api from '../../../services/api'
 import {useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-
+import { GoogleMap, useJsApiLoader, LoadScript } from '@react-google-maps/api';
+import axios from 'axios'
 
   
 export default function Mapa () {
@@ -20,7 +20,7 @@ export default function Mapa () {
   
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyBrUgToz1PMTBYHJ1tXp6tUAmQGFAWX34w"
+    googleMapsApiKey: "AIzaSyDoT8t5-w6gDslrKC-nw50-wwSNzGfjyyY"
   })
 
 
