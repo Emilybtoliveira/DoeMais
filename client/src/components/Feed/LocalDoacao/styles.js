@@ -33,7 +33,19 @@ export const Container = styled.div`
         align-items: center;
     }
     .map{
-        height: 100vh;
+        height: 50vh;
+        width: 100%;
+        margin-top: 2%;
+        border: 1px solid #ccc;
+        box-shadow: 0px 0px 30px rgba(255, 0, 0, 0.3);
+    }
+    .mapInfo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 80vw;
+        
     }
     
 `

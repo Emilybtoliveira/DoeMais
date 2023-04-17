@@ -4,13 +4,14 @@ import {Container} from './styles'
 import Card from '../../CardSolicitacao'
 import clinica from '../../../assets/Feed/clinica.svg'
 import api from '../../../services/api'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import { Cidade } from '../../../store/actions/userActions';
 import {Link} from 'react-router-dom'
 
 
 
 export default function Solicitacoes () {
-
+  const dispatch = useDispatch() 
   const [solicitacoes, setSolicitacoes] = React.useState([])
   const [cidade, setCidade] = React.useState('')
   const [coordenadas, setCoordenadas] = React.useState({lon: '', lat: ''})
@@ -27,6 +28,7 @@ const buscarCidade = async (query) => {
     try {
       const resposta = await fetch(url);
       const data = await resposta.json();
+      dispatch(Cidade(data.address.city))
       setCidade(data.address.city)
     } catch (error) {
       console.error(error);
