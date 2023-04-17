@@ -8,7 +8,7 @@ const today = new Date(timeElapsed);
 DonationRegisterController.create = async function(req, res){
     try {
         const donationRegister = await DonationRegister.create({
-            date: today.toUTCString(),
+            date: req.body.date,
             place: req.body.place,
             userDonationRegisterId: req.body.idUser
         })

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   DonationRegister.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
     date: { type: DataTypes.DATEONLY, allowNull: false },
-    place: { type: DataTypes.STRING, allowNull: false }
+    place: { type: DataTypes.STRING, allowNull: true }
   }, {
     sequelize,
     modelName: 'DonationRegister',
