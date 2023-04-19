@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import {Grid}from '@mui/material';
 import {Container} from './styles'
 import Card from '../../CardSolicitacao'
-import img1 from '../../../assets/Portal/CardsEstatico/img1.svg'
+import clinica from '../../../assets/Feed/clinica.svg'
 import api from '../../../services/api'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import { Cidade } from '../../../store/actions/userActions';
+import {Link} from 'react-router-dom'
 
 
 
 export default function Solicitacoes () {
-
+  const dispatch = useDispatch() 
   const [solicitacoes, setSolicitacoes] = React.useState([])
   const [cidade, setCidade] = React.useState('')
   const [coordenadas, setCoordenadas] = React.useState({lon: '', lat: ''})
@@ -26,6 +28,7 @@ const buscarCidade = async (query) => {
     try {
       const resposta = await fetch(url);
       const data = await resposta.json();
+      dispatch(Cidade(data.address.city))
       setCidade(data.address.city)
     } catch (error) {
       console.error(error);
@@ -54,6 +57,12 @@ React.useEffect(() => {
 
         <h1>Solicitações para doação</h1>
         <h4>Ajude pessoas que estão precisando de doação próximos a você!</h4>
+        <Link to='/locais-doacao' style={{color: 'rgba(204, 0, 0, 1)'}} >
+          <div className='local'>
+            <img src={clinica} alt='local de doação' width='3%' />
+            <h3>Locais de doação próximos</h3>
+          </div>
+        </Link>
         <div >
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {solicitacoes.map((item,i) =>(

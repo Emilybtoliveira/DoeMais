@@ -9,3 +9,6 @@ export function IdLogged(payload) {
 export function Location(payload) {
     return { type: 'LOCATION', payload:payload };
 }
+export function Cidade(payload) {
+    return { type: 'CITY', payload:payload };
+}

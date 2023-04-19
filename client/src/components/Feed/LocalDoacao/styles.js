@@ -29,15 +29,23 @@ export const Container = styled.div`
 
     .local{
         display: flex;
-        justify-content: end;
-        align-items: end;
+        justify-content: start;
+        align-items: center;
     }
-    .grid{
-        margin-top: 3%;
+    .map{
+        height: 50vh;
+        width: 100%;
+        margin-top: 2%;
+        border: 1px solid #ccc;
+        box-shadow: 0px 0px 30px rgba(255, 0, 0, 0.3);
+    }
+    .mapInfo{
         display: flex;
-        @media (max-width: 768px) {
-            margin-left: 2%;
-            padding: 0;
-        }
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 80vw;
+        
     }
+    
 `

@@ -22,6 +22,7 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 import Solicitacoes from './Solicitacoes';
 import AddSolicitacoes from './AddSolicitacoes';
 import HistoricoDoacao from './HistoricoDoacao';
+import LocalDoacao from './LocalDoacao';
 
 import logo from '../../assets/logo.svg'
 import solicNoSelec from '../../assets/Feed/solicNoSelec.svg'
@@ -34,6 +35,8 @@ import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
 import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
+import {useLocation,useNavigate} from 'react-router-dom'
+
 const theme = createTheme({
     components: {
         MuiListItemButton: {
@@ -58,6 +61,8 @@ function Feed(props) {
   const profile = useSelector(state => state.user.profile)
   const { window } = props;
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedComponent, setSelectedComponent] = React.useState({ index:0,component: <Solicitacoes/>}); // Novo estado
   const handleDrawerToggle = () => {
@@ -65,13 +70,15 @@ function Feed(props) {
   };
   const handleListItemClick = (event, component) => {
     setSelectedComponent({index: component.index, component: component.component}); 
+    navigate('/dashboard')
   };
 
   const LogOut = () => {
     dispatch(logOut())
     window.reload()
   }
-
+  const location = useLocation();
+  const url = location.pathname;
   const componentes = [
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
@@ -197,12 +204,21 @@ function Feed(props) {
           {drawer}
         </Drawer>
       </Box>
+      {url === "/locais-doacao"? 
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+        <LocalDoacao/>
+      </Box>:
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         {selectedComponent.component}
       </Box>
+      }
+      
     </Box>
   );
 }
