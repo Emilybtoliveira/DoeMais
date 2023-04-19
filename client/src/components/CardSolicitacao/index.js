@@ -6,9 +6,6 @@ import Typography from '@mui/material/Typography';
 import {Modal,Button} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { CardPrincipal,ContentModal } from './styles';
-import img1 from '../../assets/Portal/CardsEstatico/img1.svg';
-import img2 from '../../assets/Portal/CardsEstatico/img2.svg';
-import img3 from '../../assets/Portal/CardsEstatico/img3.svg';
 import wallpaperDoeMais from  '../../assets/wallpaperDoeMais.svg'
 import hospital from '../../assets/Portal/CardsEstatico/hospital.svg';
 import local from '../../assets/Portal/CardsEstatico/local.svg';
@@ -17,6 +14,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from '../../assets/logo.svg'
 import api from '../../services/api'
+import PostEditSolicitacao from './PostEditSolicitacao'
+import styled from 'styled-components'
+
 const theme = createTheme({
  
   palette: {
@@ -28,6 +28,14 @@ const theme = createTheme({
   
   },
 });
+
+const IconButton = styled('div')({
+  cursor: 'pointer',
+  '&:hover': {
+    opacity: 0.6,
+  },
+});
+
 
 const ModalExcluir = (props) =>{
   return(
@@ -55,6 +63,7 @@ const ModalExcluir = (props) =>{
 function Cards(props) {
   const {solicitacao} = props;
   const [excluirSolic, setExcluirSolic] = React.useState(false)
+  const [editarSolic, setEditarSolic] = React.useState(false)
   const handleExcluir = async () => {
     const response = await api.put(`/solicitations/${solicitacao.solicitationPersonId}`).then(response => {
       window.location.reload()
@@ -67,8 +76,9 @@ function Cards(props) {
           {solicitacao.person?
                <CardPrincipal sx={{ borderRadius: 3 }}>
                 <div style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent: 'flex-end'}}>
-                  <div style={{cursor: 'pointer'}} ><EditIcon fontSize="small" color='primary'/></div>
-                  <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></div>
+                  <IconButton 
+                  onClick={() => setEditarSolic(true) } ><EditIcon fontSize="small" color='primary'/></IconButton>
+                  <IconButton onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></IconButton>
                 </div>
               <div sx={{minHeight: '50%'}} >
 
@@ -148,6 +158,8 @@ function Cards(props) {
           }
             
           <ModalExcluir open={excluirSolic} handleClose={() => setExcluirSolic(false)} handleExcluir={handleExcluir}/>
+          <PostEditSolicitacao open={editarSolic} handleClose={() => setEditarSolic(false)} id_solic={solicitacao.id} />
+
       </ThemeProvider>
             
     )
