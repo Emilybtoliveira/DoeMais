@@ -11,7 +11,7 @@ SolicitationController.create = async function(req, res){
             name: req.body.name,
             bloodtype: req.body.bloodtype,
             description: req.body.description,
-            picture: req.body.picture,
+            picture: req.file.filename,
             age: req.body.age,
             city: req.body.city,
             state: req.body.state,
