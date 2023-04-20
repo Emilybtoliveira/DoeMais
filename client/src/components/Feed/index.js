@@ -77,6 +77,7 @@ function Feed(props) {
     dispatch(logOut())
     window.reload()
   }
+
   const location = useLocation();
   const url = location.pathname;
   const componentes = [
@@ -94,7 +95,7 @@ function Feed(props) {
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
         </IconButton> */}
-      <Avatar alt={profile?.name} src="/static/images/avatar/1.jpg"  sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
+      <Avatar alt={profile?.name} src={"http://localhost:5000/files/users/" + profile?.image} sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
       <div style={{marginTop: '2%',width:'70%', backgroundColor: '#D9D9D9', borderRadius: '5px', display: 'flex', justifyContent:'space-between', padding: '8px'}} >
         <h3>{profile?.name}</h3>
         <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
