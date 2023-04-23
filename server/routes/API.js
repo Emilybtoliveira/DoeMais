@@ -12,6 +12,8 @@ router.post('/login',(req, res) => {Controllers.UserController.login(req,res);})
 router.post('/register',(req, res) => {Controllers.UserController.register(req,res);})
 
 router.post('/confirm-email', (req, res) => {Controllers.UserController.confirmEmail(req, res);})
+router.post('/forgot-password', (req, res) => {Controllers.UserController.forgotPassword(req, res);})
+router.post('/recover-password', (req, res) => {Controllers.UserController.recoverPassword(req, res);})
 
 //Rotas de Solicitações
 router.get('/solicitations',(req, res) => {Controllers.SolicitationController.getSolicitations(req,res);})

@@ -44,6 +44,7 @@ function Cadastro (){
     
         if (openSuccess) {
           navigate("/login");
+          return;
         }
         
         navigate("/")
@@ -55,7 +56,7 @@ function Cadastro (){
             <Container>
                 <Snackbar
                     open={openSuccess}
-                    autoHideDuration={1000}
+                    autoHideDuration={2000}
                     onClose={handleClose}
                 >
                     <Alert onClose={handleClose} severity="success">
@@ -64,7 +65,7 @@ function Cadastro (){
                 </Snackbar>
                 <Snackbar
                     open={openError}
-                    autoHideDuration={1000}
+                    autoHideDuration={2000}
                     onClose={handleClose}
                 >
                     <Alert onClose={handleClose} severity="error">

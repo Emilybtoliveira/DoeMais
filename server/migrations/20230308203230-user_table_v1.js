@@ -34,7 +34,13 @@ module.exports = {
       },
       confirmationCode: {
         type: Sequelize.STRING
-      }
+      },
+      passwordResetCodeExpiration: {
+        type: Sequelize.DATEONLY
+      },
+      passwordResetCode: {
+        type: Sequelize.STRING
+      },
     });
   },
   async down(queryInterface, Sequelize) {
