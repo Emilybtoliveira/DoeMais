@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import {Container} from './styles'
-import Header from '../../components/Header'
 import api from '../../services/api';
 import bcrypt from 'bcryptjs'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -129,7 +128,6 @@ function FormRecoverPassword (){
 
     return (
         <div>
-            <Header/>
             <ThemeProvider theme={theme}>
                 <Container>
                     <h1>Nova senha</h1>

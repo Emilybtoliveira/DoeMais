@@ -4,8 +4,8 @@ import {TextField,
     Grid,
     Button,
     Snackbar,
-    Alert 
-
+    Alert,
+    CircularProgress
 } from '@mui/material';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -35,7 +35,7 @@ function FormForgotPassword (){
     const [message, setMessage] = React.useState('');
     const [openFailure, setOpenFailure] = React.useState(false);
     const [openSuccess, setOpenSuccess] = useState(false);
-    // isLoading
+    const [isLoading, setIsLoading] = useState(false);
     
     const [state, setState] = React.useState({
         open: false,
@@ -59,14 +59,21 @@ function FormForgotPassword (){
     const handleSubmit = async (isValid) =>{
         
         if(isValid){
+            setIsLoading(true);
             const formData = {
                 email: data.email,
             };
             const response = await api.post("/forgot-password", formData).then(function (response) {
+                setIsLoading(false);
                 setMessage(response.data.message)
                 setOpenSuccess(true)
+                setTimeout(() => {
+                    setIsLoading(false);
+                    navigate("/");
+                  }, 4000);
                 })
                 .catch(function (error) {
+                    setIsLoading(false)
                     setMessage(error.response.data.error)
                     setOpenFailure(true)
                     console.log(error.response.data.error)
@@ -103,9 +110,10 @@ function FormForgotPassword (){
 
     return(
         <ThemeProvider theme={theme}>
-            <Container onKeyPress={handleKeyPress} >
+            <Container>
+            {isLoading && <CircularProgress/>}
             <h1>Esqueci minha senha</h1>
-            <Grid container spacing={2} >
+            <Grid container spacing={2} onKeyPress={handleKeyPress} >
                 <Grid item xs={12} md={12}>
                     <TextField required fullWidth label="Email" variant="outlined" 
                     error={errorEmail? true: false}

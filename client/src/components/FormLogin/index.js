@@ -181,7 +181,8 @@
                     </Grid>
                     </Grid>
                 <Button variant="contained" className='button' onClick={handleValidar} >Entrar</Button>
-                <h4 style={{fontWeight: '400', marginTop: '5%'}}>Ainda não é cadastrado? <Link to='/cadastro' style={{color: 'red'}}>Cadastre-se</Link></h4>
+                <Link style={{marginTop: '3%'}} to="/forgot-password"> Esqueci minha senha </Link>
+                <h4 style={{fontWeight: '400', marginTop: '3%'}}>Ainda não é cadastrado? <Link to='/cadastro' style={{color: 'red'}}>Cadastre-se</Link></h4>
                 <Snackbar anchorOrigin={{ vertical, horizontal }}  key={vertical + horizontal} open={openFailure} autoHideDuration={6000} onClose={()=>{setOpenFailure(false)}}>
                     <Alert onClose={()=>{setOpenFailure(false)}} severity="error" variant="filled" sx={{ width: '100%' }}>
                         {errorMessage}
