@@ -38,7 +38,11 @@ UserController.update = async function(req, res){
         if (!user) {
             res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." })
         } else {
-            await User.update({ name, email, password, phone }, { where: { id: id } });
+            if (password){
+                await User.update({ name, email, password, phone }, { where: { id: id } });
+            }else{
+                await User.update({ name, email, phone }, { where: { id: id } });
+            }
             await Donator.update({ blood_type, flag_chat, gender, aptitude_status }, { where: { userId: id } });
             res.status(200).json()
         }
