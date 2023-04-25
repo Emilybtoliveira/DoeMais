@@ -37,6 +37,18 @@ import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 import {useLocation,useNavigate} from 'react-router-dom'
 
+import {
+  Modal,
+  Button,
+  Grid,
+}from '@mui/material';
+
+import UploadIcon from '@mui/icons-material/Upload';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import { ContentModal } from './styles';
+import styled from 'styled-components'
+import api from '../../services/api'
+
 const theme = createTheme({
     components: {
         MuiListItemButton: {
@@ -78,6 +90,57 @@ function Feed(props) {
     window.reload()
   }
 
+  const StyledButton = styled(Button)({
+    width: '100%',
+    color: '#000',
+    '&:hover': {
+      backgroundColor: '#2c3e50',
+    },
+  });
+
+  const [showModal, setShowModal] = React.useState(false)
+  const inputRef = React.useRef(null);
+  const [data, setData] = React.useState({
+      foto_avatar: sessionStorage.getItem('foto_avatar') || null,
+  })
+
+
+  const handleModal = () => {
+    setShowModal(true)
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+  }
+
+  const handleFoto= (e) =>{
+    const file = e.target.files;
+    if (file[0].size <= 10000000) {
+        setData({...data, foto_avatar: file})
+    } else {
+        alert('O tamanho máximo permitido é de 10MB.');
+    }            
+}
+
+  const handleUploadPhoto = async () => {
+    const formData = new FormData()
+    formData.append('image', data.foto_avatar[0])
+
+    try {
+      const response = await api.post(`/upload-img/${profile?.id}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      sessionStorage.removeItem('image')
+      setShowModal(false)
+      navigate('/dashboard')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const location = useLocation();
   const url = location.pathname;
   const componentes = [
@@ -95,7 +158,44 @@ function Feed(props) {
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
         </IconButton> */}
-      <Avatar alt={profile?.name} src={"http://localhost:5000/files/users/" + profile?.image} sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
+      <Avatar alt={profile?.name} src={"http://localhost:5000/files/users/" + profile?.image} onClick={handleModal} sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
+      <Modal
+            open={showModal}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+            <ContentModal>
+            <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
+              <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
+                <h2 style={{marginBottom: '2%'}}> Upload Avatar </h2>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <div style={{display: "flex", alignItems:'center'}}>
+                        <StyledButton color='secondary' startIcon={data.foto_avatar?<InsertPhotoIcon/>:<UploadIcon />} variant={data.foto_avatar?"outlined": "contained"} onClick={() => inputRef.current.click()}>
+                        {data.foto_avatar?   data.foto_avatar[0].name : "Upload da foto (Máx: 10MB)"}
+                        </StyledButton>
+                        <input
+                            type="file"
+                            ref={inputRef}
+                            style={{ display: 'none' }}
+                            accept="image/*"
+                            maxSize={50000000}
+                            onChange={handleFoto}
+                            
+                        />
+                    </div>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <div style={{display: "flex", justifyContent: 'flex-end', marginTop: ''}}>
+                      <Button onClick={handleUploadPhoto}  variant="contained" sx={{mr: '10%' }}  >Enviar</Button>
+                      <Button onClick={handleClose}  variant="outlined"  >Cancelar</Button>
+                  </div>
+                </Grid>
+            </div>
+          </ContentModal>
+      </Modal>
       <div style={{marginTop: '2%',width:'70%', backgroundColor: '#D9D9D9', borderRadius: '5px', display: 'flex', justifyContent:'space-between', padding: '8px'}} >
         <h3>{profile?.name}</h3>
         <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
