@@ -35,6 +35,7 @@ SolicitationController.getSolicitations = async function(req, res){
     try 
     {   
         if(req.query.userId){ //retorna as solicitações do usuario
+
             const data = await Solicitation.findAll({
                 where:{
                     solicitationUserId: req.query.userId,
@@ -44,7 +45,20 @@ SolicitationController.getSolicitations = async function(req, res){
             });
 
             res.status(200).json({ data });
-        } else { //retorno de todas as solicitacoes
+
+        } else if(req.query.id){ //retorna a solicitação com o id
+
+            const data = await Solicitation.findOne({
+                where:{
+                    id: req.query.id,
+                    status: "open"
+                },
+                include: { model: Solicitation_Person, as: 'person' }
+            });
+
+            res.status(200).json({ data });
+
+        }else { //retorno de todas as solicitacoes
             const data = await Solicitation_Person.findAll({include: Solicitation});
             
             res.status(200).json({ data });        
@@ -174,7 +188,7 @@ SolicitationController.getUserFeed = async function(req, res){
         else {
             const count_recs = await Solicitation_Person.count();
 
-            if (count_recs <= 3){
+            if (count_recs <= 5){
                 const data = await Solicitation_Person.findAll({ 
                     include: { 
                         model: Solicitation,
@@ -193,6 +207,7 @@ SolicitationController.getUserFeed = async function(req, res){
                             status: "open"
                         }
                     },  
+                    offset: 2,
                     limit: 10 
                 });
                 res.status(200).json({ data });
