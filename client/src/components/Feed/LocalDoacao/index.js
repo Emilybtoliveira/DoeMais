@@ -14,11 +14,6 @@ export default function Mapa () {
   const location = useSelector(state => state.user.location);
   const cidade = useSelector(state => state.user.cidade);
   
-  // const { isLoaded } = useJsApiLoader({
-  //   id: 'google-map-script',
-  //   googleMapsApiKey: "AIzaSyDoT8t5-w6gDslrKC-nw50-wwSNzGfjyyY"
-  // })
-
   const consultaBancoSangue = async () => {
     const map = new window.google.maps.Map(document.createElement("div"));
     
@@ -30,7 +25,6 @@ export default function Mapa () {
       },
       (results, status) => {
         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          console.log(results);
           setBloodBanks(
             results.map((result) => ({
               name: result.name,
@@ -122,7 +116,6 @@ const BloodBankInfoCard = ({ name, address, opening_hours }) => (
                   address={bloodBank.address}
                   opening_hours={bloodBank.opening_hours}
                 />
-                {/* Aqui */}
                 </Grid>
             ))}
             </Grid>
