@@ -186,12 +186,12 @@ function Feed(props) {
                         />
                     </div>
                   </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <div style={{display: "flex", justifyContent: 'flex-end', marginTop: ''}}>
-                      <Button onClick={handleUploadPhoto}  variant="contained" sx={{mr: '10%' }}  >Enviar</Button>
-                      <Button onClick={handleClose}  variant="outlined"  >Cancelar</Button>
-                  </div>
+                  <Grid item xs={12}>
+                    <div style={{display: "flex", justifyContent: 'center'}}>
+                        <Button onClick={handleUploadPhoto}  variant="contained" sx={{mr: '10%' }}  >Enviar</Button>
+                        <Button onClick={handleClose}  variant="outlined"  >Cancelar</Button>
+                    </div>
+                  </Grid>
                 </Grid>
             </div>
           </ContentModal>
