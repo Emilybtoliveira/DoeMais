@@ -33,4 +33,42 @@ DonationRegisterController.getAll = async function(req, res){
     }
 }
 
+DonationRegisterController.delete = async function(req, res){
+    try {
+        const { id } = req.params
+        const donationRegister = await DonationRegister.findOne({ where:{ id: id }})
+        if (!donationRegister)
+        {
+            res.status(400).json({ message: "Doaçao nao encontrada" });
+            return
+        }
+
+        await DonationRegister.destroy({ where: { id: id } })
+        res.status(200).json({ message: "Deletado com sucesso" })
+    } catch (error) {
+        res.status(404).json({ message: error });
+    }
+}
+
+DonationRegisterController.update = async function(req, res){
+    try {
+        const donationRegister = await DonationRegister.findOne({ where:{ id: req.body.id }})
+
+        if (!donationRegister)
+        {
+            res.status(400).json({ message: "Doaçao nao encontrada" });
+            return
+        }
+
+        donationRegister.place = req.body.place;
+        donationRegister.date = req.body.date;
+
+        await donationRegister.save()
+
+        res.status(200).json(donationRegister)
+    } catch (error) {
+        res.status(404).json({ message: error });
+    }
+}
+
 module.exports = DonationRegisterController;
