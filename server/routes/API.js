@@ -18,5 +18,9 @@ router.post('/solicitations',(req, res) => {Controllers.SolicitationController.c
 router.put('/solicitations',(req, res) => {Controllers.SolicitationController.update(req,res);})
 router.put('/solicitations/:id',(req, res) => {Controllers.SolicitationController.disable(req,res);})
 
+//Rotas de Registro de Doacoes
+router.get('/donation-register',(req, res) => {Controllers.DonationRegisterController.getAll(req,res);})
+router.post('/donation-register',(req, res) => {Controllers.DonationRegisterController.create(req,res);})
+
 
 module.exports = router;
