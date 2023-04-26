@@ -1,6 +1,6 @@
-import React, { useState,useRef  } from 'react'
+import React, { useState,useRef, useEffect  } from 'react'
 import {Modal,  }from '@mui/material';
-import { ContentModal } from './styles';
+import { ContentModal } from '../Feed/AddSolicitacoes/styles';
 import {
     TextField, 
     Grid,
@@ -18,15 +18,15 @@ import {
     Snackbar,
     Alert 
  } from '@mui/material';
-import * as options from '../../../utils/options'
+import * as options from '../../utils/options'
 import UploadIcon from '@mui/icons-material/Upload';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components'
-import api from '../../../services/api'
+import api from '../../services/api'
 import {useSelector} from 'react-redux'
-import logo from '../../../assets/logo.svg'
+import logo from '../../assets/logo.svg'
  const theme = createTheme({
  
     palette: {
@@ -54,8 +54,8 @@ const ModalSucesso = (props) =>{
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Parabéns! Sua solicitação de doação sanguínea foi postada. </h2>
-                    <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Sua solicitação  será divulgada por<strong style={{color: '#CE0C0C'}}> 90 dias </strong> a partir de hoje. Após esse período, ela será automaticamente removida. Caso o receptor não necessite mais de doações, por favor, lembre-se de <strong style={{color: '#CE0C0C'}}>apagar a solicitação</strong> para evitar confusões e garantir que os doadores possam ajudar outras pessoas que necessitam de doações de sangue.</p>
+                    <h2 style={{marginBottom: '2%'}} >Sua solicitação foi editada. </h2>
+                    <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Sua solicitação  será divulgada por<strong style={{color: '#CE0C0C'}}> 90 dias </strong> a partir da data que você postou. Após esse período, ela será automaticamente removida. Caso o receptor não necessite mais de doações, por favor, lembre-se de <strong style={{color: '#CE0C0C'}}>apagar a solicitação</strong> para evitar confusões e garantir que os doadores possam ajudar outras pessoas que necessitam de doações de sangue.</p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                     <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
                     </div>
@@ -67,22 +67,12 @@ const ModalSucesso = (props) =>{
 
 
 export default function Solicitacoes (props) {
-    const {open, handleClose} = props;
+
+    // const {open, handleClose} = props;
     const id_user = useSelector(state => state.user.id_user);
-    const [data, setData] = useState({
-        nome: sessionStorage.getItem('nomeSolic') || '', 
-        hospital:sessionStorage.getItem('hospital') || '', 
-        idade: sessionStorage.getItem('idade')|| null, 
-        cidade: sessionStorage.getItem('cidade') || '', 
-        estado: sessionStorage.getItem('estado') || '', 
-        tipo_sanguineo: sessionStorage.getItem('tipoSolic') || '' ,
-        descricao: sessionStorage.getItem('descricao') || '', 
-        foto_receptor: sessionStorage.getItem('foto_receptor') || null, 
-    })
-    const [openSuccess, setOpenSuccess] = useState(false);
-    
-    const maxLength = 200; // limite de 50 caracteres
-    const remainingChars = maxLength - data.descricao.length; // caracteres restantes 
+    // const solic_update = useSelector(state => state.user.solic_update);
+    const [data, setData] = useState({})
+    const maxLength = 200; 
 
     const StyledButton = styled(Button)({
         width: '100%',
@@ -93,16 +83,46 @@ export default function Solicitacoes (props) {
       });
     const inputRef = useRef(null);
 
-    const [cidade, setCidade] = useState(null);
+    const [openSuccess, setOpenSuccess] = useState(false);
+    
     const [cidades, setCidades] = useState([]);
 
     const buscarCidades = async (query) => {
-        const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${data?.estado.numero}/distritos
+        console.log(data.state.numero)
+        
+        const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${data.state.numero}/distritos
         `;
         const resposta = await fetch(url);
         const dados = await resposta.json();
+        console.log(dados)
         setCidades(dados);
       };
+
+
+    const solicitacaoUpdate = async () => {
+        try {
+          const response = await api.get(`solicitations?${id_user}`);
+        //   console.log(response)
+          return response.data.data;
+        } catch (err) {
+          console.error(err);
+          return [];
+        }
+      };
+    
+      useEffect(() => {
+        if (props.open) {
+          solicitacaoUpdate()
+            .then((data) => 
+            {
+                data.map(d => d.id === props.id_solic? setData(d): '')
+            }
+             )
+            .catch((err) => console.error(err));
+        }
+      }, [props.open]);
+
+    // console.log("data", data)
 
     const [errorNome, setErrorNome] = useState("")
     const [errorIdade, setErrorIdade] = useState("")
@@ -111,17 +131,53 @@ export default function Solicitacoes (props) {
     const [errorTipo, setErrorTipo] = useState("")
     const [isLoading, setIsLoading] = useState(false);
 
+    const handleNome = (e) =>{
+        const nomeCompleto = e.target.value;
+        setData({...data, name: nomeCompleto})
+    }
+    const handleHospital = (e) =>{
+        const hospital = e.target.value;
+        setData({...data, hospital: hospital})
+    }
+    const handleIdade = (e) =>{
+        const idade = e.target.value;
+        setData({...data, age: idade})
+    }
+   
+    const handleEstado = (e) =>{
+        const estado = e.target.value;
+        console.log(estado)
+        setData({...data, state: estado})
+    }
+    const handleTipo = (e) =>{
+        const tipo_sanguineo = e.target.value;
+        setData({...data, bloodtype: tipo_sanguineo})
+    }
+    const handleDescricao = (e) =>{
+        const descricao = e.target.value;
+        setData({...data, description: descricao})
+    }
+    const handleFoto= (e) =>{
+        const file = e.target.files;
+        if (file[0].size <= 10000000) {
+            setData({...data, picture: file})
+        } else {
+            alert('O tamanho máximo permitido é de 10MB.');
+        }            
+    }
+   
     const handleValidar =  () => {
         let isValid = true      
-
-        if(!data.nome){
+        console.log(data)
+        
+        if(!data.name){
             setErrorNome("Preencha esse campo!")
             isValid = false
-        }else{
+        }else{  
             setErrorNome("")
         }
 
-        if(!data.idade){
+        if(!data.age){
             setErrorIdade("Preencha esse campo!")
             isValid = false
         }else if(data.idade < 0) {
@@ -132,21 +188,21 @@ export default function Solicitacoes (props) {
             setErrorIdade("")
         }
         
-        if(!data.estado){
+        if(!data.state){
             setErrorEstado("Preencha esse campo!")
             isValid = false
         }else{
             setErrorEstado("")
         }
 
-        if(!data.cidade){
+        if(!data.city){
             setErrorCidade("Preencha esse campo!")
             isValid = false
         }else{
             setErrorCidade("")
         }
 
-        if(!data.tipo_sanguineo){
+        if(!data.bloodtype){
             setErrorTipo("Preencha esse campo!")
             isValid = false
         }else{
@@ -155,44 +211,25 @@ export default function Solicitacoes (props) {
           handleSubmit(isValid)
     }
 
+    
     const handleSubmit = async (isValid) =>{
         if(isValid){
-            // console.log(data)
-            // setIsLoading(true);
 
-            const formData = new FormData()
-            if (data.foto_receptor && data.foto_receptor[0]) {
-                formData.append('picture', data.foto_receptor[0]);
-            } else {
-                formData.append('picture', null);
-            }
-            formData.append('name', data.nome)
-            formData.append('bloodtype', data.tipo_sanguineo)
-            formData.append('description', data.descricao)
-            formData.append('city', data.cidade)
-            formData.append('state', data.estado.nome)
-            formData.append('hospital', data.hospital)
-            formData.append('age', data.idade)
-            formData.append('userId', id_user)
-
+            const formData = {
+                name: data.name,
+                bloodtype: data.bloodtype, 
+                description: data.description, 
+                city: data.city, 
+                state: data.state.nome, 
+                hospital: data.hospital,
+                picture: data.foto_receptor,
+                age: data.age,
+                id: props.id_solic
+              };
+              console.log(formData)
               try {
-                //console.log(formData)
-
-                const response = await api.post('/solicitations', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                
-                sessionStorage.removeItem('nomeSolic')
-                sessionStorage.removeItem('hospital')
-                sessionStorage.removeItem('idade')
-                sessionStorage.removeItem('cidade') 
-                sessionStorage.removeItem('estado') 
-                sessionStorage.removeItem('tipoSolic') 
-                sessionStorage.removeItem('descricao') 
-                sessionStorage.removeItem('foto_receptor') 
-
+                const response = await api.put("solicitations", formData);
+     
                 setOpenSuccess(true)
                
               } catch (error) {
@@ -203,60 +240,17 @@ export default function Solicitacoes (props) {
               }
         }
     }
-
-
-
-    const handleNome = (e) =>{
-        const nomeCompleto = e.target.value;
-        setData({...data, nome: nomeCompleto})
-        sessionStorage.setItem("nomeSolic", nomeCompleto)
-    }
-    const handleHospital = (e) =>{
-        const hospital = e.target.value;
-        setData({...data, hospital: hospital})
-        sessionStorage.setItem("hospital", hospital)
-    }
-    const handleIdade = (e) =>{
-        const idade = e.target.value;
-        setData({...data, idade: idade})
-        sessionStorage.setItem("idade", idade)
-    }
-   
-    const handleEstado = (e) =>{
-        const estado = e.target.value;
-        setData({...data, estado: estado})
-        sessionStorage.setItem("estado", estado)
-    }
-    const handleTipo = (e) =>{
-        const tipo_sanguineo = e.target.value;
-        setData({...data, tipo_sanguineo: tipo_sanguineo})
-        sessionStorage.setItem("tipoSolic", tipo_sanguineo)
-    }
-    const handleDescricao = (e) =>{
-        const descricao = e.target.value;
-        setData({...data, descricao: descricao})
-        sessionStorage.setItem("descricao", descricao)
-    }
-    const handleFoto= (e) =>{
-        const file = e.target.files;
-        if (file[0].size <= 10000000) {
-            setData({...data, foto_receptor: file})
-        } else {
-            alert('O tamanho máximo permitido é de 10MB.');
-        }            
-    }
-
     return (
         <ThemeProvider theme={theme}>
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={props.open}
+                onClose={props.handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
 
             >
             <ContentModal>
-            <h1>Publicar Solicitação</h1>
+            <h1>Editar Solicitação</h1>
             <h4 style={{marginBottom: '5%'}} >Informe somente os dados do receptor</h4>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -267,7 +261,7 @@ export default function Solicitacoes (props) {
                         fullWidth
                         error={errorNome? true: false}
                         helperText={errorNome? errorNome: false}
-                        value={data.nome}
+                        value={data?.name}
                         onChange={handleNome}
                         />
                     </Grid>
@@ -276,7 +270,7 @@ export default function Solicitacoes (props) {
                         label="Hospital (Opcional)"
                         name="Hospital"
                         fullWidth
-                        value={data.hospital}
+                        value={data?.hospital}
                         onChange={handleHospital}
                         />
                     </Grid>
@@ -290,7 +284,7 @@ export default function Solicitacoes (props) {
                             fullWidth
                             error={errorIdade? true: false}
                             helperText={errorIdade? errorIdade: false}
-                            value={data.idade}
+                            value={data?.age}
                             onChange={handleIdade}
                             />
                     </Grid>
@@ -300,7 +294,7 @@ export default function Solicitacoes (props) {
                             <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={data.estado}
+                            value={data?.state}
                             helperText={errorEstado? errorEstado: false}
                             error={errorEstado? true: false}
                             onChange={handleEstado}
@@ -314,7 +308,7 @@ export default function Solicitacoes (props) {
                     </Grid>
                     <Grid item xs={3}>
                     <Autocomplete
-                        disabled={!data.estado}
+                        disabled={!data.state}
                         id="cidade"
                         options={cidades}
                         
@@ -325,10 +319,10 @@ export default function Solicitacoes (props) {
                         }}
                         noOptionsText="Nenhuma cidade encontrada"
                         onChange={(event, newValue) => {
-                            setData({...data, cidade: newValue})
-                            sessionStorage.setItem("cidade", cidade)
+                            setData({...data, city: newValue})
                         }}
                         onInputChange={(event, newInputValue) => {
+                            console.log(newInputValue)
                             buscarCidades(newInputValue);
                         }}
                         renderInput={(params) => (
@@ -344,7 +338,7 @@ export default function Solicitacoes (props) {
                             <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={data.tipo_sanguineo}
+                            value={data?.bloodtype}
                             helperText={errorTipo? errorTipo: false}
                             error={errorTipo? true: false}
                             onChange={handleTipo}
@@ -364,19 +358,19 @@ export default function Solicitacoes (props) {
                         multiline
                         rows={5}
                         fullWidth
-                        value={data.descricao}
+                        value={data?.description}
                         onChange={handleDescricao}
                         inputProps={{
                             maxLength: maxLength
                           }}
                         />
-                        <p>Caracteres restantes: {remainingChars}/200</p>
+                        <p>Caracteres restantes: {maxLength - data?.description?.length}/200</p>
                     </Grid>
                     <Grid item xs={12}>
                             <h3 style={{marginBottom: '2%'}} >Adicione uma foto do receptor (opcional):</h3>
                         <div style={{display: "flex", alignItems:'center'}}>
-                            <StyledButton color='secondary' startIcon={data.foto_receptor?<InsertPhotoIcon/>:<UploadIcon />} variant={data.foto_receptor?"outlined": "contained"} onClick={() => inputRef.current.click()}>
-                            {data.foto_receptor?   data.foto_receptor[0].name : "Upload da foto (Máx: 10MB)"}
+                            <StyledButton color='secondary' startIcon={data?.picture?<InsertPhotoIcon/>:<UploadIcon />} variant={data?.picture?"outlined": "contained"} onClick={() => inputRef.current.click()}>
+                            {data?.picture?   data?.picture[0].name : "Upload da foto (Máx: 10MB)"}
                             </StyledButton>
                             <input
                                 type="file"
@@ -391,7 +385,7 @@ export default function Solicitacoes (props) {
                     </Grid>
                     <Grid item xs={12}>
                             <div style={{display: "flex", justifyContent: 'flex-end', marginTop: ''}}>
-                                <Button onClick={handleValidar}  variant="contained" >Publicar</Button>
+                                <Button onClick={handleValidar}  variant="contained" >Editar</Button>
                             </div>
                     </Grid>
                 </Grid>
@@ -400,6 +394,29 @@ export default function Solicitacoes (props) {
         <ModalSucesso open={openSuccess} handleCloseSuccess={() => window.location.reload()}/>
         </ThemeProvider>
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+
+
+
+    
+
+    
        
 }
 

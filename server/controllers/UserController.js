@@ -1,5 +1,6 @@
 const { User, Donator, Solicitation } = require('../models');
 const randomstring = require('randomstring')
+const fs = require('fs')
 const nodemailer = require('nodemailer');
 const { DATEONLY } = require('sequelize');
 
@@ -52,7 +53,11 @@ UserController.update = async function(req, res){
         if (!user) {
             res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." })
         } else {
-            await User.update({ name, email, password, phone }, { where: { id: id } });
+            if (password){
+                await User.update({ name, email, password, phone }, { where: { id: id } });
+            }else{
+                await User.update({ name, email, phone }, { where: { id: id } });
+            }
             await Donator.update({ blood_type, flag_chat, gender, aptitude_status }, { where: { userId: id } });
             res.status(200).json()
         }
@@ -94,9 +99,10 @@ UserController.register = async function(req, res){
                 active: false,
                 confirmationCodeExpiration: date,
                 confirmationCode: randomstring.generate(6)
+                image: null
             })
 
-            await Donator.create({
+            const donator = await Donator.create({
                 userId: user.id,
                 blood_type: req.body.blood_type,
                 flag_chat: req.body.flag_chat,
@@ -304,6 +310,36 @@ UserController.recoverPassword = async function(req, res){
         res.status(200).json({ message : "Senha modificada com sucesso" })
     } catch (error) {
         res.status(500).json({ error: error });
+    }
+}
+UserController.uploadImage = async function(req, res){
+    try {
+        const { id } = req.params
+
+        const user = await User.findOne({ where: { id: id }})
+        if (!user) {
+
+            return res.status(404).json({ message: 'Usuário não encontrado'});
+        }
+        
+        if (user.image)
+        {
+            const path = "./public/uploads/users/" + user.image
+            fs.unlink(path, (erro) => {
+                if (erro) {
+                    res.status(404).json({ message: 'Erro ao excluir a imagem'});
+                    return;
+                }
+            });
+        }
+
+        // atualize o campo de imagem do usuário com o caminho do arquivo carregado
+        user.image = req.file.filename;
+
+        await user.save();
+        res.status(200).json({ message: "Imagem atualizada"})
+    } catch (error) {
+        res.status(404).json({ message: error })
     }
 }
 

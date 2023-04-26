@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     confirmationCode: { type: DataTypes.STRING },
     passwordResetCodeExpiration: { type: DataTypes.DATEONLY },
     passwordResetCode: { type: DataTypes.STRING },
+    image: { type:DataTypes.STRING, allowNull: true }
   }, {
     sequelize,
     modelName: 'User',
@@ -37,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     }),
+    
 
     User.hasMany(models.Solicitation, {
       as: 'solicitations',

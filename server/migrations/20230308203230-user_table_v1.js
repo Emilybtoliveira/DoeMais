@@ -25,8 +25,9 @@ module.exports = {
       },
       phone: { 
         type: Sequelize.STRING(20) 
-      },
-      active: {
+      image: {
+        type: Sequelize.STRING,
+      },      active: {
         type: Sequelize.BOOLEAN
       },
       confirmationCodeExpiration: {
@@ -41,7 +42,7 @@ module.exports = {
       passwordResetCode: {
         type: Sequelize.STRING
       },
-    });
+   });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
