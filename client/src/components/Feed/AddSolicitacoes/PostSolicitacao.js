@@ -161,7 +161,11 @@ export default function Solicitacoes (props) {
             // setIsLoading(true);
 
             const formData = new FormData()
-            formData.append('picture', data.foto_receptor[0])
+            if (data.foto_receptor && data.foto_receptor[0]) {
+                formData.append('picture', data.foto_receptor[0]);
+            } else {
+                formData.append('picture', null);
+            }
             formData.append('name', data.nome)
             formData.append('bloodtype', data.tipo_sanguineo)
             formData.append('description', data.descricao)
