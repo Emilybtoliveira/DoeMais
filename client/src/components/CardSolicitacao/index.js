@@ -71,6 +71,9 @@ function Cards(props) {
       console.log(error)
     })
   }
+  
+  const srcImage = "http://localhost:5000/files/solicitations/" + solicitacao.person?.picture
+
     return(
       <ThemeProvider theme={theme}>
           {solicitacao.person?
@@ -82,7 +85,7 @@ function Cards(props) {
                 </div>
               <div sx={{minHeight: '50%'}} >
 
-                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? solicitacao.person.picture: wallpaperDoeMais } />
+                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? srcImage : wallpaperDoeMais } />
               </div>
               
               <CardContent sx={{pt:1, pb: 0}}>

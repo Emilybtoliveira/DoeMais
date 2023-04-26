@@ -1,4 +1,5 @@
 const { User, Donator, Solicitation } = require('../models');
+const fs = require('fs')
 
 const UserController = {};
 
@@ -78,6 +79,7 @@ UserController.register = async function(req, res){
                 email: req.body.email,
                 password: req.body.password,
                 phone: req.body.phone,
+                image: null
             })
 
             const donator = await Donator.create({
@@ -120,5 +122,35 @@ UserController.login = async function(req, res){
     }
 }
 
+UserController.uploadImage = async function(req, res){
+    try {
+        const { id } = req.params
+
+        const user = await User.findOne({ where: { id: id }})
+        if (!user) {
+
+            return res.status(404).json({ message: 'Usuário não encontrado'});
+        }
+        
+        if (user.image)
+        {
+            const path = "./public/uploads/users/" + user.image
+            fs.unlink(path, (erro) => {
+                if (erro) {
+                    res.status(404).json({ message: 'Erro ao excluir a imagem'});
+                    return;
+                }
+            });
+        }
+
+        // atualize o campo de imagem do usuário com o caminho do arquivo carregado
+        user.image = req.file.filename;
+
+        await user.save();
+        res.status(200).json({ message: "Imagem atualizada"})
+    } catch (error) {
+        res.status(404).json({ message: error })
+    }
+}
 
 module.exports = UserController;
