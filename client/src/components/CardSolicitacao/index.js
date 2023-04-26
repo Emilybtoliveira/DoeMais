@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { toJpeg } from 'html-to-image';
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -14,6 +16,8 @@ import hospital from '../../assets/Portal/CardsEstatico/hospital.svg';
 import local from '../../assets/Portal/CardsEstatico/local.svg';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import DownloadIcon from '@mui/icons-material/Download';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from '../../assets/logo.svg'
 import api from '../../services/api'
@@ -53,6 +57,31 @@ const ModalExcluir = (props) =>{
 
 
 function Cards(props) {
+  const ref = useRef(null)
+  const navigate = useNavigate()
+  
+  const onButtonClick = useCallback(() => {
+    if (ref.current === null) {
+      return
+    } 
+    //document.getElementById("options-icons").style.display = 'none';
+    
+    toJpeg(ref.current, { cacheBust: true, })
+      .then((dataUrl) => {
+        //document.getElementById("edit-icon").style.display = 'none';
+        const link = document.createElement('a')
+        link.download = 'card.jpeg'
+        link.href = dataUrl
+        link.click()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    //document.getElementById("options-icons").style.display = 'flex';
+    
+  }, [ref])
+  
   const {solicitacao} = props;
   const [excluirSolic, setExcluirSolic] = React.useState(false)
   const handleExcluir = async () => {
@@ -63,15 +92,17 @@ function Cards(props) {
     })
   }
     return(
-      <ThemeProvider theme={theme}>
+      <div ref={ref}>
+        <ThemeProvider theme={theme}>
           {solicitacao.person?
-               <CardPrincipal sx={{ borderRadius: 3 }}>
-                <div style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent: 'flex-end'}}>
-                  <div style={{cursor: 'pointer'}} ><EditIcon fontSize="small" color='primary'/></div>
-                  <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></div>
-                </div>
+               <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3 }}>
+                <div id='options-icons' style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent:'flex-end'}}>
+                    <div style={{cursor: 'pointer'}}><EditIcon fontSize="small" color='primary'/></div>
+                    <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)}><DeleteIcon fontSize="small" /></div>               
+                    <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.person.description?solicitacao.person.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div>
+                    <div style={{cursor: 'pointer'}} id="download_button" onClick={onButtonClick}><DownloadIcon fontSize="small" color="disabled"/></div> 
+                  </div>
               <div sx={{minHeight: '50%'}} >
-
                 <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? solicitacao.person.picture: wallpaperDoeMais } />
               </div>
               
@@ -106,8 +137,15 @@ function Cards(props) {
                 </div>
                   <Typography variant="body2" className='publicado'>Publicado em {solicitacao.creation_date}</Typography>
               </CardContent>
-          </CardPrincipal>:
-          <CardPrincipal sx={{ borderRadius: 3, height: '100%'}}>
+          </CardPrincipal>
+          
+          :
+          
+          <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3, height: '100%'}} >
+            <div style={{display: "flex", width: '100%', justifyContent:'flex-end'}}>                       
+              <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.description?solicitacao.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div>
+              <div style={{cursor: 'pointer'}} id="download_button" onClick={onButtonClick}><DownloadIcon fontSize="small" color="disabled"/></div>
+            </div>
             <div sx={{minHeight: '50%'}} >
               <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.picture? solicitacao.picture: wallpaperDoeMais } />
             </div>
@@ -145,11 +183,10 @@ function Cards(props) {
         </CardContent>
 
       </CardPrincipal>
-          }
-            
+          }           
           <ModalExcluir open={excluirSolic} handleClose={() => setExcluirSolic(false)} handleExcluir={handleExcluir}/>
-      </ThemeProvider>
-            
+        </ThemeProvider>
+      </div> 
     )
       
 }
