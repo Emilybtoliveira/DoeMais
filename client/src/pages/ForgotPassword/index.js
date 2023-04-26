@@ -1,8 +1,8 @@
 import React from 'react'
 import {Container} from './styles'
 import Header from '../../components/Header'
-import FormLogin from '../../components/FormLogin'
-import { Link } from 'react-router-dom'
+import FormForgotPassword from '../../components/FormForgotPassword'
+
 
 function Cadastro (){
     
@@ -10,7 +10,7 @@ function Cadastro (){
         <div style={{overflowX: 'hidden'}}>
         <Header/>
         <Container>
-            <FormLogin/>
+            <FormForgotPassword/>
         </Container>
         </div>
         

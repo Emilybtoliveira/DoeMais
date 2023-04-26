@@ -33,6 +33,9 @@ router.delete('/user/:id',(req, res) => {Controllers.UserController.delete(req,r
 router.post('/login',(req, res) => {Controllers.UserController.login(req,res);})
 router.post('/register',(req, res) => {Controllers.UserController.register(req,res);})
 
+router.post('/confirm-email', (req, res) => {Controllers.UserController.confirmEmail(req, res);})
+router.post('/forgot-password', (req, res) => {Controllers.UserController.forgotPassword(req, res);})
+router.post('/recover-password', (req, res) => {Controllers.UserController.recoverPassword(req, res);})
 router.post('/upload-img/:id', uploadUser.single('image'), (req, res) => {Controllers.UserController.uploadImage(req,res);})
 
 //Rotas de Solicitações

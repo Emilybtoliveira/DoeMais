@@ -5,6 +5,9 @@ import { Route, Routes,Navigate} from 'react-router-dom';
 import Portal from '../pages/Portal';
 import Cadastro from '../pages/Cadastro'
 import Login from '../pages/Login'
+import ConfirmEmail from '../pages/ConfirmEmail'
+import RecoverPassword from '../pages/RecoverPassword'
+import ForgotPassword from '../pages/ForgotPassword'
 import Dashboard from '../pages/DashBoard'
 import {useSelector} from 'react-redux'
 
@@ -43,6 +46,9 @@ export default function Rotas() {
       <Route path='/' exact element={<RotaPublica element={<Portal/>}/>} />
       <Route path='/cadastro' exact element={<RotaPublica element={<Cadastro/>}/>} />
       <Route path='/login' exact element={<RotaPublica element={<Login/>}/>} />
+      <Route path="/confirm-email" exact element={<RotaPublica element={<ConfirmEmail/>}/>}/>
+      <Route path="/forgot-password" exact element={<RotaPublica element={<ForgotPassword/>}/>}/>
+      <Route path="/recover-password" exact element={<RotaPublica element={<RecoverPassword/>}/>}/>
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path="/locais-doacao" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
