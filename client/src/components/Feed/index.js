@@ -158,7 +158,16 @@ function Feed(props) {
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
         </IconButton> */}
-      <Avatar alt={profile?.name} src={"http://localhost:5000/files/users/" + profile?.image} onClick={handleModal} sx={{ width: 150, height: 150, backgroundColor: '#D9D9D9' }}/>
+      <Avatar
+        alt={profile?.name}
+        src={"http://localhost:5000/files/users/" + profile?.image}
+        onClick={handleModal}
+        sx={{
+          width: 150,
+          height: 150,
+          backgroundColor: '#D9D9D9',
+          ":hover": {filter: "brightness(70%)"}}}
+          />
       <Modal
             open={showModal}
             onClose={handleClose}
