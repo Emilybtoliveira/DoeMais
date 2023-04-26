@@ -25,7 +25,7 @@ module.exports = {
       },
       phone: { 
         type: Sequelize.STRING(20) 
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {
