@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import {Typography}from '@mui/material';
 import { Container, List } from './styles';
 import {IconButton,Tooltip }from '@mui/material';
 import {useSelector} from 'react-redux'
@@ -13,26 +12,16 @@ export default function Doacoes () {
     const [openModal, setOpenModal] = useState(false)
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
     const id_user = useSelector(state => state.user.id_user);
-    const donations = [
-      {place: "Hemoal Trapiche", date: [2023, 3, 20]},
-      {place: "Hemoal Serraria", date: [2022, 12, 18]},
-      {place: "Hospital Universitário", date: [2022, 6, 25]},
-      {place: "Hemoal Trapiche", date: [2022, 2, 3]},
-      {place: "Hemoal Trapiche", date: [2021, 12, 7]}
-      ]
-
-      const formData = {idUser: id_user}
-      React.useEffect(() => {
-        const response = api.get(`/donation-register`, formData).then((response) => {
-          //setMinhas_doacoes(response.data.data)
-          console.log('idk')
-          //console.log(minhas_doacoes);
-        }).catch(err => {
-          console.log('bomdia')
-          console.log(err)
+    React.useEffect(() => {
+        const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
+          console.log(response);
+          setMinhas_doacoes(response.data)
+        }).catch((error) => {
+          console.log(error)
         })
       }, []);
-      
+     
+    
     return (
       <Container>
         <div className='headers'>
@@ -48,7 +37,7 @@ export default function Doacoes () {
         </div>
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
         <List>
-          {minhas_doacoes.map(donation => <DonationListItem date={donation.date} location={donation.place}/>)}
+          {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <DonationListItem date={donation.date} location={donation.place}/>)}
         </List>
       </Container>
     )

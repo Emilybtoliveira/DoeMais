@@ -26,7 +26,7 @@ DonationRegisterController.getAll = async function(req, res){
     try {
         const donationRegister = await DonationRegister.findAll({
             where:{
-                userDonationRegisterId: req.body.idUser
+                userDonationRegisterId: req.query.idUser
             }
         })
 

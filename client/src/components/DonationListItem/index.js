@@ -6,16 +6,23 @@ import {Grid} from '@mui/material';
 
 
 function DonationListItem (props){
-    const start = new Date(props.date[0], props.date[1], props.date[2]);
+    var date_list = props.date.split("-")
+    console.log(date_list)
+    const start = new Date(date_list[0], date_list[1], date_list[2]);
     const current = new Date();
     const end = new Date (current.getFullYear(), current.getMonth()+1, current.getDate());
     const duration = durationInMonths(start, end);
     let duracaodoacao;
+    console.log(props.date)
     if (duration == 1) {
         duracaodoacao = <p className='solong'>Há {duration} mês</p>;    
     } 
-    else {
-        duracaodoacao = <p className='solong'>Há {duration} meses</p>;    }
+    else if (duration>1){
+        duracaodoacao = <p className='solong'>Há {duration} meses</p>;    
+    }
+    else{
+        duracaodoacao = <p className='solong'>Há menos de um mês</p>;  
+    }
     
 
     return(
@@ -25,7 +32,7 @@ function DonationListItem (props){
                 <div className='icon'><img src = {icon} ></img></div>
                 </Grid>
                 <Grid item xs ={9.2}>
-                    <h1>Doação dia {props.date[2]}/{props.date[1]}/{props.date[0]}</h1>
+                    <h1>Doação dia {date_list[2]}/{date_list[1]}/{date_list[0]}</h1>
                     <h3>{props.location}</h3>
                 </Grid>
                 <Grid item xs ={2}>
