@@ -5,6 +5,11 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+import SettingsIcon from '@mui/icons-material/Settings';
 import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
@@ -23,6 +28,7 @@ import Solicitacoes from './Solicitacoes';
 import AddSolicitacoes from './AddSolicitacoes';
 import HistoricoDoacao from './HistoricoDoacao';
 import LocalDoacao from './LocalDoacao';
+import EditProfile from './EditProfile';
 
 import logo from '../../assets/logo.svg'
 import solicNoSelec from '../../assets/Feed/solicNoSelec.svg'
@@ -39,7 +45,6 @@ import {useLocation,useNavigate} from 'react-router-dom'
 
 import {
   Modal,
-  Button,
   Grid,
 }from '@mui/material';
 
@@ -85,6 +90,13 @@ function Feed(props) {
     navigate('/dashboard')
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const LogOut = () => {
     dispatch(logOut())
     window.reload()
@@ -110,7 +122,9 @@ function Feed(props) {
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShowModal(false);
+    setAnchorEl(null);
+
   }
 
   const handleFoto= (e) =>{
@@ -141,6 +155,12 @@ function Feed(props) {
     }
   }
 
+
+  const Edit = () => {
+    navigate('/editar-perfil')
+    handleClose()
+  }
+
   const location = useLocation();
   const url = location.pathname;
   const componentes = [
@@ -149,7 +169,7 @@ function Feed(props) {
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
 ]
   const drawer = (
-    <div>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
       <div style={{display:'flex', justifyContent:'center', marginTop: '5%'}}>
         <img src={logo} alt='logo' width='70%' />
       </div>
@@ -246,7 +266,39 @@ function Feed(props) {
     </ListItem>
   ))}
 </List>
-<div style={{color: "rgba(204, 0, 0, 1)", textDecoration: 'underline', cursor:'pointer', marginLeft: '5%'}} onClick={LogOut} >SAIR</div>
+<div style={{position: 'absolute', 
+      bottom: 0, 
+      left: 0, 
+      color: "rgba(204, 0, 0, 1)", 
+      textDecoration: 'underline', 
+      cursor: 'pointer', 
+      marginLeft: '5%', 
+      marginBottom: '5%' }}  >
+
+      <IconButton 
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        <SettingsIcon/>
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={Edit}>Editar Perfil</MenuItem>
+        <MenuItem onClick={LogOut}>Sair</MenuItem>
+      </Menu>
+
+
+      </div>
 
       </ThemeProvider>
      
@@ -298,6 +350,7 @@ function Feed(props) {
           sx={{
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, bgcolor: '#EFEBEB' },
+            border: '1px solid red'
           }}
         >
           {drawer}
@@ -307,7 +360,7 @@ function Feed(props) {
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,bgcolor: '#EFEBEB' },
-            backgroundColor: '#EFEBEB'
+            backgroundColor: '#EFEBEB',
           }}
           open
         >
@@ -320,7 +373,16 @@ function Feed(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <LocalDoacao/>
-      </Box>:
+      </Box>
+      :
+      url === "/editar-perfil"? 
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+      >
+        <EditProfile/>
+      </Box>
+      :
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}

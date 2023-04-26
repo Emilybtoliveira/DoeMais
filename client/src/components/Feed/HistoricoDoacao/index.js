@@ -1,14 +1,45 @@
-import React, { Component } from 'react'
-import {Typography}from '@mui/material';
+import React, { useState } from 'react'
+import { Container, List } from './styles';
+import {IconButton,Tooltip }from '@mui/material';
+import {useSelector} from 'react-redux'
+import AddIcon from '@mui/icons-material/Add';
+import api from '../../../services/api'
+import Post from './PostDoacao'
+import DonationListItem from '../../DonationListItem';
 
-export default function Solicitacoes () {
+
+export default function Doacoes () {
+    const [openModal, setOpenModal] = useState(false)
+    const [minhas_doacoes, setMinhas_doacoes] = useState([])
+    const id_user = useSelector(state => state.user.id_user);
+    React.useEffect(() => {
+        const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
+          console.log(response);
+          setMinhas_doacoes(response.data)
+        }).catch((error) => {
+          console.log(error)
+        })
+      }, []);
+     
+    
     return (
-      <div>
-        <Typography paragraph>
-          Historico
-        </Typography>
-   
-      </div>
+      <Container>
+        <div className='headers'>
+          <h1>Meu histórico de doações</h1>
+          <h4>Aqui você pode registrar suas doações já feitas.</h4>
+        </div>
+        <div>
+        <Tooltip title="Postar uma solicitação">
+            <IconButton aria-label="formulario" className='button' onClick={() => setOpenModal(true)}>
+              <AddIcon sx={{color:'#fff'}} />
+            </IconButton>
+          </Tooltip>
+        </div>
+        <Post open={openModal} handleClose={() => setOpenModal(false)} />
+        <List>
+          {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <DonationListItem date={donation.date} location={donation.place}/>)}
+        </List>
+      </Container>
     )
 }
 

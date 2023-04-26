@@ -42,5 +42,10 @@ router.post('/solicitations', uploadSolicitation.single('picture'), (req, res) =
 router.put('/solicitations',(req, res) => {Controllers.SolicitationController.update(req,res);})
 router.put('/solicitations/:id',(req, res) => {Controllers.SolicitationController.disable(req,res);})
 
+//Rotas de Registro de Doacoes
+router.get('/donation-register',(req, res) => {Controllers.DonationRegisterController.getAll(req,res);})
+router.post('/donation-register',(req, res) => {Controllers.DonationRegisterController.create(req,res);})
+router.put('/donation-register', (req, res) => {Controllers.DonationRegisterController.update(req,res);})
+router.delete('/donation-register/:id', (req, res) => {Controllers.DonationRegisterController.delete(req,res);})
 
 module.exports = router;

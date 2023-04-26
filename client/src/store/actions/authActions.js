@@ -3,9 +3,10 @@ export function IsRegister() {
 }
 
 export function logIn(email) {
-    return { type: 'LOG_IN', payload: email };
-  }
+  return { type: 'LOG_IN', payload: email };
+}
   
-  export function logOut() {
-    return { type: 'LOG_OUT' };
-  }
+export function logOut() {
+  return { type: 'LOG_OUT' };
+}
+
