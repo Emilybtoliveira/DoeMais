@@ -9,5 +9,4 @@ Controllers.UserController = UserController;
 Controllers.SolicitationController = SolicitationController;
 Controllers.DonationRegisterController = DonationRegisterController;
 
-
 module.exports = Controllers;

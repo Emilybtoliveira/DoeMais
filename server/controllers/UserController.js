@@ -38,7 +38,11 @@ UserController.update = async function(req, res){
         if (!user) {
             res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." })
         } else {
-            await User.update({ name, email, password, phone }, { where: { id: id } });
+            if (password){
+                await User.update({ name, email, password, phone }, { where: { id: id } });
+            }else{
+                await User.update({ name, email, phone }, { where: { id: id } });
+            }
             await Donator.update({ blood_type, flag_chat, gender, aptitude_status }, { where: { userId: id } });
             res.status(200).json()
         }
@@ -76,7 +80,7 @@ UserController.register = async function(req, res){
                 phone: req.body.phone,
             })
 
-            await Donator.create({
+            const donator = await Donator.create({
                 userId: user.id,
                 blood_type: req.body.blood_type,
                 flag_chat: req.body.flag_chat,
@@ -84,7 +88,7 @@ UserController.register = async function(req, res){
                 aptitude_status: "undefined",
             })
             
-            res.status(200).json({ user });
+            res.status(200).json({ user, donator });
         }
         else {
             res.status(400).json({ error: "Já existe uma usuário com o email escolhido." })
