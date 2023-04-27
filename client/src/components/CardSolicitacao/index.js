@@ -72,7 +72,19 @@ function Cards(props) {
     })
   }
   
-  const srcImage = "http://localhost:5000/files/solicitations/" + solicitacao.person?.picture
+  let srcImage = "http://localhost:5000/files/solicitations/";
+  if (solicitacao.person)
+  {
+    srcImage += solicitacao.person.picture
+  }
+  else if (solicitacao.picture)
+  {
+    srcImage += solicitacao.picture
+  }
+  else
+  {
+    srcImage = wallpaperDoeMais
+  }
 
     return(
       <ThemeProvider theme={theme}>
@@ -85,7 +97,7 @@ function Cards(props) {
                 </div>
               <div sx={{minHeight: '50%'}} >
 
-                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? srcImage : wallpaperDoeMais } />
+                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
               </div>
               
               <CardContent sx={{pt:1, pb: 0}}>
@@ -122,7 +134,7 @@ function Cards(props) {
           </CardPrincipal>:
           <CardPrincipal sx={{ borderRadius: 3, height: '100%'}}>
             <div sx={{minHeight: '50%'}} >
-              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.picture? solicitacao.picture: wallpaperDoeMais } />
+              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
             </div>
         <CardContent sx={{pt:1, pb: 0}}>
           <Typography variant="h5" component="div" className="title">
