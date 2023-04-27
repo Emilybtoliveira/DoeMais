@@ -98,7 +98,7 @@ UserController.register = async function(req, res){
                 phone: req.body.phone,
                 active: false,
                 confirmationCodeExpiration: date,
-                confirmationCode: randomstring.generate(6)
+                confirmationCode: randomstring.generate(6),
                 image: null
             })
 
