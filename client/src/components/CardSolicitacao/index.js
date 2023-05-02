@@ -15,8 +15,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import DownloadIcon from '@mui/icons-material/Download';
+import ShareIcon from '@mui/icons-material/Share';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from '../../assets/logo.svg'
+import Tooltip from '@mui/material/Tooltip';
+import {useDispatch} from 'react-redux'
+import { share } from '../../store/actions/userActions';
+
 import api from '../../services/api'
 const theme = createTheme({
  
@@ -54,32 +59,12 @@ const ModalExcluir = (props) =>{
 
 
 function Cards(props) {
-  const ref = useRef(null)
   const navigate = useNavigate()
   
-  const onButtonClick = useCallback(() => {
-    if (ref.current === null) {
-      return
-    } 
-    //document.getElementById("options-icons").style.display = 'none';
-    
-    toJpeg(ref.current, { cacheBust: true, })
-      .then((dataUrl) => {
-        //document.getElementById("edit-icon").style.display = 'none';
-        const link = document.createElement('a')
-        link.download = 'card.jpeg'
-        link.href = dataUrl
-        link.click()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-    //document.getElementById("options-icons").style.display = 'flex';
-    
-  }, [ref])
   
   const {solicitacao} = props;
+  const dispatch = useDispatch()
+  
   const [excluirSolic, setExcluirSolic] = React.useState(false)
   const handleExcluir = async () => {
     const response = await api.put(`/solicitations/${solicitacao.solicitationPersonId}`).then(response => {
@@ -88,16 +73,19 @@ function Cards(props) {
       console.log(error)
     })
   }
+
+  const handleShare = (id) =>{
+    dispatch(share(id))
+    navigate(`/compartilhar-solicitacao/${id}`)
+  }
     return(
-      <div ref={ref}>
+      <div >
         <ThemeProvider theme={theme}>
           {solicitacao.person?
                <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3 }}>
                 <div id='options-icons' style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent:'flex-end'}}>
                     <div style={{cursor: 'pointer'}}><EditIcon fontSize="small" color='primary'/></div>
                     <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)}><DeleteIcon fontSize="small" /></div>               
-                    <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.person.description?solicitacao.person.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div>
-                    <div style={{cursor: 'pointer'}} id="download_button" onClick={onButtonClick}><DownloadIcon fontSize="small" color="disabled"/></div> 
                   </div>
               <div sx={{minHeight: '50%'}} >
                 <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? solicitacao.person.picture: wallpaperDoeMais } />
@@ -140,8 +128,10 @@ function Cards(props) {
           
           <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3, height: '100%'}} >
             <div style={{display: "flex", width: '100%', justifyContent:'flex-end'}}>                       
-              <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.description?solicitacao.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div>
-              <div style={{cursor: 'pointer'}} id="download_button" onClick={onButtonClick}><DownloadIcon fontSize="small" color="disabled"/></div>
+              {/* <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.description?solicitacao.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div> */}
+              <Tooltip title='Compartilhar solicitação' placement='top' >
+                <div style={{cursor: 'pointer'}} id="download_button" onClick={() => handleShare(solicitacao.id)}><ShareIcon fontSize="small" color="disabled"/></div>
+              </Tooltip>
             </div>
             <div sx={{minHeight: '50%'}} >
               <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.picture? solicitacao.picture: wallpaperDoeMais } />

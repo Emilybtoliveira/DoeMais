@@ -47,7 +47,6 @@ SolicitationController.getSolicitations = async function(req, res){
             res.status(200).json({ data });
 
         } else if(req.query.id){ //retorna a solicitação com o id
-
             const data = await Solicitation.findOne({
                 where:{
                     id: req.query.id,

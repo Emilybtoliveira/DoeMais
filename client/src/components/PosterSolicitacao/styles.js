@@ -10,7 +10,7 @@ export const Container = styled.div`
         background-color: ${palette.branco} ;
         width: 30vw;
         height: 80vh;
-        margin: 2% 0;
+        margin-bottom: 2%   ;
         padding: 2%;
         padding-bottom: 6%;
         .acesse{
