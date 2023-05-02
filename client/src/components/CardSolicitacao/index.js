@@ -8,9 +8,6 @@ import Typography from '@mui/material/Typography';
 import {Modal,Button} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { CardPrincipal,ContentModal } from './styles';
-import img1 from '../../assets/Portal/CardsEstatico/img1.svg';
-import img2 from '../../assets/Portal/CardsEstatico/img2.svg';
-import img3 from '../../assets/Portal/CardsEstatico/img3.svg';
 import wallpaperDoeMais from  '../../assets/wallpaperDoeMais.svg'
 import hospital from '../../assets/Portal/CardsEstatico/hospital.svg';
 import local from '../../assets/Portal/CardsEstatico/local.svg';

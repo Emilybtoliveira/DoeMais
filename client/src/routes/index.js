@@ -5,6 +5,7 @@ import { Route, Routes,Navigate} from 'react-router-dom';
 import Portal from '../pages/Portal';
 import Cadastro from '../pages/Cadastro'
 import Login from '../pages/Login'
+import Compartilhamento from '../pages/Compartilhamento'
 import Dashboard from '../pages/DashBoard'
 import {useSelector} from 'react-redux'
 
@@ -44,6 +45,7 @@ export default function Rotas() {
       <Route path='/cadastro' exact element={<RotaPublica element={<Cadastro/>}/>} />
       <Route path='/login' exact element={<RotaPublica element={<Login/>}/>} />
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
+      <Route path='/compartilhar-solicitacao/:id' exact element={<Compartilhamento/>} />
       <Route path='*' exact element={<h1>Erro 404 :)</h1>} />
     </Routes>
     </Fragment>
