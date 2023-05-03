@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Container, ContainerA} from './styles'
 import SubsecaoQuemSomos from '../SubsecaoQuemSomos';
 import SubsecaoPorqueDoar from '../SubsecaoPorqueDoar';
@@ -7,6 +7,7 @@ import SubsecaoComoDoar from '../SubsecaoComoDoar';
 import SubsecaoMitos from '../SubsecaoMitos';
 
 function InfoSecao (props){
+    const [sectionIndex, setSection] = useState(0);
     return(
         <Container>
             <div className='buttonSection'>

@@ -12,6 +12,7 @@ export default function Doacoes () {
     const [openModal, setOpenModal] = useState(false)
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
     const id_user = useSelector(state => state.user.id_user);
+
     React.useEffect(() => {
         const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
           console.log(response);
@@ -37,7 +38,7 @@ export default function Doacoes () {
         </div>
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
         <List>
-          {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <DonationListItem date={donation.date} location={donation.place}/>)}
+          {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <DonationListItem date={donation.date} location={donation.place} id={donation.id}/>)}
         </List>
       </Container>
     )
