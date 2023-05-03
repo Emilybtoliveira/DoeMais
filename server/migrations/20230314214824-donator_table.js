@@ -20,7 +20,7 @@ module.exports = {
         }
       },
       blood_type: { 
-        type: Sequelize.STRING(60), 
+        type: Sequelize.STRING(12), 
         allowNull: false 
       },
       flag_chat: { 

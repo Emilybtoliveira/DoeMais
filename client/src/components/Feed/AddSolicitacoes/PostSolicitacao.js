@@ -160,20 +160,29 @@ export default function Solicitacoes (props) {
             // console.log(data)
             // setIsLoading(true);
 
-            const formData = {
-                name: data.nome,
-                bloodtype: data.tipo_sanguineo, 
-                description: data.descricao, 
-                city: data.cidade, 
-                state: data.estado.nome, 
-                hospital: data.hospital,
-                // picture: data.foto_receptor,
-                age: data.idade,
-                picture: "",
-                userId: id_user
-              };
+            const formData = new FormData()
+            if (data.foto_receptor && data.foto_receptor[0]) {
+                formData.append('picture', data.foto_receptor[0]);
+            } else {
+                formData.append('picture', null);
+            }
+            formData.append('name', data.nome)
+            formData.append('bloodtype', data.tipo_sanguineo)
+            formData.append('description', data.descricao)
+            formData.append('city', data.cidade)
+            formData.append('state', data.estado.nome)
+            formData.append('hospital', data.hospital)
+            formData.append('age', data.idade)
+            formData.append('userId', id_user)
+
               try {
-                const response = await api.post(`/solicitations`, formData);
+                //console.log(formData)
+
+                const response = await api.post('/solicitations', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
                 
                 sessionStorage.removeItem('nomeSolic')
                 sessionStorage.removeItem('hospital')

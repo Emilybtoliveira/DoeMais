@@ -23,6 +23,9 @@ import {useDispatch} from 'react-redux'
 import { share } from '../../store/actions/userActions';
 
 import api from '../../services/api'
+import PostEditSolicitacao from './PostEditSolicitacao'
+import styled from 'styled-components'
+
 const theme = createTheme({
  
   palette: {
@@ -34,6 +37,14 @@ const theme = createTheme({
   
   },
 });
+
+const IconButton = styled('div')({
+  cursor: 'pointer',
+  '&:hover': {
+    opacity: 0.6,
+  },
+});
+
 
 const ModalExcluir = (props) =>{
   return(
@@ -66,6 +77,7 @@ function Cards(props) {
   const dispatch = useDispatch()
   
   const [excluirSolic, setExcluirSolic] = React.useState(false)
+  const [editarSolic, setEditarSolic] = React.useState(false)
   const handleExcluir = async () => {
     const response = await api.put(`/solicitations/${solicitacao.solicitationPersonId}`).then(response => {
       window.location.reload()
@@ -74,21 +86,40 @@ function Cards(props) {
     })
   }
 
+
   const handleShare = (id) =>{
     dispatch(share(id))
     navigate(`/compartilhar-solicitacao/${id}`)
   }
+
+  
+  let srcImage = "http://localhost:5000/files/solicitations/";
+  if (solicitacao.person)
+  {
+    srcImage += solicitacao.person.picture
+  }
+  else if (solicitacao.picture)
+  {
+    srcImage += solicitacao.picture
+  }
+  else
+  {
+    srcImage = wallpaperDoeMais
+  }
+
+
     return(
       <div >
         <ThemeProvider theme={theme}>
           {solicitacao.person?
-               <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3 }}>
-                <div id='options-icons' style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent:'flex-end'}}>
-                    <div style={{cursor: 'pointer'}}><EditIcon fontSize="small" color='primary'/></div>
-                    <div style={{cursor: 'pointer'}} onClick={() => setExcluirSolic(true)}><DeleteIcon fontSize="small" /></div>               
-                  </div>
+               <CardPrincipal sx={{ borderRadius: 3 }}>
+                <div style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent: 'flex-end'}}>
+                  <IconButton 
+                  onClick={() => setEditarSolic(true) } ><EditIcon fontSize="small" color='primary'/></IconButton>
+                  <IconButton onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></IconButton>
+                </div>
               <div sx={{minHeight: '50%'}} >
-                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.person.picture? solicitacao.person.picture: wallpaperDoeMais } />
+                <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
               </div>
               
               <CardContent sx={{pt:1, pb: 0}}>
@@ -134,7 +165,7 @@ function Cards(props) {
               </Tooltip>
             </div>
             <div sx={{minHeight: '50%'}} >
-              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={solicitacao.picture? solicitacao.picture: wallpaperDoeMais } />
+              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
             </div>
         <CardContent sx={{pt:1, pb: 0}}>
           <Typography variant="h5" component="div" className="title">
@@ -172,8 +203,11 @@ function Cards(props) {
       </CardPrincipal>
           }           
           <ModalExcluir open={excluirSolic} handleClose={() => setExcluirSolic(false)} handleExcluir={handleExcluir}/>
-        </ThemeProvider>
-      </div> 
+
+          <PostEditSolicitacao open={editarSolic} handleClose={() => setEditarSolic(false)} id_solic={solicitacao.id} />
+
+      </ThemeProvider>
+           
     )
       
 }

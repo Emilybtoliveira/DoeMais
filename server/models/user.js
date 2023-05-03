@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING(40), allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     phone: { type: DataTypes.STRING(20) },
+    active: { type: DataTypes.BOOLEAN },
+    confirmationCodeExpiration: { type: DataTypes.DATEONLY },
+    confirmationCode: { type: DataTypes.STRING },
+    passwordResetCodeExpiration: { type: DataTypes.DATEONLY },
+    passwordResetCode: { type: DataTypes.STRING },
+    image: { type:DataTypes.STRING, allowNull: true }
   }, {
     sequelize,
     modelName: 'User',
@@ -32,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     }),
+    
 
     User.hasMany(models.Solicitation, {
       as: 'solicitations',

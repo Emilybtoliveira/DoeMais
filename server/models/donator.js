@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+
     }
   }
 
   Donator.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
-    blood_type: { type: DataTypes.STRING(5) },
+    blood_type: { type: DataTypes.STRING(12) },
     flag_chat: { type: DataTypes.BOOLEAN },
     gender: { type: DataTypes.STRING(10), allowNull: false },
     aptitude_status: { type: DataTypes.STRING(15)},
@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Donator.associate = function(models) {
+    Donator.hasMany(models.DonationRegister, {
+        as: 'donationsRegistry',
+        foreignKey: 'userDonationRegisterId',
+        onDelete: 'CASCADE'
+    }),
+
     Donator.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE'

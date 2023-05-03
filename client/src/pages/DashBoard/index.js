@@ -13,14 +13,10 @@ function Cadastro (){
             const location = {latitude: position.coords.latitude, longitude: position.coords.longitude}
             dispatch(Location(location))
           }
-          else{
-            alert("Você precisa ativar a localização para podermos mostrar os solicitantes próximos a você.")
-            window.location.reload();
-          }
-          
         },
         (error) => {
           console.log(error);
+          alert("Você precisa ativar a localização para podermos mostrar os solicitantes próximos a você.")
         })
   
     useEffect(() => {
