@@ -1,22 +1,12 @@
-const { User, Donator, Solicitation } = require('../models');
+const { User, Donator, Solicitation, Email } = require('../models');
 const randomstring = require('randomstring')
 const fs = require('fs')
-const nodemailer = require('nodemailer');
 const { DATEONLY } = require('sequelize');
 
 const timeElapsed = Date.now();
 const today = new Date(timeElapsed);
 
-const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAILPASSWORD,
-    },
-});
-
 const UserController = {};
-
 
 UserController.getAll = async function(req, res){
     try 
@@ -110,24 +100,14 @@ UserController.register = async function(req, res){
                 aptitude_status: "undefined",
             })
 
-            // configurar email
-            const mailOptions = {
-                from: 'doemais@gmail.com',
+            await Email.create({
                 to: req.body.email,
                 subject: 'Confirmação de e-mail',
                 text: 'Olá, obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:',
                 html: '<p>Olá,</p><p>Obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:</p><a href="http://localhost:3000/confirm-email?email=' + req.body.email + '&codigo=' + user.confirmationCode + '">Clique aqui para confirmar</a>'
-            };
+            })
 
-            //enviar email
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log(error);
-                    res.send('Erro ao enviar o e-mail');
-                } else {
-                    res.status(200).json({ message: 'E-mail enviado' });
-                }
-            });
+            res.status(200).json({message: "Cadastro concluido, enviaremos um email para confirmaçao"})
         }
         else {
             res.status(400).json({ error: "Já existe uma usuário com o email escolhido." })
@@ -244,26 +224,15 @@ UserController.forgotPassword = async function(req, res){
         user.passwordResetCodeExpiration = date
         user.passwordResetCode = randomstring.generate(6)
 
-        // configurar email
-        const mailOptions = {
-            from: process.env.EMAIL,
+        await Email.create({
             to: req.body.email,
             subject: 'Recuperação de senha',
             text: 'Por favor, clique no link abaixo para continuar a recuperação da senha:',
             html: '<p>Olá,</p><p>Por favor, clique no link abaixo para continuar a recuperação da senha:</p><a href="http://localhost:3000/recover-password?email=' + req.body.email + '&codigo=' + user.passwordResetCode + '">Clique aqui para confirmar</a>'
-        };
+        })
 
-        //enviar email
-        transporter.sendMail(mailOptions, async (error, info) => {
-            if (error) {
-                console.log(error);
-                res.send('Erro ao enviar o e-mail');
-            } else {
-                await user.save()
-                console.log(': ' + info.response);
-                res.status(200).json({ message: "E-mail enviado" });
-            }
-        });
+        await user.save()
+        res.status(200).json({ message: "Enviaremos um e-mail para a recuperação da senha" });
     } catch (error) {
         res.status(404).json({ message: error })
     }
