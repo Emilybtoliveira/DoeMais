@@ -26,6 +26,12 @@ module.exports = {
       place: {
         type: Sequelize.STRING,
         allowNull: true
+      },
+      validated: {
+        type: Sequelize.BOOLEAN
+      },
+      hashedId: {
+        type: Sequelize.STRING
       }
     });
   },

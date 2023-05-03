@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   DonationRegister.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
     date: { type: DataTypes.DATEONLY, allowNull: false },
-    place: { type: DataTypes.STRING, allowNull: true }
+    place: { type: DataTypes.STRING, allowNull: true },
+    validated: { type: DataTypes.BOOLEAN },
+    hashedId: { type: DataTypes.STRING }
   }, {
     sequelize,
     modelName: 'DonationRegister',
@@ -24,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   DonationRegister.associate = function(models) {
-    DonationRegister.belongsTo(models.Donator, {
+    DonationRegister.belongsTo(models.User, {
         as: 'user',
         foreignKey: 'userDonationRegisterId',
         onDelete: 'CASCADE'

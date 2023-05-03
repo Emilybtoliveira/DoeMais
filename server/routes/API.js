@@ -51,4 +51,10 @@ router.post('/donation-register',(req, res) => {Controllers.DonationRegisterCont
 router.put('/donation-register', (req, res) => {Controllers.DonationRegisterController.update(req,res);})
 router.delete('/donation-register/:id', (req, res) => {Controllers.DonationRegisterController.delete(req,res);})
 
+router.post('/create-donation-register-qrcode', (req, res) => {Controllers.DonationRegisterController.createQrCode(req,res)})
+router.post('/validate-donation-register/:id', (req, res) => {Controllers.DonationRegisterController.validate(req,res)})
+
+//Rotas de Admins
+router.post('/register-admin',(req, res) => {Controllers.UserController.registerAdmin(req, res);})
+
 module.exports = router;

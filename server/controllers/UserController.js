@@ -1,4 +1,4 @@
-const { User, Donator, Solicitation } = require('../models');
+const { User, Donator, Solicitation, Admin } = require('../models');
 const randomstring = require('randomstring')
 const fs = require('fs')
 const nodemailer = require('nodemailer');
@@ -32,7 +32,11 @@ UserController.getAll = async function(req, res){
 
 UserController.getUser = async function(req, res){
     try {
-        const data = await User.findOne({where: { id: req.params.id }, attributes: { exclude: ['password'] }, include: [{model: Donator, as: 'donator'}] }); 
+        const data = await User.findOne({
+            where: { id: req.params.id },
+            attributes: { exclude: ['password'] },
+            include:[{model: Donator, as: 'donator'}, {model: Admin, as: 'admin'}] }); 
+            
         if (!data){
             res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." });   
         }
@@ -110,24 +114,58 @@ UserController.register = async function(req, res){
                 aptitude_status: "undefined",
             })
 
-            // configurar email
-            const mailOptions = {
-                from: 'doemais@gmail.com',
-                to: req.body.email,
-                subject: 'Confirmação de e-mail',
-                text: 'Olá, obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:',
-                html: '<p>Olá,</p><p>Obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:</p><a href="http://localhost:3000/confirm-email?email=' + req.body.email + '&codigo=' + user.confirmationCode + '">Clique aqui para confirmar</a>'
-            };
+            if (sendConfirmationEmail(req.body.email, user.confirmationCode))
+            {
+                res.status(200).json({ message: 'E-mail enviado' });
+            }
+            else
+            {
+                await user.delete()
+                await donator.delete()
+                res.send('Erro ao enviar o e-mail');
+            }
+        }
+        else {
+            res.status(400).json({ error: "Já existe uma usuário com o email escolhido." })
+        }
+    } catch (error) {
+        res.status(500).json({ error: error });
+    }
+}
 
-            //enviar email
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log(error);
-                    res.send('Erro ao enviar o e-mail');
-                } else {
-                    res.status(200).json({ message: 'E-mail enviado' });
-                }
-            });
+UserController.registerAdmin = async function(req, res){
+    try {
+        const user = await User.findOne( { where: { email: req.body.email },  attributes: {exclude: ['password']} })
+
+        const date = new Date()
+        date.setDate(today.getDate() + 3)
+
+        if (!user) {
+            const user = await User.create({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+                phone: req.body.phone,
+                active: false,
+                confirmationCodeExpiration: date,
+                confirmationCode: randomstring.generate(6),
+                image: null
+            })
+
+            const admin = await Admin.create({
+                userId: user.id,
+            })
+
+            if (sendConfirmationEmail(req.body.email, user.confirmationCode))
+            {
+                res.status(200).json({ message: 'E-mail enviado' });
+            }
+            else
+            {
+                await user.delete()
+                await admin.delete()
+                res.send('Erro ao enviar o e-mail');
+            }
         }
         else {
             res.status(400).json({ error: "Já existe uma usuário com o email escolhido." })
@@ -139,7 +177,7 @@ UserController.register = async function(req, res){
 
 UserController.login = async function(req, res){
     try {
-        const user = await User.findOne({ where: { email: req.body.email}, include: [{model: Donator, as: 'donator'}] })
+        const user = await User.findOne({ where: { email: req.body.email}, include: [{model: Donator, as: 'donator'}, {model: Admin, as: 'admin'}] })
         if (!user)
         {
             res.status(400).json({ error: "Não foi encontrado usuário com email correspondente." })
@@ -312,6 +350,7 @@ UserController.recoverPassword = async function(req, res){
         res.status(500).json({ error: error });
     }
 }
+
 UserController.uploadImage = async function(req, res){
     try {
         const { id } = req.params
@@ -341,6 +380,26 @@ UserController.uploadImage = async function(req, res){
     } catch (error) {
         res.status(404).json({ message: error })
     }
+}
+
+async function sendConfirmationEmail(email_to, code){
+    // configurar email
+    const mailOptions = {
+        from: 'doemais@gmail.com',
+        to: email_to,
+        subject: 'Confirmação de e-mail',
+        text: 'Olá, obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:',
+        html: '<p>Olá,</p><p>Obrigado por se cadastrar em nosso site. Por favor, clique no link abaixo para confirmar seu endereço de e-mail:</p><a href="http://localhost:3000/confirm-email?email=' + email_to + '&codigo=' + code + '">Clique aqui para confirmar</a>'
+    };
+
+    //enviar email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return false
+        } else {
+            return true
+        }
+    });
 }
 
 module.exports = UserController;
