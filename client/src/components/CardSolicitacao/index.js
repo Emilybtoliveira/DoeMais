@@ -207,7 +207,7 @@ function Cards(props) {
           <PostEditSolicitacao open={editarSolic} handleClose={() => setEditarSolic(false)} id_solic={solicitacao.id} />
 
       </ThemeProvider>
-           
+      </div>
     )
       
 }
