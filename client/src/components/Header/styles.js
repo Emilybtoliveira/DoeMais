@@ -5,14 +5,20 @@ import * as palette from "../../utils/variablesColor"
 export const Bar = styled(AppBar)`
     margin-top: 1%;
     overflow-x: hidden;
-
     .toolbar{
         display: flex;
         justify-content: space-between;
     }
-    .menu{
+    .menuDeslogado{
         display: flex;
         width: 20%;
+        @media (max-width: 720px) {
+            width: 50%;
+        }
+    }
+    .menuLogado{
+        display: flex;
+        width: 5%;
         @media (max-width: 720px) {
             width: 50%;
         }

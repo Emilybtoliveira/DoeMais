@@ -20,6 +20,8 @@ function Portal (){
     }
 
     return(
+      <div>
+
         <Container>
             <Header/>
             <Introducao button={handleClick}/>
@@ -27,8 +29,9 @@ function Portal (){
                 <Solicitacao/>
             </div>
             <InfoSecao/>
-            <Rodape/>
         </Container>    
+        <Rodape/>
+      </div>
         
     )
 }
