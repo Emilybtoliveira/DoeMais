@@ -4,7 +4,6 @@ import {Container, CardLocal} from './styles'
 import clinica from '../../../assets/Feed/clinica.svg'
 import {useSelector} from 'react-redux'
 import { Card, CardContent, Typography } from '@mui/material';
-import pin from '../../../assets/location-pin.png'
 import {Link} from 'react-router-dom'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import BloodtypeIcon from '@mui/icons-material/Bloodtype';  
