@@ -149,10 +149,11 @@ function Feed(props) {
 
       sessionStorage.removeItem('image')
       setShowModal(false)
-      navigate('/dashboard')
+      navigate('/')
     } catch (error) {
       console.log(error);
     }
+
   }
 
 
