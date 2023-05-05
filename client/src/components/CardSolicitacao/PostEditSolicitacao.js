@@ -215,29 +215,34 @@ export default function Solicitacoes (props) {
     const handleSubmit = async (isValid) =>{
         if(isValid){
 
-            const formData = {
-                name: data.name,
-                bloodtype: data.bloodtype, 
-                description: data.description, 
-                city: data.city, 
-                state: data.state.nome, 
-                hospital: data.hospital,
-                picture: data.foto_receptor,
-                age: data.age,
-                id: props.id_solic
-              };
-              console.log(formData)
-              try {
-                const response = await api.put("solicitations", formData);
-     
+            const formData = new FormData()
+
+            let picture = data.picture && data.picture[0] ? data.picture[0] : null
+            formData.append('picture', picture)
+            formData.append('name', data.name)
+            formData.append('bloodtype', data.bloodtype)
+            formData.append('description', data.description)
+            formData.append('city', data.city)
+            formData.append('state', data.state.nome)
+            formData.append('hospital', data.hospital)
+            formData.append('age', data.age)
+            formData.append('id', props.id_solic)
+            console.log(formData)
+            try {
+                const response = await api.put('/solicitations', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+        
                 setOpenSuccess(true)
-               
-              } catch (error) {
-                console.log(error);
-                // setErrorMessage(error.response.data.error)
-                // setOpenFailure(true)
-                setIsLoading(false)
-              }
+            
+            } catch (error) {
+            console.log(error);
+            // setErrorMessage(error.response.data.error)
+            // setOpenFailure(true)
+            setIsLoading(false)
+            }
         }
     }
     return (
