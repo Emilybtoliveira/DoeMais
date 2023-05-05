@@ -94,7 +94,7 @@ function Cards(props) {
 
   
   let srcImage = "http://localhost:5000/files/solicitations/";
-  if (solicitacao.person)
+  if (solicitacao.person && solicitacao.person.picture)
   {
     srcImage += solicitacao.person.picture
   }
