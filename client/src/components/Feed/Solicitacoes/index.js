@@ -110,7 +110,7 @@ React.useEffect(() => {
             {/* {all_solicitacoes? alert('Ainda não temos solicitações cadastradas.')  : '' } */}
             <img src={vazio} alt='sem solicitações'/>
 
-            <h4>O feed ainda não possui solicitações compatíveis com seu tipo sanguíneo.</h4>
+            <h4>O feed ainda não possui solicitações compatíveis com seu tipo sanguíneo ou cidade.</h4>
             <Tooltip title={all_solicitacoes? 'Ainda não temos solicitações cadastradas :(': 'Ver'} >
               <h5 onClick={() => setAllSolicitacoes(true)}>Desejo ver solicitações sem ser do meu tipo sanguíneo ou cidade.</h5>
             </Tooltip>

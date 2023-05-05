@@ -43,6 +43,27 @@ export const Container = styled.div`
             padding: 0;
         }
     }
+    .vazio{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 80vh;
+
+        img{
+            width: 8%;
+        }
+        h4{
+            margin-top: 1%;
+            font-weight: 600;
+        }
+        h5{
+            color: ${palette.vermelho};
+            margin-top: 1%;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
     @media (max-width: 768px) {
         margin-top: 10%;
     }
