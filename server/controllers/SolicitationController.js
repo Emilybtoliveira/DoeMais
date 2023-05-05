@@ -138,7 +138,6 @@ SolicitationController.getUserFeed = async function(req, res){
 
     try {
         const city = req.query.city;
-        console.log(req.query.city)
         const userId = req.query.userId;
 
         const user_donator = await Donator.findOne({
@@ -151,9 +150,7 @@ SolicitationController.getUserFeed = async function(req, res){
             res.status(404).json({ error: 'Nenhum usuário encontrado para o id fornecido.'});
             return;
         }
-
-        if(city){
-
+        if(req.query.city){
             if (user_donator.blood_type){
                 const user_compatibilities = compatibily_map[user_donator.blood_type];
 
@@ -188,7 +185,6 @@ SolicitationController.getUserFeed = async function(req, res){
         }
         else {
             const count_recs = await Solicitation_Person.count();
-
             if (count_recs <= 5){
                 const data = await Solicitation_Person.findAll({ 
                     include: { 
@@ -208,8 +204,8 @@ SolicitationController.getUserFeed = async function(req, res){
                             status: "open"
                         }
                     },  
-                    offset: 2,
-                    limit: 10 
+                    // offset: 2,
+                    // limit: 10 
                 });
                 res.status(200).json({ data });
             }

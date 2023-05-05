@@ -47,6 +47,12 @@ React.useEffect(() => {
     }).catch(err => {
       console.log(err)
     })
+  }else{
+    const response = api.get(`/solicitations/feed?userId=${id_user}`).then(response => {
+      setSolicitacoes(response.data.data)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }, [cidade])
 
