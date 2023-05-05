@@ -37,7 +37,6 @@ SolicitationController.getSolicitations = async function(req, res){
     try 
     {   
         if(req.query.userId){ //retorna as solicitações do usuario
-
             const data = await Solicitation.findAll({
                 where:{
                     solicitationUserId: req.query.userId,
@@ -60,7 +59,14 @@ SolicitationController.getSolicitations = async function(req, res){
             res.status(200).json({ data });
 
         }else { //retorno de todas as solicitacoes
-            const data = await Solicitation_Person.findAll({include: Solicitation});
+            const data = await Solicitation_Person.findAll({
+                include: {
+                    model: Solicitation,
+                    where: {
+                        status: "open"
+                    }
+                }
+            });
             
             res.status(200).json({ data });        
         }
@@ -166,9 +172,11 @@ SolicitationController.getUserFeed = async function(req, res){
                         }
                     }
                 })
-                res.status(200).json({ data });
+                
+                    res.status(200).json({ data });
 
             } else {
+                const user_compatibilities = compatibily_map[user_donator.blood_type];
                 const data = await Solicitation_Person.findAll({
                     where: {
                         city: city
@@ -183,10 +191,13 @@ SolicitationController.getUserFeed = async function(req, res){
                 res.status(200).json({ data });
             }
         }
-        else {
+        else{
             const count_recs = await Solicitation_Person.count();
             if (count_recs <= 5){
                 const data = await Solicitation_Person.findAll({ 
+                    where: {
+                        bloodtype: user_compatibilities
+                    },
                     include: { 
                         model: Solicitation,
                         where: {
@@ -198,6 +209,9 @@ SolicitationController.getUserFeed = async function(req, res){
             }
             else{
                 const data = await Solicitation_Person.findAll({ 
+                    where: {
+                        bloodtype: user_compatibilities
+                    },
                     include: {
                         model: Solicitation,
                         where: {
