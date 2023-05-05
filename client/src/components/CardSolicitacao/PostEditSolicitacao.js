@@ -87,6 +87,8 @@ export default function Solicitacoes (props) {
     
     const [cidades, setCidades] = useState([]);
 
+
+    
     const buscarCidades = async (query) => {
         console.log(data.state.numero)
         
@@ -101,9 +103,10 @@ export default function Solicitacoes (props) {
 
     const solicitacaoUpdate = async () => {
         try {
-          const response = await api.get(`solicitations?${id_user}`);
+          const response = await api.get(`solicitations?id=${props.id_solic}`);
         //   console.log(response)
-          return response.data.data;
+        // console.log(response.data.data)
+          return response.data.data.person;
         } catch (err) {
           console.error(err);
           return [];
@@ -115,14 +118,13 @@ export default function Solicitacoes (props) {
           solicitacaoUpdate()
             .then((data) => 
             {
-                data.map(d => d.id === props.id_solic? setData(d): '')
+                setData(data)
+                // data.map(d => d.id === props.id_solic? setData(d): '')
             }
              )
             .catch((err) => console.error(err));
         }
       }, [props.open]);
-
-    // console.log("data", data)
 
     const [errorNome, setErrorNome] = useState("")
     const [errorIdade, setErrorIdade] = useState("")
@@ -226,12 +228,11 @@ export default function Solicitacoes (props) {
                 age: data.age,
                 id: props.id_solic
               };
-              console.log(formData)
+
+              
               try {
-                const response = await api.put("solicitations", formData);
-     
+                const response = await api.put("solicitations", formData)
                 setOpenSuccess(true)
-               
               } catch (error) {
                 console.log(error);
                 // setErrorMessage(error.response.data.error)
@@ -294,13 +295,12 @@ export default function Solicitacoes (props) {
                             <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={data?.state}
                             helperText={errorEstado? errorEstado: false}
                             error={errorEstado? true: false}
                             onChange={handleEstado}
                             >
                             {options.estados.map((item,i) =>(
-                                <MenuItem key={i} value={item}>{item.nome}</MenuItem>
+                                <MenuItem key={i} value={item} >{item.nome}</MenuItem>
                             ))}
                             </Select>
                             {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
@@ -311,7 +311,8 @@ export default function Solicitacoes (props) {
                         disabled={!data.state}
                         id="cidade"
                         options={cidades}
-                        
+                        value={data?.city}
+
                         filterOptions={(options, { inputValue }) => {
                             return options.map((option) => option.nome).filter((name) =>
                             name.toLowerCase().includes(inputValue.toLowerCase())
