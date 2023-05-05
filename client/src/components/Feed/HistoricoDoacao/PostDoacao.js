@@ -50,7 +50,7 @@ import {useSelector} from 'react-redux'
 
 export default function Solicitacoes (props) {
     const {open, handleClose} = props;
-    const id_user = useSelector(state => state.user.id_user);
+    const profile = useSelector(state => state.user.profile)
     let newDate = new Date()
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
@@ -89,7 +89,7 @@ export default function Solicitacoes (props) {
             // setIsLoading(true);
 
             const formData = {
-                idUser: id_user,
+                idDonator: profile.donator.id,
                 place: data.place,
                 date: data.date
               };

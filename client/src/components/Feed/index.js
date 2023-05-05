@@ -29,7 +29,8 @@ import AddSolicitacoes from './AddSolicitacoes';
 import HistoricoDoacao from './HistoricoDoacao';
 import LocalDoacao from './LocalDoacao';
 import EditProfile from './EditProfile';
-import CriarQRCodeDoacao from './CriarQRCodeDoacao'
+import Campanhas from './Campanhas'
+import CreateQRCodeDoacao from './CreateQRCodeDoacao'
 
 import logo from '../../assets/logo.svg'
 import solicNoSelec from '../../assets/Feed/solicNoSelec.svg'
@@ -84,7 +85,7 @@ function Feed(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedComponent, setSelectedComponent] = React.useState({
     index:0,
-    component: profile?.donator? <Solicitacoes/> : <CriarQRCodeDoacao/>
+    component: profile?.donator? <Solicitacoes/> : <CreateQRCodeDoacao/>
   }); // Novo estado
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -171,9 +172,11 @@ function Feed(props) {
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
+    {nome: 'Campanhas', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Campanhas', index:3 , component: <Campanhas/> },
   ] : 
   [
-    {nome: 'Criar QRCode', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar QRCode da doação', index:0 , component: <CriarQRCodeDoacao/> },
+    {nome: 'Criar Doacao', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
+    {nome: 'Campanhas', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Campanhas', index:1 , component: <Campanhas/> },
   ]
   const drawer = (
     <div style={{ position: 'relative', minHeight: '100vh' }}>

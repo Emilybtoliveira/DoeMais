@@ -14,7 +14,7 @@ DonationRegisterController.create = async function(req, res){
             date: req.body.date,
             place: req.body.place,
             validated: false,
-            userDonationRegisterId: req.body.idUser
+            donatorDonationRegisterId: req.body.idDonator
         })
 
         res.status(200).json(donationRegister); 
@@ -39,7 +39,7 @@ DonationRegisterController.validate = async function(req, res){
             return
         }
 
-        if (donationRegister.userDonationRegisterId)
+        if (donationRegister.donatorDonationRegisterId)
         {
             res.status(400).json({ error: "Essa doacao nao foi criada na instituicao" });
             return
@@ -61,7 +61,7 @@ DonationRegisterController.validate = async function(req, res){
             return
         }
 
-        donationRegister.userDonationRegisterId = user.id;
+        donationRegister.donatorDonationRegisterId = user.donator.id;
         donationRegister.validated = true;
         await donationRegister.save()
         res.status(200).json({ message: "Doaçao adicionada com sucesso"});
@@ -98,7 +98,7 @@ DonationRegisterController.getAll = async function(req, res){
     try {
         const donationRegister = await DonationRegister.findAll({
             where:{
-                userDonationRegisterId: req.query.idUser
+                donatorDonationRegisterId: req.query.idDonator
             }
         })
 

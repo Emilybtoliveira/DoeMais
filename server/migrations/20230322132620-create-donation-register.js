@@ -10,13 +10,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userDonationRegisterId: {
+      donatorDonationRegisterId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Donator',
-          key: 'userId',
-          as: 'userDonationRegisterId',
+          key: 'id',
+          as: 'donatorDonationRegisterId',
         }
       },
       date: {

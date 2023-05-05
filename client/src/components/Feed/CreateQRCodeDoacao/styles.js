@@ -26,7 +26,6 @@ export const Container = styled.div`
     h3{
         color: ${palette.vermelho}
     }
-
     .local{
         display: flex;
         justify-content: end;

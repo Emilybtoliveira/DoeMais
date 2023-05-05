@@ -205,7 +205,7 @@ function FormCadastroAdmin (){
             <Grid container spacing={2} onKeyPress={handleKeyPress} >
                 <Grid item xs={12} md={12} >
                     <TextField 
-                    label="Nome Completo"
+                    label="Nome da instuicao"
                     name="nome"
                     required
                     fullWidth
