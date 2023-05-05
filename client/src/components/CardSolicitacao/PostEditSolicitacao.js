@@ -88,7 +88,6 @@ export default function Solicitacoes (props) {
     const [cidades, setCidades] = useState([]);
 
 
-    
     const buscarCidades = async (query) => {
         console.log(data.state.numero)
         
@@ -102,11 +101,11 @@ export default function Solicitacoes (props) {
 
 
     const solicitacaoUpdate = async () => {
-        try {
           const response = await api.get(`solicitations?id=${props.id_solic}`);
-        //   console.log(response)
+          const response = await api.get(`solicitations?${id_user}`);
         // console.log(response.data.data)
           return response.data.data.person;
+          return response.data.data;
         } catch (err) {
           console.error(err);
           return [];
@@ -117,9 +116,9 @@ export default function Solicitacoes (props) {
         if (props.open) {
           solicitacaoUpdate()
             .then((data) => 
-            {
                 setData(data)
                 // data.map(d => d.id === props.id_solic? setData(d): '')
+                data.map(d => d.id === props.id_solic? setData(d): '')
             }
              )
             .catch((err) => console.error(err));
@@ -216,28 +215,34 @@ export default function Solicitacoes (props) {
     
     const handleSubmit = async (isValid) =>{
         if(isValid){
+            const formData = new FormData()
 
-            const formData = {
-                name: data.name,
-                bloodtype: data.bloodtype, 
-                description: data.description, 
-                city: data.city, 
-                state: data.state.nome, 
-                hospital: data.hospital,
-                picture: data.foto_receptor,
-                age: data.age,
-                id: props.id_solic
-              };
-
-              
-              try {
-                const response = await api.put("solicitations", formData)
-                setOpenSuccess(true)
-              } catch (error) {
-                console.log(error);
-                // setErrorMessage(error.response.data.error)
-                // setOpenFailure(true)
-                setIsLoading(false)
+            let picture = data.picture && data.picture[0] ? data.picture[0] : null
+            formData.append('picture', picture)
+            formData.append('name', data.name)
+            formData.append('bloodtype', data.bloodtype)
+            formData.append('description', data.description)
+            formData.append('city', data.city)
+            formData.append('state', data.state.nome)
+            formData.append('hospital', data.hospital)
+            formData.append('age', data.age)
+            formData.append('id', props.id_solic)
+            console.log(formData)
+            try {
+                const response = await api.put('/solicitations', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+        
+     
+            
+            } catch (error) {
+            console.log(error);
+            // setErrorMessage(error.response.data.error)
+            // setOpenFailure(true)
+            setIsLoading(false)
+            }
               }
         }
     }
@@ -294,13 +299,13 @@ export default function Solicitacoes (props) {
                             <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Estado</InputLabel>
                             <Select
                             labelId="demo-simple-select-label"
-                            id="demo-simple-select"
+                            value={data?.state}
                             helperText={errorEstado? errorEstado: false}
                             error={errorEstado? true: false}
                             onChange={handleEstado}
                             >
-                            {options.estados.map((item,i) =>(
                                 <MenuItem key={i} value={item} >{item.nome}</MenuItem>
+                                <MenuItem key={i} value={item}>{item.nome}</MenuItem>
                             ))}
                             </Select>
                             {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
@@ -310,9 +315,9 @@ export default function Solicitacoes (props) {
                     <Autocomplete
                         disabled={!data.state}
                         id="cidade"
-                        options={cidades}
                         value={data?.city}
 
+                        
                         filterOptions={(options, { inputValue }) => {
                             return options.map((option) => option.nome).filter((name) =>
                             name.toLowerCase().includes(inputValue.toLowerCase())

@@ -78,15 +78,16 @@ SolicitationController.getSolicitations = async function(req, res){
 
 SolicitationController.update = async function(req, res){
     try {
+        const filename = req.file ? req.file.filename : null
         const result = await Solicitation_Person.update({ 
             name: req.body.name,
             bloodtype: req.body.bloodtype,
             description: req.body.description,
-            picture: req.body.picture,
+            picture: filename,
             age: req.body.age,
             city: req.body.city,
             state: req.body.state,
-            hospital: req.body.hospital, 
+            hospital: req.body.hospital,
         }, 
         {
             where: {
