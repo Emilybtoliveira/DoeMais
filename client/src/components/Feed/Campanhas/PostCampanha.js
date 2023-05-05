@@ -3,7 +3,7 @@ import {Modal,  }from '@mui/material';
 import { ContentModal } from './styles';
 import InputMask from "react-input-mask";
 import { LocalDate } from 'js-joda';
-import { parse } from "date-fns";
+import { parse, setHours, startOfDay } from "date-fns";
 import {
     TextField, 
     Grid,
@@ -76,19 +76,23 @@ export default function Campanhas (props) {
         descricao: sessionStorage.getItem('descricao') || '', 
         data_inicio: sessionStorage.getItem('data_inicio') || '',
         data_fim: sessionStorage.getItem('data_fim') || '',
-        nome_campanha: sessionStorage.getItem('nome_campanha') || ''
+        nome_campanha: sessionStorage.getItem('nome_campanha') || '',
+        premio: sessionStorage.getItem('premio') || ''
     })
-    const [openSuccess, setOpenSuccess] = useState(false);
     
     const maxLength = 200; // limite de 50 caracteres
-    const remainingChars = maxLength - data.descricao.length; // caracteres restantes  
+
+    const remainingCharsPremio = maxLength - data.premio.length; // caracteres restantes  
+    const remainingCharsDesc = maxLength - data.descricao.length; // caracteres restantes  
 
     const [errorGanhadores, setErrorGanhadores] = useState("")
     const [errorNomeCampanha, setErrorNomeCampanha] = useState("")
     const [errorDescricao, setErrorDescricao] = useState("")
     const [errorDataInicio, setErrorDataInicio] = useState("")
     const [errorDataFim, setErrorDataFim] = useState("")
-    const [isLoading, setIsLoading] = useState(false);
+    const [errorPremio, setErrorPremio] = useState("")
+
+    const [openSuccess, setOpenSuccess] = useState(false);
 
     const handleValidar =  () => {
         let isValid = true
@@ -118,8 +122,15 @@ export default function Campanhas (props) {
         }else{
             setErrorDescricao("")
         }
+
+        if(!data.premio){
+            setErrorPremio("Preencha esse campo!")
+            isValid = false
+        }else{
+            setErrorPremio("")
+        }
         
-        const today = new Date();
+        const today = setHours(startOfDay(new Date()), 0);
 
         if(!data.data_inicio){
             setErrorDataInicio("Preencha esse campo!")
@@ -155,8 +166,6 @@ export default function Campanhas (props) {
 
     const handleSubmit = async (isValid) =>{
         if(isValid){
-            setIsLoading(true);
-
             const startDate = parse(data.data_inicio, "dd/MM/yyyy", new Date())
             const endDate = parse(data.data_fim, "dd/MM/yyyy", new Date())
 
@@ -169,7 +178,8 @@ export default function Campanhas (props) {
                 description: data.descricao,
                 startDate: startDateOnly,
                 endDate: endDateOnly,
-                idAdmin: profile.admin.id
+                idAdmin: profile.admin.id,
+                premio: data.premio
             }
 
               try {
@@ -182,14 +192,12 @@ export default function Campanhas (props) {
                 sessionStorage.removeItem('descricao')
                 sessionStorage.removeItem('data_inicio')
                 sessionStorage.removeItem('data_fim')
+                sessionStorage.removeItem('premio')
 
                 setOpenSuccess(true)
                
               } catch (error) {
                 console.log(error);
-                // setErrorMessage(error.response.data.error)
-                // setOpenFailure(true)
-                setIsLoading(false)
               }
         }
     }
@@ -214,11 +222,15 @@ export default function Campanhas (props) {
         setData({...data, descricao: descricao})
         sessionStorage.setItem("descricao", descricao)
     }
-
     const handleNomeCampanha = (e) =>{
         const nome_campanha = e.target.value
         setData({...data, nome_campanha: nome_campanha})
         sessionStorage.setItem("nome_campanha", nome_campanha)
+    }
+    const handlePremio = (e) =>{
+        const premio = e.target.value
+        setData({...data, premio: premio})
+        sessionStorage.setItem("premio", premio)
     }
 
     return (
@@ -278,6 +290,22 @@ export default function Campanhas (props) {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                        label="Premio"
+                        name="Premio"
+                        placeholder="Aqui você pode escrever sobre os premios da sua campanha"
+                        multiline
+                        rows={5}
+                        fullWidth
+                        value={data.premio}
+                        onChange={handlePremio}
+                        inputProps={{
+                            maxLength: maxLength
+                          }}
+                        />
+                        <p>Caracteres restantes: {remainingCharsPremio}/200</p>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
                         label="Descrição"
                         name="Descrição"
                         required
@@ -291,12 +319,12 @@ export default function Campanhas (props) {
                             maxLength: maxLength
                           }}
                         />
-                        <p>Caracteres restantes: {remainingChars}/200</p>
+                        <p>Caracteres restantes: {remainingCharsDesc}/200</p>
                     </Grid>
                     <Grid item xs={12}>
-                            <div style={{display: "flex", justifyContent: 'flex-end', marginTop: ''}}>
-                                <Button onClick={handleValidar}  variant="contained" >Publicar</Button>
-                            </div>
+                        <div style={{display: "flex", justifyContent: 'flex-end', marginTop: ''}}>
+                            <Button onClick={handleValidar}  variant="contained" >Publicar</Button>
+                        </div>
                     </Grid>
                 </Grid>
                 </ContentModal>

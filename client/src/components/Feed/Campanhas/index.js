@@ -37,7 +37,7 @@ export default function Campanhas () {
       }
     }
     fetchCampaigns()
-  }, [profile.id]);
+  }, [profile.admin]);
 
   useEffect(() => {
     function handleResize() {
@@ -69,6 +69,12 @@ export default function Campanhas () {
         </Tooltip>
         }
       </div>
+      )}
+      {!profile.admin && (
+        <div>
+          <h1>Campanhas de doação</h1>
+          <h4>Aqui você pode participar de uma campanha de doação sanguínea!</h4>
+        </div>
       )}
       <div>
         <Grid container spacing={ 2} rowSpacing={0} className='grid'>

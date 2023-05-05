@@ -61,8 +61,11 @@ DonationRegisterController.validate = async function(req, res){
             return
         }
 
+        // TODO: VERIFICAR SE ALGUMA DOACAO BATE COM ESSA
+
         donationRegister.donatorDonationRegisterId = user.donator.id;
         donationRegister.validated = true;
+        donationRegister.validated_at = today;
         await donationRegister.save()
         res.status(200).json({ message: "Doaçao adicionada com sucesso"});
     } catch (error) {

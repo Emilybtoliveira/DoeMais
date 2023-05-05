@@ -22,10 +22,13 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      startDate: {
+      reward: {
+        type: Sequelize.STRING
+      },
+      start_date: {
         type: Sequelize.DATEONLY
       },
-      endDate: {
+      end_date: {
         type: Sequelize.DATEONLY
       },
       number_winners: {

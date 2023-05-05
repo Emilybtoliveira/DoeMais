@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     date: { type: DataTypes.DATEONLY, allowNull: false },
     place: { type: DataTypes.STRING, allowNull: true },
     validated: { type: DataTypes.BOOLEAN },
+    validated_at: { type: DataTypes.DATEONLY },
     hashedId: { type: DataTypes.STRING }
   }, {
     sequelize,

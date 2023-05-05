@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Campaign.init({
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
     name: { type: DataTypes.STRING },
+    reward: { type: DataTypes.STRING },
     start_date: { type: DataTypes.DATEONLY },
     end_date: { type: DataTypes.DATEONLY },
     number_winners: { type: DataTypes.INTEGER },

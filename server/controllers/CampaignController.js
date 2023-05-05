@@ -1,4 +1,4 @@
-const { Campaign, Donator } = require('../models');
+const { Campaign, Donator, DonationRegister } = require('../models');
 
 const timeElapsed = Date.now();
 const today = new Date(timeElapsed);
@@ -7,7 +7,6 @@ const CampaignController = {};
 
 CampaignController.create = async function(req, res){
     try {
-        console.log(req.body)
         await Campaign.create({
             name: req.body.name,
             start_date: req.body.startDate,
@@ -15,6 +14,7 @@ CampaignController.create = async function(req, res){
             adminCampaignId: req.body.idAdmin,
             number_winners: req.body.numberWinners,
             description: req.body.description,
+            reward: req.body.premio,
             is_open: true
         })
         res.status(200).json({ message: "Campanha criada com sucesso" })
@@ -69,10 +69,20 @@ CampaignController.join = async function(req, res){
             return
         }
 
-        // TODO: verificar se a ultima doacao verificada do doador bate com a data da campanha
-        // TODO: colocar estado na campanha, novo campo
-        // TODO: novo campo, ganhadores?
+        const donation = await DonationRegister.findOne({ where: {donatorDonationRegisterId: donator.id, validated: true} })
+        if (!donation) {
+            res.status(400).json({ error: "Voce nao possui uma doacao validada neste tempo da campanha" })
+            return
+        }
 
+        const campaign = await Campaign.findOne({ where: {id: req.body.campaignId}})
+
+        if (donation.validated_at < campaign.start_date) {
+            res.status(400).json({ error: "Voce nao possui uma doacao validada neste tempo da campanha" })
+            return
+        }
+
+        // TODO: novo campo, ganhadores
         donator.campaignId = req.body.campaignId
         await donator.save()
         res.status(200).json({ message: "Voce se juntou à campanha" });

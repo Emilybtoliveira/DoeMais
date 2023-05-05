@@ -58,7 +58,10 @@ function Cards(props) {
                 </CardContent>
                 <CardContent sx={{ paddingBottom: 1, minHeight: 95, p: 0, mt:1}}>
                     <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
-                        {campanha.description}
+                        {"Descricao: " + campanha.description}
+                    </Typography>
+                    <Typography variant="body2" gutterBottom color="text.secondary" className="premio">
+                        {"Premio: " + campanha.reward}
                     </Typography>
                 </CardContent>
                 <CardContent sx={{ p: 0}}>
