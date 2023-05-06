@@ -79,7 +79,7 @@ export default function PosterSolicitacao () {
                     <h2 className='titulo' >Solicita-se Doação Sanguínea</h2>
                         <CardMedia
                             sx={{ minHeight:150 ,height: 250, width: '70%' }}
-                            image={ solicitacao?.person?.picture? solicitacao.person.picture : wallpaperDoeMais}
+                            image={solicitacao?.person?.picture? "http://localhost:5000/files/solicitations/" + solicitacao.person.picture : wallpaperDoeMais}
                             title="Foto do solicitante"
                         />
                         <CardContent sx={{display: 'flex', alignItems: 'center', flexDirection: 'column', width: '90%', p: '3% 0'}}>
