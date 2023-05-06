@@ -57,6 +57,7 @@ export default function Rotas() {
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path="/locais-doacao" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path="/editar-perfil" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
+      <Route path='/portal' exact element={<RotaPrivada element={<Portal/>}/>} />
       <Route path='*' exact element={<h1>Erro 404 :)</h1>} />
     </Routes>
     </Fragment>

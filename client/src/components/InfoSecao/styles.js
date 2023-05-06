@@ -1,25 +1,27 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-    padding: 4%;
+    padding: 2%;
     background-color: rgba(197, 23, 23, 0.06);
     @media (max-width: 720px) {
         flex-direction: column;
         justify-content: start;
         margin-top: 10%;
     }
-    button{
+    Button{
         border-radius: 20px;
         background-color: rgba(204, 0, 0, 1);
-        padding:1%;
+        margin: 0 0.5%;
         font-size: 3em;
-    }
-    button a{
         color: white;
-        text-decoration: none;
         font-family: 'Ropa Sans', sans-serif;
+    }
+    Button:hover{
+
+        background-color: rgba(204, 0, 0, 0.6);
         
     }
+    
     .buttonSection{
         display: flex;
         /*flex-wrap: wrap;*/
@@ -35,7 +37,7 @@ export const Container = styled.div`
 
 export const ContainerA = styled.div`
     /* height:80vh; */
-    padding: 2% ;
+    padding: 1% ;
     display:block;
     background-color: white;
     border-radius:30px;

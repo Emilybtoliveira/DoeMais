@@ -27,6 +27,17 @@ export const Container = styled.div`
     @media(max-width: 850px) {
         padding-top:10%
        }
+    @media (max-width: 768px) {
+        justify-content: center;
+        .mainTitle{
+            font-size: 30px;
+            text-align: center;
+        }
+        .descTitle{
+            font-size: 15px;
+            text-align: center;
+        }
+    }
     
 
 `

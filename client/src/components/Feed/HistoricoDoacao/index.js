@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Container, List } from './styles';
-import {IconButton,Tooltip }from '@mui/material';
+import {IconButton,Tooltip, Grid }from '@mui/material';
 import {useSelector} from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import api from '../../../services/api'
@@ -26,8 +26,8 @@ export default function Doacoes () {
     return (
       <Container>
         <div className='headers'>
-          <h1>Meu histórico de doações</h1>
-          <h4>Aqui você pode registrar suas doações já feitas.</h4>
+          <h1 className='mainTitle'>Meu histórico de doações</h1>
+          <h4 className='descTitle'>Aqui você pode registrar suas doações já feitas.</h4>
         </div>
         <div>
         <Tooltip title="Postar uma solicitação">
@@ -37,9 +37,11 @@ export default function Doacoes () {
           </Tooltip>
         </div>
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
-        <List>
-          {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <DonationListItem date={donation.date} location={donation.place} id={donation.id}/>)}
-        </List>
+        <Grid container>
+          {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <Grid item xs={12}>
+            <DonationListItem date={donation.date} location={donation.place} id={donation.id}/>
+          </Grid>)}
+        </Grid>
       </Container>
     )
 }

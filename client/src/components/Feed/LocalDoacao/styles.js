@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import * as palette from "../../../utils/variablesColor"
 
 export const Container = styled.div`
+margin: 1%;
      @media (max-width: 768px) {
         margin-top: 10%;
     }

@@ -6,17 +6,16 @@ height:72px;
 width:100%;
 background-color: rgba(64,64,64,0.1);
 padding-right:3%;
+padding-left:3%;
 display: flex;
 align-items: left;
-border-bottom: 1px solid black;
+border-radius: 20px;
+box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+margin:1%;
 
-.first{
-    display: flex;
-    align-items: center;
-}
 
-.icon{
-    padding:35%;
+img{
+    width:20px;
 }
 
 h1{
@@ -36,6 +35,7 @@ h3{
      font-size: 2em;
     }
    }
+   
 
     
 `

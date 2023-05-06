@@ -5,7 +5,7 @@ export const Container = styled.div`
 
     background-color: #fff;
     max-width: 500px;
-    width: 50%;
+    width: 500px;
     display: flex;
     justify-content: center;
     flex-direction: column;

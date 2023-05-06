@@ -53,6 +53,7 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { ContentModal } from './styles';
 import styled from 'styled-components'
 import api from '../../services/api'
+import InfoSecao from '../InfoSecao';
 
 const theme = createTheme({
     components: {
@@ -167,6 +168,8 @@ function Feed(props) {
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
+    {nome: 'Locais de doação', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
+    {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>}
 ]
   const drawer = (
     <div style={{ position: 'relative', minHeight: '100vh' }}>

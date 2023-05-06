@@ -6,27 +6,31 @@ import SubsecaoPossoDoar from '../SubsecaoPossoDoar';
 import SubsecaoComoDoar from '../SubsecaoComoDoar';
 import SubsecaoMitos from '../SubsecaoMitos';
 
+import {Button} from '@mui/material';
+import SubsecaoFontes from '../SubsecaoFontes';
+
+
 function InfoSecao (props){
     const [sectionIndex, setSection] = useState(0);
     return(
         <Container>
             <div className='buttonSection'>
-                <button><a href='#who'>Quem somos?</a></button>
-                <button><a href='#why'>Por que doar?</a></button>
-                <button><a href='#can'>Posso doar?</a></button>
-                <button><a href='#how'>Como é o processo de doação?</a></button>
-                <button><a href='#mitos'>Mitos sobre a doação</a></button>
+                <Button onClick={() => {setSection(0);}}>Quem somos?</Button>
+                <Button onClick={() => {setSection(1);}}>Por que doar?</Button>
+                <Button onClick={() => {setSection(2);}}>Posso doar?</Button>
+                <Button onClick={() => {setSection(3);}}>Como doar?</Button>
+                <Button onClick={() => {setSection(4);}}>Mitos</Button>
+                <Button onClick={() => {setSection(5);}}>Fontes</Button>
             </div>
             <ContainerA>
-            <SubsecaoQuemSomos/>
+            {sectionIndex==0?<SubsecaoQuemSomos/>
+            :sectionIndex==1?<SubsecaoPorqueDoar/>
+            :sectionIndex==2?<SubsecaoPossoDoar/>
+            :sectionIndex==3?<SubsecaoComoDoar/>
+            :sectionIndex==4?<SubsecaoMitos/>
+            :<SubsecaoFontes/>
+          } 
             <br/><br/>
-            <SubsecaoPorqueDoar/>
-            <br/><br/>
-            <SubsecaoPossoDoar/>
-            <br/><br/>
-            <SubsecaoComoDoar/>
-            <br/><br/>
-            <SubsecaoMitos/>
             </ContainerA>
         </Container>
             

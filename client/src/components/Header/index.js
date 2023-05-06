@@ -81,8 +81,8 @@ export default function Header(props) {
             </Link>
             {isLoggedIn? 
             <div className='menuLogado' >
-            <Link  className='link' to='/' style={{borderBottom: url === '/'? "3px solid rgba(204, 0, 0, 1)":'none'}}>
-                 <h3>Início</h3>  
+            <Link  className='link' to='/' style={{borderBottom: url === '/dashboard'? "3px solid rgba(204, 0, 0, 1)":'none'}}>
+                 <h3>Meu perfil</h3>  
             </Link> 
         </div>:
             <div className='menuDeslogado' >

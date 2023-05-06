@@ -57,16 +57,16 @@ React.useEffect(() => {
 
         <h1>Solicitações para doação</h1>
         <h4>Ajude pessoas que estão precisando de doação próximos a você!</h4>
-        <Link to='/locais-doacao' style={{color: 'rgba(204, 0, 0, 1)'}} >
+        {/*<Link to='/locais-doacao' style={{color: 'rgba(204, 0, 0, 1)'}} >
           <div className='local'>
             <img src={clinica} alt='local de doação' width='3%' />
             <h3>Locais de doação próximos</h3>
           </div>
-        </Link>
+        </Link>*/}
         <div >
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {solicitacoes.map((item,i) =>(
-              <Grid item key={i}  xs={12} md={6}  xl={4}  >
+              <Grid item key={i} xs={12} sm={12} md={6} lg={4} xl={3}>
                 <Card  solicitacao={item}/>
               </Grid>            
           ))}

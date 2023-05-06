@@ -86,11 +86,15 @@ function DonationListItem (props){
     return(
         <ThemeProvider theme ={theme}>
             <Textos>
-                <Grid container className='first'>
-                    <Grid item xs={0.8}>
-                    <div className='icon'><img src = {icon} ></img></div>
+                <Grid container className='first'
+                spacing={0}
+                direction="row"
+                alignItems="center"
+                  justifyContent="center">
+                    <Grid item xs={1}>
+                    <img src = {icon} ></img>
                     </Grid>
-                    <Grid item xs ={8.2}>
+                    <Grid item xs ={8}>
                         <h1>Doação dia {date_list[2]}/{date_list[1]}/{date_list[0]}</h1>
                         <h3>{props.location}</h3>
                     </Grid>
