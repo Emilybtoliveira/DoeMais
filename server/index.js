@@ -4,13 +4,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const db = require('./models')
 const path = require('path')
-
-
 const API = require('./routes/API.js');
-
 const app = Express();
 const PORT = process.env.PORT || 5000;
-
 dotenv.config()
 
 app.use('/files', Express.static(path.resolve(__dirname, "public", "uploads")));
