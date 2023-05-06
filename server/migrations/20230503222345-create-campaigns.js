@@ -22,6 +22,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      donation_place: {
+        type: Sequelize.STRING
+      },
       reward: {
         type: Sequelize.STRING
       },

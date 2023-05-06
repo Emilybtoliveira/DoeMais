@@ -62,5 +62,6 @@ router.post('/campaign',(req, res) => {Controllers.CampaignController.create(req
 router.get('/campaign',(req, res) => {Controllers.CampaignController.getCampaigns(req, res);})
 router.post('/campaign-join',(req, res) => {Controllers.CampaignController.join(req, res);})
 router.get('/campaign-donators',(req, res) => {Controllers.CampaignController.getAllDonatorsOfCampaign(req, res);})
+router.get('/campaign-winners',(req, res) => {Controllers.CampaignController.getAllWinnersOfCampaign(req, res);})
 
 module.exports = router;

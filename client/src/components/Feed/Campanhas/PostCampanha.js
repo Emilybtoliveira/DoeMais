@@ -174,6 +174,7 @@ export default function Campanhas (props) {
 
             const formData = {
                 name: data.nome_campanha,
+                donation_place: profile.name,
                 numberWinners: data.numero_ganhadores,
                 description: data.descricao,
                 startDate: startDateOnly,

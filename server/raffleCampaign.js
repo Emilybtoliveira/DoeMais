@@ -8,16 +8,18 @@ const today = moment().format("YYYY-MM-DD");
 
 const raffleCampaign = async function (campaign) {
     if (campaign.end_date >= today) {
-        const numberWinners = campaign.number_winners
-        console.log(numberWinners)
-    
         const donators = await db.Donator.findAll({where: {campaignId: campaign.id}})
-        console.log(donators)
+
+        const numDonators = donators.length;
+        if (numDonators == 0)
+        {
+            return;
+        }
+        const numWinners = campaign.number_winners > numDonators ? numDonators : campaign.number_winners;
     
         // Sortear aleatoriamente os vencedores sem repetição
-        const numDonators = donators.length;
         const indices = Array.from({ length: numDonators }, (_, i) => i); // criar array de índices dos doadores
-        const winnersIndices = random.sample(indices, Math.min(numberWinners, numDonators), false); // sortear índices aleatórios sem repetição
+        const winnersIndices = random.sample(indices, Math.min(numWinners, numDonators), false); // sortear índices aleatórios sem repetição
         const winners = winnersIndices.map(i => donators[i]); // selecionar os doadores correspondentes aos índices sorteados
     
         console.log("VENCEDORES:");
@@ -25,7 +27,21 @@ const raffleCampaign = async function (campaign) {
         console.log(winners[0].id)
         console.log("CAMPANHA ACABOU");
 
-        // campaign is_open = false, e os usuarios nao veem ou nao podem se inscrever mais nela
+        donators.forEach(donator => {
+            donator.campaignId = null
+            donator.save()
+        });
+
+        
+        winners.forEach(async winner => {
+            await db.CampaignWinner.create({
+                donatorId: winner.id,
+                campaignId: campaign.id
+            })
+        })
+        
+        campaign.is_open = false
+        await campaign.save()
     }
 }
 
