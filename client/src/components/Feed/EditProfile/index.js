@@ -43,15 +43,14 @@ import {TextField,
 export default function Editar () {
     const navigate = useNavigate()
   const profile = useSelector(state => state.user.profile)
-  console.log(profile)
     const [data, setData] = useState({
         nome: sessionStorage.getItem('nome') || profile.name, 
         email:sessionStorage.getItem('email') || profile.email, 
         senha_cripto: '', 
         genero: sessionStorage.getItem('genero') || profile.donator.gender, 
         telefone: sessionStorage.getItem('telefone') || profile.phone, 
-        tipo_sanguineo: sessionStorage.getItem('tipo') || profile.blood_type})
-    
+        tipo_sanguineo: sessionStorage.getItem('tipo') || profile.donator.blood_type})
+  console.log(profile)
     const [whatsApp, setWhatsApp] = useState(true);
     
     const [showPassword, setShowPassword] = useState(false);
@@ -374,7 +373,7 @@ export default function Editar () {
                 </FormControl>
                 </Grid>
                 
-                <Grid item xs={12} md={6}>
+                {/* <Grid item xs={12} md={6}>
                 <h3>Receber notificações via WhatsApp?</h3>
                 <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
@@ -388,8 +387,8 @@ export default function Editar () {
                     </div>
                 </RadioGroup>
                 {errorGenero && <FormHelperText error>{errorGenero}</FormHelperText>}
-                </Grid>
-                <Grid item xs={12} md={6} sx={{display: 'flex', justifyContent: 'end', alignItems: 'center'}} >
+                </Grid> */}
+                <Grid item xs={12} md={12} sx={{display: 'flex', justifyContent: 'end', alignItems: 'center'}} >
                   <Button variant="contained"  className='button'  onClick={handleValidar}>Editar</Button>
                 </Grid>
           
