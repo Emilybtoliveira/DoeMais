@@ -54,9 +54,6 @@ router.delete('/donation-register/:id', (req, res) => {Controllers.DonationRegis
 router.post('/create-donation-register-qrcode', (req, res) => {Controllers.DonationRegisterController.createQrCode(req,res)})
 router.post('/validate-donation-register/:id', (req, res) => {Controllers.DonationRegisterController.validate(req,res)})
 
-//Rotas de Admins
-router.post('/register-admin',(req, res) => {Controllers.UserController.registerAdmin(req, res);})
-
 //Rotas de Campanha de doacao
 router.post('/campaign',(req, res) => {Controllers.CampaignController.create(req, res);})
 router.get('/campaign',(req, res) => {Controllers.CampaignController.getCampaigns(req, res);})

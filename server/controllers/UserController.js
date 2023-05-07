@@ -133,48 +133,6 @@ UserController.register = async function(req, res){
     }
 }
 
-UserController.registerAdmin = async function(req, res){
-    try {
-        const user = await User.findOne( { where: { email: req.body.email },  attributes: {exclude: ['password']} })
-
-        const date = new Date()
-        date.setDate(today.getDate() + 3)
-
-        if (!user) {
-            const user = await User.create({
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password,
-                phone: req.body.phone,
-                active: false,
-                confirmationCodeExpiration: date,
-                confirmationCode: randomstring.generate(6),
-                image: null
-            })
-
-            const admin = await Admin.create({
-                userId: user.id,
-            })
-
-            if (sendConfirmationEmail(req.body.email, user.confirmationCode))
-            {
-                res.status(200).json({ message: 'E-mail enviado' });
-            }
-            else
-            {
-                await user.delete()
-                await admin.delete()
-                res.send('Erro ao enviar o e-mail');
-            }
-        }
-        else {
-            res.status(400).json({ error: "Já existe uma usuário com o email escolhido." })
-        }
-    } catch (error) {
-        res.status(500).json({ error: error });
-    }
-}
-
 UserController.login = async function(req, res){
     try {
         const user = await User.findOne({ where: { email: req.body.email}, include: [{model: Donator, as: 'donator'}, {model: Admin, as: 'admin'}] })

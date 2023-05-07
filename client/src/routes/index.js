@@ -6,7 +6,6 @@ import Portal from '../pages/Portal';
 import Cadastro from '../pages/Cadastro'
 import Login from '../pages/Login'
 import ConfirmEmail from '../pages/ConfirmEmail'
-import CadastroAdmin from '../pages/CadastroAdmin'
 import RecoverPassword from '../pages/RecoverPassword'
 import ForgotPassword from '../pages/ForgotPassword'
 import ValidateDonation from '../pages/ValidateDonation'
@@ -42,7 +41,6 @@ export default function Rotas() {
       <Routes>
       <Route path='/' exact element={<RotaPublica element={<Portal/>}/>} />
       <Route path='/cadastro' exact element={<RotaPublica element={<Cadastro/>}/>} />
-      <Route path='/cadastro-admin' exact element={<RotaPublica element={<CadastroAdmin/>}/>} />
       <Route path='/login' exact element={<RotaPublica element={<Login/>}/>} />
       <Route path="/confirm-email" exact element={<RotaPublica element={<ConfirmEmail/>}/>}/>
       <Route path="/forgot-password" exact element={<RotaPublica element={<ForgotPassword/>}/>}/>
