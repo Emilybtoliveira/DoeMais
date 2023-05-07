@@ -74,7 +74,7 @@ const ModalFracasso = (props) =>{
 export default function Solicitacoes (props) {
     const {open, handleClose} = props;
     const id_user = useSelector(state => state.user.id_user);
-    const [check, setCheck] = useState(true);
+    var check = true;
     const gender = useSelector(state => state.user.gender); 
     let newDate = new Date()
     let date = newDate.getDate();
@@ -106,7 +106,7 @@ export default function Solicitacoes (props) {
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
     React.useEffect(() => {
-      const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
+      const response = api.get(`/donation-register?idDonator=${id_user}`).then((response) => {
         console.log(response);
         setMinhas_doacoes(response.data)
       }).catch((error) => {
@@ -125,8 +125,7 @@ export default function Solicitacoes (props) {
         const duration = Math.abs(durationInMonths(end, start));
         console.log(data.id, donation_id)
         if((duration < gap_month && check) && (data.id != donation_id)){
-          setCheck(false);
-          console.log('sla')
+          check = false;
   
         }
         
@@ -165,7 +164,7 @@ export default function Solicitacoes (props) {
                 sessionStorage.removeItem('date')
                 console.log("Sucesso")
                 setOpenSuccess(true)
-                setCheck(false);
+                check = true;
               
                 // setOpenSuccess(true)
                 // setTimeout(() => {
@@ -177,13 +176,13 @@ export default function Solicitacoes (props) {
                 // setErrorMessage(error.response.data.error)
                 // setOpenFailure(true)
                 setIsLoading(false)
-                setCheck(false);
+                check = true;
               }
         }
         else if(!(check))
         {
           setOpenFailure(true)
-          setCheck(false);
+          check=true;
         }
     }
 

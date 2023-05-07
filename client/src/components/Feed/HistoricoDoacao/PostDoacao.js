@@ -82,7 +82,7 @@ export default function Solicitacoes (props) {
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
     React.useEffect(() => {
-      const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
+      const response = api.get(`/donation-register?idDonator=${id_user}`).then((response) => {
         console.log(response);
         setMinhas_doacoes(response.data)
       }).catch((error) => {
