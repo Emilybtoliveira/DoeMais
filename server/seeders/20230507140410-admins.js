@@ -26,18 +26,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    // Remove o admin
-    await db.Admin.destroy({
-      where: {
-        userId: user.id,
-      },
-    });
-
-    // Remove o usuário
-    await db.User.destroy({
-      where: {
-        id: user.id,
-      },
-    });
+    await queryInterface.bulkDelete('Admins', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };
