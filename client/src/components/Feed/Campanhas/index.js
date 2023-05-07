@@ -77,9 +77,9 @@ export default function Campanhas () {
         </div>
       )}
       <div>
-        <Grid container spacing={ 2} rowSpacing={0} className='grid'>
+        <Grid container spacing={2} rowSpacing={0} className='grid'>
           {minhas_campanhas.reverse().map((item,i) =>(
-            <Grid item key={i}  xs={12} md={4}  xl={4} >
+            <Grid item key={i}  xs={12} sm={12} md={6} lg={4} xl={3} >
               <Card campanha={item}/>
             </Grid>            
         ))}

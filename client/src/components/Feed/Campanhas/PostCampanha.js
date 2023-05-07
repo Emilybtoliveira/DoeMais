@@ -7,19 +7,8 @@ import { parse, setHours, startOfDay } from "date-fns";
 import {
     TextField, 
     Grid,
-    Autocomplete,
-    FormControlLabel,
     Button,
-    OutlinedInput,
-    InputLabel,
-    InputAdornment,
-    FormHelperText,
-    FormControl,
-    IconButton ,
-    Select,
-    MenuItem,
-    Snackbar,
-    Alert 
+
  } from '@mui/material';
 import * as options from '../../../utils/options'
 import UploadIcon from '@mui/icons-material/Upload';
@@ -161,16 +150,20 @@ export default function Campanhas (props) {
                 }
             }
         }
+        console.log(isValid)
         handleSubmit(isValid)
     }
 
     const handleSubmit = async (isValid) =>{
         if(isValid){
-            const startDate = parse(data.data_inicio, "dd/MM/yyyy", new Date())
-            const endDate = parse(data.data_fim, "dd/MM/yyyy", new Date())
-
-            const startDateOnly = LocalDate.of(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
-            const endDateOnly = LocalDate.of(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
+            var date_list1 = data.data_inicio.split("-")
+            var date_list2 = data.data_fim.split("-")
+            console.log(date_list1)
+            const startDateOnly = LocalDate.of(date_list1[0], date_list1[1], date_list1[2]);
+            const endDateOnly = LocalDate.of(date_list2[0], date_list2[1], date_list2[2]);
+            console.log(startDateOnly)
+            
+            //const endDateOnly = LocalDate.of(data.data_fim.getFullYear(), data.data_fim.getMonth() + 1, data.data_fim.getDate());
 
             const formData = {
                 name: data.nome_campanha,
@@ -194,10 +187,11 @@ export default function Campanhas (props) {
                 sessionStorage.removeItem('data_inicio')
                 sessionStorage.removeItem('data_fim')
                 sessionStorage.removeItem('premio')
-
+                console.log('oi meu chapa')
                 setOpenSuccess(true)
                
               } catch (error) {
+                
                 console.log(error);
               }
         }
@@ -209,9 +203,12 @@ export default function Campanhas (props) {
         sessionStorage.setItem("numero_ganhadores", ganhadores)
     }
     const handleDataInicio = (e) =>{
+        data.data_fim = '';
         const dataInicio = e.target.value;
         setData({...data, data_inicio: dataInicio})
+        
         sessionStorage.setItem("data_inicio", dataInicio)
+        
     }
     const handleDataFim = (e) =>{
         const dataFim = e.target.value;
@@ -249,8 +246,8 @@ export default function Campanhas (props) {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
-                        label="Nome da Campanha"
-                        name="Nome da Campanha"
+                        label="Título da Campanha"
+                        name="Título da Campanha"
                         required
                         fullWidth
                         error={errorNomeCampanha? true: false}
@@ -258,25 +255,34 @@ export default function Campanhas (props) {
                         onChange={handleNomeCampanha}
                         />
                     </Grid>
-                    <Grid item xs={5}>
-                        <label htmlFor="data">Data de inicio:</label>
-                        <InputMask
-                            mask="99/99/9999" // define a máscara para dd/mm/yyyy
+                    <Grid item xs={12} sm={6} md={6}>
+                        <label>
+                            Data de início da campanha:&nbsp;&nbsp;
+                        </label>
+                        <input type ="date"
+                            
+                            label='teste'
                             value={data.data_inicio}
+                            error={errorDataInicio? true: false}
+                            helperTexzt={errorDataInicio? errorDataInicio: false}
                             onChange={handleDataInicio}
-                            name="Data de inicio"
-                        />
+                            style={{height: "55px", width:"100%", textAlign: "center", fontSize:"1em"}}></input>
                     </Grid>
-                    <Grid item xs={4}>
-                        <label htmlFor="data">Data de fim:</label>
-                        <InputMask
-                            mask="99/99/9999" // define a máscara para dd/mm/yyyy
+                    <Grid item xs={12} sm={6} md={6}>
+                        <label>
+                            Prazo final da camapanha:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </label>
+                        <input type ="date"
+                            fullWidth
+                            label='teste'
+                            min={data.data_inicio}
                             value={data.data_fim}
+                            error={errorDataFim? true: false}
+                            helperText={errorDataFim? errorDataFim: false}
                             onChange={handleDataFim}
-                            name="Data de fim"
-                        />
+                            style={{height: "55px", width:"100%", textAlign: "center", fontSize:"1em"}}></input>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6}>
                         <TextField
                             label="Numero de ganhadores"
                             name="Numero de ganhadores"
@@ -289,21 +295,16 @@ export default function Campanhas (props) {
                             onChange={handleGanhadores}
                             />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <TextField
-                        label="Premio"
+                        label="Prêmio da Campanha"
                         name="Premio"
-                        placeholder="Aqui você pode escrever sobre os premios da sua campanha"
-                        multiline
-                        rows={5}
+                        required
                         fullWidth
+                        error={errorPremio? true: false}
                         value={data.premio}
                         onChange={handlePremio}
-                        inputProps={{
-                            maxLength: maxLength
-                          }}
                         />
-                        <p>Caracteres restantes: {remainingCharsPremio}/200</p>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField

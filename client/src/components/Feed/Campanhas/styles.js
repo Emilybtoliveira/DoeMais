@@ -68,7 +68,8 @@ export const Container = styled.div`
 
 export const ContentModal = styled.div`
     position: absolute;
-    width: 50%;
+    width: 70%;
+    max-width:500px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;

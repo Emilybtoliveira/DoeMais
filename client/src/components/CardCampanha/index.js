@@ -2,6 +2,7 @@ import React from 'react';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardPrincipal } from './styles';
+import campaignPhoto from '../../assets/Feed/campaignPhoto.png'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import api from '../../services/api'
 
@@ -81,6 +82,15 @@ function Cards(props) {
       }
     }
 
+    function datediff(first, second) {        
+      return Math.round((second - first) / (1000 * 60 * 60 * 24));
+  }
+  
+  function parseDate(str) {
+      var mdy = str.split('-');
+      return new Date(mdy[0], mdy[1] - 1, mdy[2]);
+  }
+
     return(
         <ThemeProvider theme={theme}>
             <CardPrincipal sx={{ borderRadius: 3, ":hover": {filter: "brightness(70%)"}}} onClick={handleClickCampanha}>
@@ -90,18 +100,22 @@ function Cards(props) {
                 </Typography>
                 </CardContent>
                 <CardContent sx={{ paddingBottom: 1, minHeight: 95, p: 0, mt:1}}>
+                  <img src={campaignPhoto} style={{width:'100%'}}></img>
                     <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
                         {"Descricao: " + campanha.description}
                     </Typography>
                     <Typography variant="body2" gutterBottom color="text.secondary" className="premio">
                         {"Premio: " + campanha.reward}
                     </Typography>
-                    <Typography variant="body2" gutterBottom color="text.secondary" className="local de doacao">
+                    <Typography variant="body2" gutterBottom color="text.secondary" className="premio">
                         {"Lugar de doacao: " + campanha.donation_place}
                     </Typography>
                 </CardContent>
                 <CardContent sx={{ p: 0}}>
-                    <Typography variant="body2" className='publicado'>{campanha.start_date} - {campanha.end_date}</Typography>
+                    <Typography variant="body2" className='publicado'>{campanha.start_date} a {campanha.end_date}</Typography>
+                </CardContent>
+                <CardContent sx={{ p: 0}}>
+                    <Typography variant="body2" className='publicado'>{datediff(parseDate(campanha.start_date), parseDate(campanha.end_date))} dias restantes</Typography>
                 </CardContent>
             </CardPrincipal>
 

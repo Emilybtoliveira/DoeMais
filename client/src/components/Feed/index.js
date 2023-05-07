@@ -41,6 +41,8 @@ import histNoSelect from '../../assets/Feed/histNoSelect.svg'
 import histSelect from '../../assets/Feed/histSelect.svg'
 import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
+import campaignNoSelect from '../../assets/Feed/campaignNoSelect.png'
+import campaignSelect from '../../assets/Feed/campaignSelect.png'
 import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 import {useLocation,useNavigate} from 'react-router-dom'
@@ -172,11 +174,11 @@ function Feed(props) {
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
-    {nome: 'Campanhas', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Campanhas', index:3 , component: <Campanhas/> },
+    {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:3 , component: <Campanhas/> },
   ] : 
   [
     {nome: 'Criar Doacao', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
-    {nome: 'Campanhas', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Campanhas', index:1 , component: <Campanhas/> },
+    {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:1 , component: <Campanhas/> },
   ]
   const drawer = (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
