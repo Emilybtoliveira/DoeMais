@@ -6,6 +6,7 @@ import { durationInMonths } from '@progress/kendo-date-math';
 import {Grid, Button, Modal} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import logo from '../../assets/logo.svg'
 import api from '../../services/api'
 import PostEditDoacao from './PostEditDoacao'
@@ -70,6 +71,7 @@ function DonationListItem (props){
           console.log('f')
         })
       }
+      
     let duracaodoacao;
     console.log(doacao.id)
     if (duration == 1) {
@@ -101,13 +103,16 @@ function DonationListItem (props){
                     <Grid item xs ={2}>
                         {duracaodoacao}
                     </Grid>
+                    
+                    {doacao.validated == false?
                     <Grid item xs={1}>
                         <div style={{textAlign:'right'}}>
                             <IconButton onClick={() => setEditarDonat(true) } style={{color:'#363636'}}><EditIcon fontSize="small"/></IconButton>
-                            <IconButton onClick={() => setExcluirDonat(true)} style={{color:'rgba(204, 0, 0, 1)'}}><DeleteIcon fontSize="small" /></IconButton>
-                        </div>
-                    </Grid>
-            
+                            <IconButton onClick={() => setExcluirDonat(true)} style={{color:'rgba(204, 0, 0, 1)'}}><DeleteIcon fontSize="small" /></IconButton></div></Grid>
+                          :
+                          <Grid item xs={1}>
+                          <div style={{textAlign:'right'}}>
+                            <IconButton onClick={() =>{}} style={{color:'#0C6E0C'}}><DoneAllIcon fontSize="small"/></IconButton></div></Grid>} 
                 </Grid>
                 <ModalExcluir open={excluirDonat} handleClose={() => setExcluirDonat(false)} handleExcluir={handleExcluir}/>
                 <PostEditDoacao idonation = {doacao.id} date ={doacao.date} hospital = {doacao.place} open={editarDonat} handleClose={() => setEditarDonat(false)}/>

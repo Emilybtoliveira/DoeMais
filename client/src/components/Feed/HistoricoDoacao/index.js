@@ -40,7 +40,7 @@ export default function Doacoes () {
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
         <Grid container>
           {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <Grid item xs={12}>
-            <DonationListItem date={donation.date} location={donation.place} id={donation.id}/>
+            <DonationListItem date={donation.date} location={donation.place} id={donation.id} validated={donation.validated}/>
           </Grid>)}
         </Grid>
       </Container>

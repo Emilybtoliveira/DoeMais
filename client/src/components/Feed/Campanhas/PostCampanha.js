@@ -46,7 +46,7 @@ const ModalSucesso = (props) =>{
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Parabéns! Sua campanha de doação sanguínea foi postada. </h2>
+                    <h2 style={{marginBottom: '2%', textAlign:'center'}} >Parabéns! Sua campanha de doação sanguínea foi postada. </h2>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                         <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
                     </div>

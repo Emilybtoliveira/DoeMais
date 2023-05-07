@@ -74,7 +74,7 @@ const ModalFracasso = (props) =>{
 export default function Solicitacoes (props) {
     const {open, handleClose} = props;
     const id_user = useSelector(state => state.user.id_user);
-    var check = true;
+    const [check, setCheck] = useState(true);
     const gender = useSelector(state => state.user.gender); 
     let newDate = new Date()
     let date = newDate.getDate();
@@ -125,7 +125,8 @@ export default function Solicitacoes (props) {
         const duration = Math.abs(durationInMonths(end, start));
         console.log(data.id, donation_id)
         if((duration < gap_month && check) && (data.id != donation_id)){
-          check = false;
+          setCheck(false);
+          console.log('sla')
   
         }
         
@@ -164,7 +165,7 @@ export default function Solicitacoes (props) {
                 sessionStorage.removeItem('date')
                 console.log("Sucesso")
                 setOpenSuccess(true)
-                check = true;
+                setCheck(false);
               
                 // setOpenSuccess(true)
                 // setTimeout(() => {
@@ -176,12 +177,13 @@ export default function Solicitacoes (props) {
                 // setErrorMessage(error.response.data.error)
                 // setOpenFailure(true)
                 setIsLoading(false)
+                setCheck(false);
               }
         }
         else if(!(check))
         {
           setOpenFailure(true)
-          check = true;
+          setCheck(false);
         }
     }
 

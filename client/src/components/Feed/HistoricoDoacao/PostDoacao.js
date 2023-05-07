@@ -38,7 +38,7 @@ import {useSelector} from 'react-redux'
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Parabéns! Sua doação sanguínea foi registrada. </h2>
+                    <h2 style={{marginBottom: '2%', textAlign:'center'}} >Parabéns! Sua doação sanguínea foi registrada. </h2>
                     <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Mantenha seu registro sempre atualizado para assim saber quando estará disponível para doar novamente!<strong style={{color: '#CE0C0C'}}></strong></p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                     <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
@@ -60,7 +60,7 @@ const ModalFracasso = (props) =>{
           <ContentModal>
               <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
               <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                  <h2 style={{marginBottom: '2%'}} >Não conseguimos registrar sua doação! </h2>
+                  <h2 style={{marginBottom: '2%', textAlign:'center'}} >Não conseguimos registrar sua doação! </h2>
                   <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Lembre-se que para registrar uma doação ela deve obedecer ao tempo mínimo de meses entre doações. Edite suas doações ou confira a data da doação que está tentando registrar e tente novamente!<strong style={{color: '#CE0C0C'}}></strong></p>
                   <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                   <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
@@ -73,13 +73,11 @@ const ModalFracasso = (props) =>{
 
 export default function Solicitacoes (props) {
     const {open, handleClose} = props;
-
-    const profile = useSelector(state => state.user.profile)
     const id_user = useSelector(state => state.user.id_user);
     const gender = useSelector(state => state.user.gender); 
     const gap_month = 3;
     if (gender == 'Masculino'){
-      gap_month = 2;
+      gap_month = 4;
     }
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
@@ -153,9 +151,10 @@ export default function Solicitacoes (props) {
             // setIsLoading(true);
 
             const formData = {
-                idDonator: profile.donator.id,
+                idDonator: id_user,
                 place: data.place,
-                date: data.date
+                date: data.date,
+                validater: false
               };
               try {
                 const response = await api.post(`/donation-register`, formData);
@@ -163,7 +162,7 @@ export default function Solicitacoes (props) {
                 sessionStorage.removeItem('date')
                 console.log("Sucesso")
                 setOpenSuccess(true)
-                check = true
+                check = false
               
                 // setOpenSuccess(true)
                 // setTimeout(() => {
