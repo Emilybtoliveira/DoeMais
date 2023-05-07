@@ -203,7 +203,7 @@ export default function Solicitacoes (props) {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                style={{width: '750px', margin:'auto'}}
+                style={{maxWidth: '750px', margin:'auto'}}
 
             >
             <ContentModal>
@@ -213,7 +213,7 @@ export default function Solicitacoes (props) {
                     
                     
                     
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6} >
                     <input type ="date"
                       fullWidth
                       min="1920-01-01"
@@ -222,10 +222,10 @@ export default function Solicitacoes (props) {
                       error={errorDate? true: false}
                       helperText={errorDate? errorDate: false}
                       onChange={handleDate}
-                    style={{height: "55px", width:"165px", textAlign: "center", fontSize:"1em"}}></input>
+                    style={{height: "55px", width:'100%', textAlign: "center", fontSize:"1em"}}></input>
                         
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <TextField
                         label="Local de doação"
                         name="Hospital"

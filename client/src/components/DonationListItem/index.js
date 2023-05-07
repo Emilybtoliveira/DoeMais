@@ -41,7 +41,7 @@ const IconButton = styled('div')({
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '5%'}} >Tem certeza que deseja excluir esse registro de doação?</h2>
+                    <h2 style={{marginBottom: '5%', textAlign:'center'}} >Tem certeza que deseja excluir esse registro de doação?</h2>
                     <div style={{display: "flex"}}>
                       <Button onClick={props.handleExcluir}  variant="contained" sx={{mr: '10%'}}  >Sim</Button>
                       <Button onClick={props.handleClose}  variant="outlined" >Cancelar</Button>

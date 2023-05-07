@@ -1,5 +1,6 @@
 import React from 'react';
 import {Textos} from './styles'
+import { Grid } from '@mui/material';
 import MembroEquipe from '../MembroEquipe';
 
 function SubsecaoQuemSomos (props){
@@ -14,10 +15,20 @@ function SubsecaoQuemSomos (props){
                 <p>Além disso, buscamos romper a barreira comunicativa entre doadores e solicitantes, promovendo um estreitamento dessa relação e atuando como uma rede comunicativa da doação de sangue. </p>
                 <p>Se você doa sangue com regularidade, está precisando de uma doação para si mesmo ou algum conhecido, ou ainda sempre teve interesse em doar, mas não sabia por onde começar: Essa plataforma é para você. Aqui você encontrará a resposta para perguntas frequentes como: onde doar, como doar, quem está precisando de doação e ainda se você pode doar.</p>
                 <div className='team'>
-                <MembroEquipe nome={"Emily"} cargo={"A+"} imagem={"https://github.com/Emilybtoliveira.png"} link={"https://github.com/Emilybtoliveira"}/>
-                <MembroEquipe nome={"Jonathan"} cargo={"A+"} imagem={"https://github.com/JonathanYuri.png"} link={"https://github.com/JonathanYuri"}/>
-                <MembroEquipe nome={"Thalia"} cargo={"A+"} imagem={"https://github.com/thaliabma.png"} link={"https://github.com/thaliabma"}/>
-                <MembroEquipe nome={"Rafa"} cargo={"A+"} imagem={"https://github.com/rafaemilima.png"} link={"https://github.com/rafaemilima"}/>
+                <Grid container style={{padding:'3%'}}>
+                    <Grid item xs={6} md={3}>
+                        <MembroEquipe nome={"Emily"} cargo={"A+"} imagem={"https://github.com/Emilybtoliveira.png"} link={"https://github.com/Emilybtoliveira"}/>
+                    </Grid>
+                    <Grid item  xs={6} md={3}>
+                        <MembroEquipe nome={"Jonathan"} cargo={"A+"} imagem={"https://github.com/JonathanYuri.png"} link={"https://github.com/JonathanYuri"}/>
+                    </Grid>
+                    <Grid item  xs={6} md={3}>
+                        <MembroEquipe nome={"Thalia"} cargo={"A+"} imagem={"https://github.com/thaliabma.png"} link={"https://github.com/thaliabma"}/>
+                    </Grid>
+                    <Grid item  xs={6} md={3}>
+                        <MembroEquipe nome={"Rafael"} cargo={"A+"} imagem={"https://github.com/rafaemilima.png"} link={"https://github.com/rafaemilima"}/>
+                    </Grid>
+                </Grid>
                 </div>
 
             </Textos>

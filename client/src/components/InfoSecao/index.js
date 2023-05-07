@@ -6,22 +6,36 @@ import SubsecaoPossoDoar from '../SubsecaoPossoDoar';
 import SubsecaoComoDoar from '../SubsecaoComoDoar';
 import SubsecaoMitos from '../SubsecaoMitos';
 
-import {Button} from '@mui/material';
+import {Button, Grid} from '@mui/material';
 import SubsecaoFontes from '../SubsecaoFontes';
 
 
 function InfoSecao (props){
     const [sectionIndex, setSection] = useState(0);
+    const botoes = ['Quem somos', 'Porque doar?', 'Posso doar?', 'Como doar?', 'Mitos', 'Fontes']
+    
     return(
         <Container>
-            <div className='buttonSection'>
-                <Button onClick={() => {setSection(0);}}>Quem somos?</Button>
-                <Button onClick={() => {setSection(1);}}>Por que doar?</Button>
-                <Button onClick={() => {setSection(2);}}>Posso doar?</Button>
-                <Button onClick={() => {setSection(3);}}>Como doar?</Button>
-                <Button onClick={() => {setSection(4);}}>Mitos</Button>
-                <Button onClick={() => {setSection(5);}}>Fontes</Button>
-            </div>
+            
+            <Grid container spacing={2} style={{ display: "flex", justifyContent: "center" }}>
+                {botoes.map((item,i) =>(
+             sectionIndex != i?
+              <Grid item xs={4} sm={4} md={2}>
+                  <Button key = {i} onClick={() => {setSection(i);}}>
+                    {item}
+                  </Button>
+              </Grid>
+              :
+              <Grid item xs={4} sm={4} md={2}>
+                  <Button key = {i} disabled={false} style={{backgroundColor:'white', color: 'rgba(204, 0, 0, 1)', border:'1px solid rgba(204, 0, 0, 1)'}}>
+                    {item}
+                  </Button>
+              </Grid>
+                         
+            ))}
+            </Grid> 
+                
+
             <ContainerA>
             {sectionIndex==0?<SubsecaoQuemSomos/>
             :sectionIndex==1?<SubsecaoPorqueDoar/>

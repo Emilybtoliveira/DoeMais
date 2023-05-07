@@ -55,7 +55,8 @@ export const List = styled.div`
 
 export const ContentModal = styled.div`
     position: absolute;
-    width: 50%;
+    width: 60%;
+    max-width:500px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;

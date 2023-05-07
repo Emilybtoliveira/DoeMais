@@ -39,6 +39,9 @@ import histNoSelect from '../../assets/Feed/histNoSelect.svg'
 import histSelect from '../../assets/Feed/histSelect.svg'
 import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
+import localNoSelect from '../../assets/Feed/localNoSelect.svg'
+import localSelect from '../../assets/Feed/localSelect.svg'
+
 import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 import {useLocation,useNavigate} from 'react-router-dom'
@@ -168,7 +171,7 @@ function Feed(props) {
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
-    {nome: 'Locais de doação', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
+    {nome: 'Locais de doação', icone: localNoSelect, iconeSelect: localSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
     {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>}
 ]
   const drawer = (

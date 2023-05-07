@@ -3,16 +3,13 @@ import styled from 'styled-components'
 export const Container = styled.div`
     padding: 2%;
     background-color: rgba(197, 23, 23, 0.06);
-    @media (max-width: 720px) {
-        flex-direction: column;
-        justify-content: start;
-        margin-top: 10%;
-    }
+    overflow-x: hidden; 
     Button{
-        border-radius: 20px;
+        border-radius: 10px;
+        padding:2.5px;
+        width:100%;
         background-color: rgba(204, 0, 0, 1);
-        margin: 0 0.5%;
-        font-size: 3em;
+        font-size:20px; 
         color: white;
         font-family: 'Ropa Sans', sans-serif;
     }
@@ -21,17 +18,11 @@ export const Container = styled.div`
         background-color: rgba(204, 0, 0, 0.6);
         
     }
-    
-    .buttonSection{
-        display: flex;
-        /*flex-wrap: wrap;*/
-        justifyContent: "flex-end";
-        padding: 1%;
-    }
-    @media(min-width: 200px) {
-        button{
-         font-size: 1.5em;
-        }
+
+    @media(max-width: 800px) {
+        margin-top: 50px;
+        flex-direction: column;
+        justify-content: start;
        }
 `
 

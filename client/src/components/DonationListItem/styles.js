@@ -11,7 +11,7 @@ display: flex;
 align-items: left;
 border-radius: 20px;
 box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-margin:1%;
+margin:5px;
 
 
 img{
@@ -42,7 +42,8 @@ h3{
 
 export const ContentModal = styled.div`
     position: absolute;
-    width: 50%;
+    width: 60%;
+    max-width:500px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;

@@ -2,7 +2,8 @@ import styled from 'styled-components'
 import * as palette from "../../utils/variablesColor"
 
 export const MembroCard = styled.div`
- width: 200px;
+ width: 100%;
+
  padding:10px;
 
 
@@ -11,7 +12,7 @@ export const MembroCard = styled.div`
     border-radius: 10px 10px 0px 0px;
 }
 img {
-    width: 100px;
+    width: 30%;
     border-radius: 50%;
     position: relative;
     bottom: -50px;
@@ -30,7 +31,7 @@ img {
 
 .foot h4 {
     color: #6278F7;
-    font-size: 1.8em;
+    font-size: 100%;
     line-height: 22px;
     font-weight: bold;
     margin-bottom: 8px;
@@ -38,7 +39,7 @@ img {
 }
 
 .foot h5 {
-    font-size: 1.6em;
+    font-size: 100%;
     line-height: 22px;
     color: rgba(204, 0, 0, 100);
     text-align: center;
