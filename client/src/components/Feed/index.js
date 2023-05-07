@@ -29,6 +29,8 @@ import AddSolicitacoes from './AddSolicitacoes';
 import HistoricoDoacao from './HistoricoDoacao';
 import LocalDoacao from './LocalDoacao';
 import EditProfile from './EditProfile';
+import Campanhas from './Campanhas'
+import CreateQRCodeDoacao from './CreateQRCodeDoacao'
 
 import logo from '../../assets/logo.svg'
 import solicNoSelec from '../../assets/Feed/solicNoSelec.svg'
@@ -39,9 +41,10 @@ import histNoSelect from '../../assets/Feed/histNoSelect.svg'
 import histSelect from '../../assets/Feed/histSelect.svg'
 import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
+import campaignNoSelect from '../../assets/Feed/campaignNoSelect.png'
+import campaignSelect from '../../assets/Feed/campaignSelect.png'
 import localNoSelect from '../../assets/Feed/localNoSelect.svg'
 import localSelect from '../../assets/Feed/localSelect.svg'
-
 import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 import {useLocation,useNavigate} from 'react-router-dom'
@@ -85,7 +88,10 @@ function Feed(props) {
   const navigate = useNavigate()
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [selectedComponent, setSelectedComponent] = React.useState({ index:0,component: <Solicitacoes/>}); // Novo estado
+  const [selectedComponent, setSelectedComponent] = React.useState({
+    index:0,
+    component: profile?.donator? <Solicitacoes/> : <CreateQRCodeDoacao/>
+  }); // Novo estado
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -167,13 +173,19 @@ function Feed(props) {
 
   const location = useLocation();
   const url = location.pathname;
-  const componentes = [
+  const componentes = profile?.donator? [
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
     {nome: 'Locais de doação', icone: localNoSelect, iconeSelect: localSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
-    {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>}
-]
+    {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>},
+    {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:3 , component: <Campanhas/> },
+  ] : 
+  [
+    {nome: 'Criar Doacao', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
+    {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:1 , component: <Campanhas/> },
+  ]
+
   const drawer = (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       <div style={{display:'flex', justifyContent:'center', marginTop: '5%'}}>
@@ -233,9 +245,11 @@ function Feed(props) {
       </Modal>
       <div style={{marginTop: '2%',width:'70%', backgroundColor: '#D9D9D9', borderRadius: '5px', display: 'flex', justifyContent:'space-between', padding: '8px'}} >
         <h3>{profile?.name}</h3>
-        <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
-            <h4 style={{color: 'red', margin:0}} >{profile?.donator.blood_type}</h4>
-        </div>
+        {profile?.donator &&
+          <div style={{ backgroundColor: 'rgba(204, 0, 0, 0.24)', borderRadius: '5px',padding: '2px 5px'}}>
+            <h4 style={{color: 'red', margin:0}} >{profile?.donator? profile.donator.blood_type : ""}</h4>
+          </div>
+        }
       </div>
       </div>
       <Toolbar />

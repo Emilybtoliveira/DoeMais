@@ -73,6 +73,8 @@ const ModalFracasso = (props) =>{
 
 export default function Solicitacoes (props) {
     const {open, handleClose} = props;
+
+    const profile = useSelector(state => state.user.profile)
     const id_user = useSelector(state => state.user.id_user);
     const gender = useSelector(state => state.user.gender); 
     const gap_month = 3;
@@ -151,7 +153,7 @@ export default function Solicitacoes (props) {
             // setIsLoading(true);
 
             const formData = {
-                idUser: id_user,
+                idDonator: profile.donator.id,
                 place: data.place,
                 date: data.date
               };

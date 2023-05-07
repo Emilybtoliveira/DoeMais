@@ -11,10 +11,11 @@ import DonationListItem from '../../DonationListItem';
 export default function Doacoes () {
     const [openModal, setOpenModal] = useState(false)
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
-    const id_user = useSelector(state => state.user.id_user);
+    const profile = useSelector(state => state.user.profile);
 
+    const id_user = useSelector(state => state.user.id_user);
     React.useEffect(() => {
-        const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
+        const response = api.get(`/donation-register?idDonator=${profile.donator.id}`).then((response) => {
           console.log(response);
           setMinhas_doacoes(response.data)
         }).catch((error) => {

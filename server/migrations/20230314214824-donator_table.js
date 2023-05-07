@@ -19,6 +19,15 @@ module.exports = {
           as: 'userId'
         }
       },
+      campaignId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Campaign',
+          key: 'id',
+          as: 'campaignId'
+        }
+      },
       blood_type: { 
         type: Sequelize.STRING(12), 
         allowNull: false 

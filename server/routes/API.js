@@ -51,4 +51,14 @@ router.post('/donation-register',(req, res) => {Controllers.DonationRegisterCont
 router.put('/donation-register', (req, res) => {Controllers.DonationRegisterController.update(req,res);})
 router.delete('/donation-register/:id', (req, res) => {Controllers.DonationRegisterController.delete(req,res);})
 
+router.post('/create-donation-register-qrcode', (req, res) => {Controllers.DonationRegisterController.createQrCode(req,res)})
+router.post('/validate-donation-register/:id', (req, res) => {Controllers.DonationRegisterController.validate(req,res)})
+
+//Rotas de Campanha de doacao
+router.post('/campaign',(req, res) => {Controllers.CampaignController.create(req, res);})
+router.get('/campaign',(req, res) => {Controllers.CampaignController.getCampaigns(req, res);})
+router.post('/campaign-join',(req, res) => {Controllers.CampaignController.join(req, res);})
+router.get('/campaign-donators',(req, res) => {Controllers.CampaignController.getAllDonatorsOfCampaign(req, res);})
+router.get('/campaign-winners',(req, res) => {Controllers.CampaignController.getAllWinnersOfCampaign(req, res);})
+
 module.exports = router;
