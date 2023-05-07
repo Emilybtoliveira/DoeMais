@@ -6,12 +6,12 @@ import Solicitacao from '../../components/SolicitacaoIntro'
 import InfoSecao from '../../components/InfoSecao'
 import Rodape from '../../components/Rodape'
 import { useRef } from 'react';
+import {useSelector} from 'react-redux'
 
 
 function Portal (){
 
     const targetRef = useRef(null);
-
     const handleClick = () => {
       window.scrollTo({
         top: targetRef.current.offsetTop,
@@ -20,6 +20,8 @@ function Portal (){
     }
 
     return(
+      <div>
+
         <Container>
             <Header/>
             <Introducao button={handleClick}/>
@@ -27,8 +29,9 @@ function Portal (){
                 <Solicitacao/>
             </div>
             <InfoSecao/>
-            <Rodape/>
         </Container>    
+        <Rodape/>
+      </div>
         
     )
 }

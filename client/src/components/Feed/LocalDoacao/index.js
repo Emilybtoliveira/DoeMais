@@ -78,7 +78,7 @@ const BloodBankInfoCard = ({ name, address, opening_hours }) => (
   return (
       <Container>
           <div className='local'>
-            <img src={clinica} alt='local de doação' width='3%' />
+            <img src={clinica} alt='local de doação' width='35px' />
             <h1>Locais de doação próximos  a você</h1>
           </div>
         <h4>Encontre um banco de sangue e faça a sua parte!</h4>
@@ -110,7 +110,7 @@ const BloodBankInfoCard = ({ name, address, opening_hours }) => (
           </div>
           <Grid container spacing={2} sx={{mt: '2%'}}>
             {bloodBanks.map((bloodBank) => (
-                <Grid item xs={12} md={6} key={bloodBank.name}>
+                <Grid item xs={12} sm={12} md={12} lg={6} key={bloodBank.name}>
                   <BloodBankInfoCard
                   name={bloodBank.name}
                   address={bloodBank.address}

@@ -3,9 +3,11 @@ import * as palette from "../../utils/variablesColor"
 import Card from '@mui/material/Card';
 
 export const CardPrincipal = styled(Card)`
-    max-width: 90%;
+    max-width: 300px;
     /* max-height: 70%; */
     padding: 15px;
+    margin-left:1%;
+    margin-right:1%;
     padding-bottom:0;
     display: flex;
     /* justify-content: center; */
@@ -70,7 +72,8 @@ export const CardPrincipal = styled(Card)`
 
 export const ContentModal = styled.div`
     position: absolute;
-    width: 50%;
+    width: 60%;
+    max-width:500px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;

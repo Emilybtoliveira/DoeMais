@@ -43,6 +43,8 @@ import infoNoSelect from '../../assets/Feed/infoNoSelect.svg'
 import infoSelect from '../../assets/Feed/infoSelect.svg'
 import campaignNoSelect from '../../assets/Feed/campaignNoSelect.png'
 import campaignSelect from '../../assets/Feed/campaignSelect.png'
+import localNoSelect from '../../assets/Feed/localNoSelect.svg'
+import localSelect from '../../assets/Feed/localSelect.svg'
 import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 import {useLocation,useNavigate} from 'react-router-dom'
@@ -57,6 +59,7 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { ContentModal } from './styles';
 import styled from 'styled-components'
 import api from '../../services/api'
+import InfoSecao from '../InfoSecao';
 
 const theme = createTheme({
     components: {
@@ -174,12 +177,15 @@ function Feed(props) {
     {nome: 'Solicitações', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Solicitações de Doação', index:0 , component: <Solicitacoes/> },
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
+    {nome: 'Locais de doação', icone: localNoSelect, iconeSelect: localSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
+    {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>},
     {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:3 , component: <Campanhas/> },
   ] : 
   [
     {nome: 'Criar Doacao', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
     {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:1 , component: <Campanhas/> },
   ]
+
   const drawer = (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       <div style={{display:'flex', justifyContent:'center', marginTop: '5%'}}>

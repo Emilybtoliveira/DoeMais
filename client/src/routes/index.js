@@ -5,9 +5,12 @@ import { Route, Routes,Navigate} from 'react-router-dom';
 import Portal from '../pages/Portal';
 import Cadastro from '../pages/Cadastro'
 import Login from '../pages/Login'
+import Compartilhamento from '../pages/Compartilhamento'
+
 import ConfirmEmail from '../pages/ConfirmEmail'
 import RecoverPassword from '../pages/RecoverPassword'
 import ForgotPassword from '../pages/ForgotPassword'
+
 import ValidateDonation from '../pages/ValidateDonation'
 import Dashboard from '../pages/DashBoard'
 import {useSelector} from 'react-redux'
@@ -47,9 +50,11 @@ export default function Rotas() {
       <Route path="/recover-password" exact element={<RotaPublica element={<RecoverPassword/>}/>}/>
       <Route path="/validate-donation-register/:id" exact element={<RotaPublica element={<ValidateDonation/>}/>}/>
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
+      <Route path='/compartilhar-solicitacao/:id' exact element={<Compartilhamento/>} />
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path="/locais-doacao" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path="/editar-perfil" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
+      <Route path='/portal' exact element={<RotaPrivada element={<Portal/>}/>} />
       <Route path='*' exact element={<h1>Erro 404 :)</h1>} />
     </Routes>
     </Fragment>
