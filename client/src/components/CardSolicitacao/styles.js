@@ -8,6 +8,7 @@ export const CardPrincipal = styled(Card)`
     padding: 15px;
     margin-left:1%;
     margin-right:1%;
+    overflow-wrap: break-word;
     padding-bottom:0;
     display: flex;
     /* justify-content: center; */

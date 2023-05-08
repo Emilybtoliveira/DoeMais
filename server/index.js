@@ -23,7 +23,7 @@ app.use(cors());
 
 app.use('/', API);
 
-const verify_campaigns = new Cronjob('*/10 * * * * *', async function() {
+const verify_campaigns = new Cronjob('10/59 * * * * *', async function() {
     const campaigns = await db.Campaign.findAll({where: {is_open: true}})
 
     console.log("VERIFICANDO CAMPANHAS")

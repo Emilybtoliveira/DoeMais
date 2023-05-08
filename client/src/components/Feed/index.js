@@ -8,7 +8,7 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import logoutIcon from '../../assets/Feed/logoutIcon.png'
 import SettingsIcon from '@mui/icons-material/Settings';
 import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -45,6 +45,8 @@ import campaignNoSelect from '../../assets/Feed/campaignNoSelect.png'
 import campaignSelect from '../../assets/Feed/campaignSelect.png'
 import localNoSelect from '../../assets/Feed/localNoSelect.svg'
 import localSelect from '../../assets/Feed/localSelect.svg'
+import settingsNoSelect from '../../assets/Feed/settingsNoSelect.svg'
+import settingsSelect from '../../assets/Feed/settingsSelect.svg'
 import {useSelector, useDispatch} from 'react-redux'
 import { logOut } from '../../store/actions/authActions';
 import {useLocation,useNavigate} from 'react-router-dom'
@@ -178,8 +180,10 @@ function Feed(props) {
     {nome: 'Solicitar doação', icone: addSolicNoSelec,iconeSelect: addSolicSelec, width:18 , alt:'Solicitar doação',index:1 , component: <AddSolicitacoes/> },
     {nome: 'Registro de doações', icone: histNoSelect, iconeSelect: histSelect,width: 20, alt:'Registro de doações',index:2 , component: <HistoricoDoacao/> },
     {nome: 'Locais de doação', icone: localNoSelect, iconeSelect: localSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
-    {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>},
     {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:5 , component: <Campanhas/>},
+    {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>},
+    {nome: 'Editar informações', icone: settingsNoSelect, iconeSelect: settingsSelect, width:25 ,alt:'edit', index:6 , component: <EditProfile/>},
+
   ] : 
   [
     {nome: 'Criar Doacao', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
@@ -283,10 +287,23 @@ function Feed(props) {
           <ListItemText primary={item.nome} primaryTypographyProps={{ fontSize: '16px', color: 'white' }} />
         </ListItemButton>
       )}
+      
     </ListItem>
   ))}
+  <ListItem key={7} disablePadding sx={{ borderRadius: '15px', mb: 1 }}>
+  <ListItemButton
+          // emButton
+          onClick={LogOut}
+          sx={{ borderRadius: '15px',height: 50 }}
+        >
+          <ListItemIcon>
+            <img src={logoutIcon} alt='sair' width='28'/>
+          </ListItemIcon>
+          <ListItemText primary='Sair' primaryTypographyProps={{ fontSize: '16px' }} />
+        </ListItemButton>
+  </ListItem>
 </List>
-<div style={{position: 'absolute', 
+{/*<div style={{
       bottom: 0, 
       left: 0, 
       color: "rgba(204, 0, 0, 1)", 
@@ -318,7 +335,7 @@ function Feed(props) {
       </Menu>
 
 
-      </div>
+      </div>*/}
 
       </ThemeProvider>
      

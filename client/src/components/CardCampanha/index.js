@@ -90,33 +90,54 @@ function Cards(props) {
       var mdy = str.split('-');
       return new Date(mdy[0], mdy[1] - 1, mdy[2]);
   }
+  var bgCor = '#FFFFFF'
+  if(!campanha.is_open){
+    bgCor='rgba(204, 0, 0, 0.1)'
+  }
 
     return(
         <ThemeProvider theme={theme}>
-            <CardPrincipal sx={{ borderRadius: 3, ":hover": {filter: "brightness(70%)"}}} onClick={handleClickCampanha}>
+            <CardPrincipal sx={{ borderRadius: 3, backgroundColor: bgCor,":hover": {filter: "brightness(70%)"}}} onClick={handleClickCampanha}>
+            <img src={campaignPhoto} style={{width:'100%'}}></img>
                 <CardContent sx={{pt:1, pb: 0}}>
+                {campanha.is_open?
                 <Typography gutterBottom variant="h5" component="div" className="title">
                     {campanha.name}
+                </Typography>:
+                <Typography gutterBottom variant="h5" component="div" className="title">
+                  {campanha.name} &#40;campanha encerrada&#41;
                 </Typography>
+                }
                 </CardContent>
                 <CardContent sx={{ paddingBottom: 1, minHeight: 95, p: 0, mt:1}}>
-                  <img src={campaignPhoto} style={{width:'100%'}}></img>
+                  
+                    {campanha.reward?
+                      <div>
+                        <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
+                          <strong>Prêmio:</strong> {campanha.reward}
+                        </Typography>
+                        <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
+                          <strong>Nº de ganhadores: </strong>{campanha.number_winners}
+                        </Typography>
+                      </div>:
                     <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
-                        {"Descricao: " + campanha.description}
+                      <strong>Campanha solidária</strong>
+                    </Typography>}
+                    <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
+                       <strong>Lugar de doação:</strong> {campanha.donation_place}
                     </Typography>
-                    <Typography variant="body2" gutterBottom color="text.secondary" className="premio">
-                        {"Premio: " + campanha.reward}
-                    </Typography>
-                    <Typography variant="body2" gutterBottom color="text.secondary" className="premio">
-                        {"Lugar de doacao: " + campanha.donation_place}
+                <Typography variant="body2" gutterBottom color="text.secondary" className="descricao">
+                <strong>Descricão:</strong> {campanha.description}
                     </Typography>
                 </CardContent>
-                <CardContent sx={{ p: 0}}>
-                    <Typography variant="body2" className='publicado'>{campanha.start_date} a {campanha.end_date}</Typography>
-                </CardContent>
-                <CardContent sx={{ p: 0}}>
-                    <Typography variant="body2" className='publicado'>{datediff(parseDate(campanha.start_date), parseDate(campanha.end_date))} dias restantes</Typography>
-                </CardContent>
+                <div className='bottominfos'>
+                  <CardContent sx={{ p: 0}}>
+                      <p variant="body2" className='publicado'>{campanha.start_date} a {campanha.end_date}</p>
+                  </CardContent>
+                  <CardContent sx={{ p: 0}}>
+                      <p  className='publicado'>{datediff(parseDate(campanha.start_date), parseDate(campanha.end_date))} dias restantes</p>
+                  </CardContent>
+                </div>
             </CardPrincipal>
 
             <ShowDonators open={openModal} handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
@@ -129,7 +150,7 @@ function Cards(props) {
             </Snackbar>
             <Snackbar open={openSuccess} autoHideDuration={6000} onClose={()=>{setOpenSuccess(false)}}>
                 <Alert onClose={()=>{setOpenSuccess(false)}} severity="success" variant="filled" sx={{ width: '100%' }}>
-                    Voce se juntou à campanha
+                    Você se juntou à campanha!
                 </Alert>
             </Snackbar>
         </ThemeProvider>

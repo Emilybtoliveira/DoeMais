@@ -51,7 +51,7 @@ const ModalSucesso = (props) =>{
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <ContentModal>
+            <ContentModal style={{maxWidth:"500px"}}>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
                     <h2 style={{marginBottom: '2%',  textAlign:'center'}} >Sua solicitação foi editada. </h2>

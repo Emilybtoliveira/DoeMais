@@ -47,7 +47,9 @@ const ModalSucesso = (props) =>{
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
                     <h2 style={{marginBottom: '2%', textAlign:'center'}} >Parabéns! Sua campanha de doação sanguínea foi postada. </h2>
+                    <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Sua campanha será divulgada para os usuários de nossa plataforma e se encerrará precisamente no <strong style={{color: '#CE0C0C'}}>dia especificado </strong>. No dia de encerramento, em caso de uma campanha com prêmios, será feito automaticamente o sorteio. Caso deseje encerrar a campanha antes, basta clicar no <strong style={{color: '#CE0C0C'}}>ícone de X</strong> dentro do card.</p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
+                        
                         <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
                     </div>
                 </div>
@@ -110,13 +112,6 @@ export default function Campanhas (props) {
             isValid = false
         }else{
             setErrorDescricao("")
-        }
-
-        if(!data.premio){
-            setErrorPremio("Preencha esse campo!")
-            isValid = false
-        }else{
-            setErrorPremio("")
         }
         
         const today = setHours(startOfDay(new Date()), 0);
@@ -187,7 +182,6 @@ export default function Campanhas (props) {
                 sessionStorage.removeItem('data_inicio')
                 sessionStorage.removeItem('data_fim')
                 sessionStorage.removeItem('premio')
-                console.log('oi meu chapa')
                 setOpenSuccess(true)
                
               } catch (error) {
@@ -299,9 +293,7 @@ export default function Campanhas (props) {
                         <TextField
                         label="Prêmio da Campanha"
                         name="Premio"
-                        required
                         fullWidth
-                        error={errorPremio? true: false}
                         value={data.premio}
                         onChange={handlePremio}
                         />
