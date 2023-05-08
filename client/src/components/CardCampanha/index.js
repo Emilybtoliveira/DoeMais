@@ -140,8 +140,8 @@ function Cards(props) {
                 </div>
             </CardPrincipal>
 
-            <ShowDonators open={openModal} handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
-            <ShowDonators open={openModalWinners} handleClose={() => setOpenModalWinners(false)} users={winners} name="Ganhadores" />
+            <ShowDonators open={openModal && profile.admin} handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
+            <ShowDonators open={openModalWinners && profile.admin} handleClose={() => setOpenModalWinners(false)} users={winners} name="Ganhadores" />
 
             <Snackbar open={openFailure} autoHideDuration={6000} onClose={()=>{setOpenFailure(false)}}>
                 <Alert onClose={()=>{setOpenFailure(false)}} severity="error" variant="filled" sx={{ width: '100%' }}>
