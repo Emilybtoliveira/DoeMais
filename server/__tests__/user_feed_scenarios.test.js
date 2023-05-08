@@ -8,13 +8,25 @@ beforeEach(async () => {
   req = request(baseURL);
 });
 
+beforeAll(async () => {
+  user = {
+    name: "in memory user",
+    email: "memory@gmail.com",
+    password: "123",
+    phone: "9999999",
+    blood_type: "O+",
+    flag_chat: "T",
+    gender: "F"
+  };
+
+  const response = await req.post("/register").send(user);
+
+  expect(response.status).toBe(200);
+});
+
 describe("solicitations successfull CRUD", () => {
  
   test("returns the created user", async () => {
-    const response = await req.get("/user");
-    user_id = response.body.data[0].id;
-
-    expect(response.status).toBe(200);
   })
   
   test("creates 5 solicitations in a row", () => {
