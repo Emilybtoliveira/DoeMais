@@ -10,6 +10,16 @@ function Cadastro (){
     const userProfile = useSelector(state => state.user.profile)
 
     useEffect(() => {
+        api.get(`/user/${id_user}`).then((response) =>{
+                dispatch(profile(response.data.data))
+                console.log(response.data.data)
+            }).catch((error) => {
+            console.log(error)
+                
+            })
+    }, [id_user])
+
+    useEffect(() => {
       if (!userProfile.admin) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -24,17 +34,7 @@ function Cadastro (){
             }
         )
       }
-    }, [userProfile])
-
-    useEffect(() => {
-        api.get(`/user/${id_user}`).then((response) =>{
-                dispatch(profile(response.data.data))
-                console.log(response.data.data)
-            }).catch((error) => {
-            console.log(error)
-                
-            })
-    }, [id_user])
+    }, [userProfile, dispatch])
 
     return (
       <div style={{overflowX: 'hidden'}}>
