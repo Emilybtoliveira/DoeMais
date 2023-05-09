@@ -160,12 +160,13 @@ function Cards(props) {
           <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3, height: '100%'}} >
             <div style={{display: "flex", width: '100%', justifyContent:'flex-end'}}>                       
               {/* <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.description?solicitacao.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div> */}
+              {solicitacao.foto? '' : 
               <Tooltip title='Compartilhar solicitação' placement='top' >
                 <div style={{cursor: 'pointer'}} id="download_button" onClick={() => handleShare(solicitacao.id)}><ShareIcon fontSize="small" color="disabled"/></div>
-              </Tooltip>
+              </Tooltip>}
             </div>
             <div sx={{minHeight: '50%'}} >
-              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
+              <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ solicitacao.foto? solicitacao.foto :  srcImage } />
             </div>
         <CardContent sx={{pt:1, pb: 0}}>
           <Typography variant="h5" component="div" className="title">
