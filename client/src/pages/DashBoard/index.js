@@ -20,6 +20,7 @@ function Cadastro (){
     }, [id_user])
 
     useEffect(() => {
+      console.log(userProfile)
       if (!userProfile.admin) {
         navigator.geolocation.getCurrentPosition(
             (position) => {

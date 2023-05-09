@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     to: { type: DataTypes.STRING },
     subject: { type: DataTypes.STRING },
     text: { type: DataTypes.STRING },
-    html: { type: DataTypes.STRING },
+    html: { type: DataTypes.TEXT },
   }, {
     sequelize,
     modelName: 'Email',
