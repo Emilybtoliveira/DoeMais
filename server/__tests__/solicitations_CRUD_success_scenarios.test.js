@@ -4,6 +4,7 @@ const baseURL = "http://localhost:5000";
 
 let user_id;
 let solicitation;
+let solicitation_id;
 
 beforeAll(async () => {
   req = request(baseURL);
@@ -18,24 +19,22 @@ beforeAll(async () => {
     gender: "F"
   };
 
-  const response = await req.post("/register").send(user);
+  let response = await req.post("/register").send(user);
 
-  expect(response.status).toBe(200);
-});
+  if (response.status != 200) console.log('[BeforeAll] Não foi criado o usuário');
+  else{
+    response = await req.get("/user");
+    if (!response.body.data) console.log('[BeforeAll] Não foi retornado o usuário');
+    else{
+      user_id = response.body.data[0].id;
+    }
+  }
 
-/* beforeEach(async () => {
-  req = request(baseURL);
-}); */
+}, 10000);
 
 describe("solicitations successfull CRUD", () => {
-  test.only("returns the created user", async () => {
-    const response = await req.get("/user");
-    user_id = response.body.data[0].id;
 
-    expect(response.status).toBe(200);
-  })
-
-  test.only("creates a solicitation", async () => {
+  test("creates a solicitation", async () => {
     solicitation = {
       userId: user_id,
       name: "Pessoa solicitante",
@@ -53,10 +52,20 @@ describe("solicitations successfull CRUD", () => {
     expect(response.status).toBe(200);
   })
   
-  test.only("get created solicitation", async () => {
+  test("get created solicitation", async () => {
     const response = await req.get("/solicitations").query({ userId: user_id });
+    solicitation_id = response.body.data[0].id
+    
     expect(response.status).toBe(200);
-    console.log(response.body);
+    expect(response.body.data[0].status).toBe("open");
+    expect(response.body.data[0].solicitationUserId).toBe(user_id);
+    expect(response.body.data[0].person.name).toBe(solicitation.name);
+    expect(response.body.data[0].person.bloodtype).toBe(solicitation.bloodtype);
+    expect(response.body.data[0].person.description).toBe(solicitation.description);
+    expect(response.body.data[0].person.age).toBe(solicitation.age);
+    expect(response.body.data[0].person.city).toBe(solicitation.city);
+    expect(response.body.data[0].person.state).toBe(solicitation.state);
+    expect(response.body.data[0].person.hospital).toBe(solicitation.hospital);
   })
 
   test("updates a solicitation", async () => {
@@ -72,16 +81,34 @@ describe("solicitations successfull CRUD", () => {
     const response = await req.put("/solicitations").send(solicitation);
 
     expect(response.status).toBe(200);
-    console.log(response.body);
+  })
+  
+  test("get updated solicitation", async () => {
+    const response = await req.get("/solicitations").query({ userId: user_id });
+    
+    expect(response.status).toBe(200); 
+
+    expect(response.body.data[0].status).toBe("open");
+    expect(response.body.data[0].solicitationUserId).toBe(user_id);
+    expect(response.body.data[0].closure_date).toBe(null);
+    expect(response.body.data[0].person.name).toBe(solicitation.name);
+    expect(response.body.data[0].person.bloodtype).toBe(solicitation.bloodtype);
+    expect(response.body.data[0].person.description).toBe(solicitation.description);
+    expect(response.body.data[0].person.age).toBe(solicitation.age);
+    expect(response.body.data[0].person.city).toBe("Maceio");
+    expect(response.body.data[0].person.state).toBe("Alagoas");
+    expect(response.body.data[0].person.hospital).toBe(solicitation.hospital);
   })
 
   test("disables a solicitation", async () => {
-   // const response = await req.get("/solicitations/"+user_id).send(solicitation);
-
+    const response = await req.put("/solicitations/"+solicitation_id);
+    expect(response.status).toBe(200); 
   })
 
-  test("get a user's solicitations", async () => {
 
+  test("disabled solicitation is not returned in /get", async () => {
+    const response = await req.get("/solicitations").query({ id: solicitation_id });
+    expect(response.status).toBe(200); 
+    expect(response.body.data).toBe(null); 
   })
-
 });

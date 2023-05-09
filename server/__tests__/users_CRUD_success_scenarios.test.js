@@ -16,7 +16,7 @@ beforeAll(async () => {
 let user_id;
 let user;
 
-beforeEach(async () => {
+beforeAll(async () => {
   req = request(baseURL);
 });
 
