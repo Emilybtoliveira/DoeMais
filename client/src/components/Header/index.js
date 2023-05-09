@@ -79,6 +79,13 @@ export default function Header(props) {
             <Link to='/' >
                 <img src={logo} alt='logo' className='logo' />
             </Link>
+            {isLoggedIn?
+              <div className='menuLogado' >
+              <Link  className='link' to='/login' style={{borderBottom: url === '/login' || url === '/cadastro' ? "3px solid rgba(204, 0, 0, 1)":'none'}}>
+                  <h3>Início</h3>
+              </Link>
+
+          </div>:
             <div className='menuDeslogado' >
                 <Link  className='link' to='/' style={{borderBottom: url === '/'? "3px solid rgba(204, 0, 0, 1)":'none'}}>
                      <h3>Portal</h3>
@@ -86,8 +93,9 @@ export default function Header(props) {
                 <Link  className='link' to='/login' style={{borderBottom: url === '/login' || url === '/cadastro' ? "3px solid rgba(204, 0, 0, 1)":'none'}}>
                     <h3>Quero Doar!</h3>
                 </Link>
-
             </div>
+          }
+            
           
         </Toolbar>
       </Bar>
