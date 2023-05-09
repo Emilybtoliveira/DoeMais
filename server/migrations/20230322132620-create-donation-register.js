@@ -10,13 +10,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userDonationRegisterId: {
+      donatorDonationRegisterId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Donator',
-          key: 'userId',
-          as: 'userDonationRegisterId',
+          key: 'id',
+          as: 'donatorDonationRegisterId',
         }
       },
       date: {
@@ -26,6 +26,12 @@ module.exports = {
       place: {
         type: Sequelize.STRING,
         allowNull: true
+      },
+      validated: {
+        type: Sequelize.BOOLEAN
+      },
+      hashedId: {
+        type: Sequelize.STRING
       }
     });
   },

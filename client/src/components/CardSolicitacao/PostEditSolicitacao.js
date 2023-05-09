@@ -51,10 +51,10 @@ const ModalSucesso = (props) =>{
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <ContentModal>
+            <ContentModal style={{maxWidth:"500px"}}>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Sua solicitação foi editada. </h2>
+                    <h2 style={{marginBottom: '2%',  textAlign:'center'}} >Sua solicitação foi editada. </h2>
                     <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Sua solicitação  será divulgada por<strong style={{color: '#CE0C0C'}}> 90 dias </strong> a partir da data que você postou. Após esse período, ela será automaticamente removida. Caso o receptor não necessite mais de doações, por favor, lembre-se de <strong style={{color: '#CE0C0C'}}>apagar a solicitação</strong> para evitar confusões e garantir que os doadores possam ajudar outras pessoas que necessitam de doações de sangue.</p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                     <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
@@ -87,42 +87,38 @@ export default function Solicitacoes (props) {
     
     const [cidades, setCidades] = useState([]);
 
+
     const buscarCidades = async (query) => {
-        console.log(data.state.numero)
-        
         const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${data.state.numero}/distritos
         `;
         const resposta = await fetch(url);
         const dados = await resposta.json();
-        console.log(dados)
         setCidades(dados);
       };
 
 
     const solicitacaoUpdate = async () => {
-        try {
-          const response = await api.get(`solicitations?${id_user}`);
-        //   console.log(response)
-          return response.data.data;
+        try{
+            const response = await api.get(`solicitations?id=${props.id_solic}`);
+            //   const response = await api.get(`solicitations?${id_user}`);
+            // console.log(response.data.data)
+              return response.data.data.person;
+            //   return response.data.data; 
         } catch (err) {
           console.error(err);
           return [];
         }
       };
     
-      useEffect(() => {
+    useEffect(() => {
         if (props.open) {
-          solicitacaoUpdate()
+            solicitacaoUpdate()
             .then((data) => 
-            {
-                data.map(d => d.id === props.id_solic? setData(d): '')
-            }
-             )
-            .catch((err) => console.error(err));
-        }
-      }, [props.open]);
-
-    // console.log("data", data)
+                setData(data)
+                // // data.map(d => d.id === props.id_solic? setData(d): '')
+                // data.map(d => d.id === props.id_solic? setData(d): '')
+        ).catch((err) => console.error(err));}
+    }, [props.open]);
 
     const [errorNome, setErrorNome] = useState("")
     const [errorIdade, setErrorIdade] = useState("")
@@ -146,7 +142,6 @@ export default function Solicitacoes (props) {
    
     const handleEstado = (e) =>{
         const estado = e.target.value;
-        console.log(estado)
         setData({...data, state: estado})
     }
     const handleTipo = (e) =>{
@@ -214,30 +209,32 @@ export default function Solicitacoes (props) {
     
     const handleSubmit = async (isValid) =>{
         if(isValid){
+            const formData = new FormData()
 
-            const formData = {
-                name: data.name,
-                bloodtype: data.bloodtype, 
-                description: data.description, 
-                city: data.city, 
-                state: data.state.nome, 
-                hospital: data.hospital,
-                picture: data.foto_receptor,
-                age: data.age,
-                id: props.id_solic
-              };
-              console.log(formData)
-              try {
-                const response = await api.put("solicitations", formData);
-     
+            let picture = data.picture && data.picture[0] ? data.picture[0] : null
+            formData.append('picture', picture)
+            formData.append('name', data.name)
+            formData.append('bloodtype', data.bloodtype)
+            formData.append('description', data.description)
+            formData.append('city', data.city)
+            formData.append('state', data.state.nome)
+            formData.append('hospital', data.hospital)
+            formData.append('age', data.age)
+            formData.append('id', props.id_solic)
+            console.log(formData)
+            try {
+                const response = await api.put('/solicitations', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
                 setOpenSuccess(true)
-               
-              } catch (error) {
-                console.log(error);
-                // setErrorMessage(error.response.data.error)
-                // setOpenFailure(true)
-                setIsLoading(false)
-              }
+            } catch (error) {
+            console.log(error);
+            // setErrorMessage(error.response.data.error)
+            // setOpenFailure(true)
+            setIsLoading(false)
+            }
         }
     }
     return (
@@ -275,7 +272,7 @@ export default function Solicitacoes (props) {
                         />
                     </Grid>
                     
-                    <Grid item xs={3}>
+                    <Grid item xs={6} sm={6} md={6} lg={3}>
                             <TextField
                             label="Idade"
                             name="Idade"
@@ -288,12 +285,29 @@ export default function Solicitacoes (props) {
                             onChange={handleIdade}
                             />
                     </Grid>
-                    <Grid item xs={3}>
+                     <Grid item xs={6} sm={6} md={6} lg={3}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Tipo Sanguíneo</InputLabel>
+                            <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={data?.bloodtype}
+                            helperText={errorTipo? errorTipo: false}
+                            error={errorTipo? true: false}
+                            onChange={handleTipo}
+                            >
+                            {options.tipos_sanguineos_solicitacao.map((item,i) =>(
+                                <MenuItem key={i} value={item}>{item}</MenuItem>
+                            ))}
+                            </Select>
+                            {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
+                    </FormControl>
+                    </Grid>
+                    <Grid item xs={6} sm={6} md={6} lg={3}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Estado</InputLabel>
                             <Select
                             labelId="demo-simple-select-label"
-                            id="demo-simple-select"
                             value={data?.state}
                             helperText={errorEstado? errorEstado: false}
                             error={errorEstado? true: false}
@@ -306,12 +320,12 @@ export default function Solicitacoes (props) {
                             {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
                     </FormControl>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} sm={6} md={6} lg={3}>
                     <Autocomplete
                         disabled={!data.state}
                         id="cidade"
                         options={cidades}
-                        
+                        value={data?.city}
                         filterOptions={(options, { inputValue }) => {
                             return options.map((option) => option.nome).filter((name) =>
                             name.toLowerCase().includes(inputValue.toLowerCase())
@@ -332,24 +346,7 @@ export default function Solicitacoes (props) {
                         />
                         
                     </Grid>
-                    <Grid item xs={3}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Tipo Sanguíneo</InputLabel>
-                            <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={data?.bloodtype}
-                            helperText={errorTipo? errorTipo: false}
-                            error={errorTipo? true: false}
-                            onChange={handleTipo}
-                            >
-                            {options.tipos_sanguineos_solicitacao.map((item,i) =>(
-                                <MenuItem key={i} value={item}>{item}</MenuItem>
-                            ))}
-                            </Select>
-                            {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
-                    </FormControl>
-                    </Grid>
+                   
                     <Grid item xs={12}>
                         <TextField
                         label="Descrição (Opcional)"
@@ -393,31 +390,6 @@ export default function Solicitacoes (props) {
          </Modal>
         <ModalSucesso open={openSuccess} handleCloseSuccess={() => window.location.reload()}/>
         </ThemeProvider>
-    )
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-    
-
-
-
-    
-
-    
-       
-}
+    ) }
 
 

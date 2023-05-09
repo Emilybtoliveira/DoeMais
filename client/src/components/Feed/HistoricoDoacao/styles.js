@@ -27,6 +27,17 @@ export const Container = styled.div`
     @media(max-width: 850px) {
         padding-top:10%
        }
+    @media (max-width: 768px) {
+        justify-content: center;
+        .mainTitle{
+            font-size: 30px;
+            text-align: center;
+        }
+        .descTitle{
+            font-size: 15px;
+            text-align: center;
+        }
+    }
     
 
 `
@@ -44,7 +55,8 @@ export const List = styled.div`
 
 export const ContentModal = styled.div`
     position: absolute;
-    width: 50%;
+    width: 60%;
+    max-width:500px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;

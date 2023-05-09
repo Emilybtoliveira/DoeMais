@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { toJpeg } from 'html-to-image';
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,8 +13,15 @@ import hospital from '../../assets/Portal/CardsEstatico/hospital.svg';
 import local from '../../assets/Portal/CardsEstatico/local.svg';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import DownloadIcon from '@mui/icons-material/Download';
+import ShareIcon from '@mui/icons-material/Share';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from '../../assets/logo.svg'
+import Tooltip from '@mui/material/Tooltip';
+import {useDispatch} from 'react-redux'
+import { share } from '../../store/actions/userActions';
+
 import api from '../../services/api'
 import PostEditSolicitacao from './PostEditSolicitacao'
 import styled from 'styled-components'
@@ -48,7 +57,7 @@ const ModalExcluir = (props) =>{
           <ContentModal>
               <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
               <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                  <h2 style={{marginBottom: '2%'}} >Tem certeza que deseja excluir essa solicitação?  </h2>
+                  <h2 style={{marginBottom: '2%', textAlign:'center'}} >Tem certeza que deseja excluir essa solicitação?  </h2>
                   <div style={{display: "flex"}}>
                     <Button onClick={props.handleExcluir}  variant="contained" sx={{mr: '10%' }}  >Sim</Button>
                     <Button onClick={props.handleClose}  variant="outlined"  >Cancelar</Button>
@@ -61,7 +70,12 @@ const ModalExcluir = (props) =>{
 
 
 function Cards(props) {
+  const navigate = useNavigate()
+  
+  
   const {solicitacao} = props;
+  const dispatch = useDispatch()
+  
   const [excluirSolic, setExcluirSolic] = React.useState(false)
   const [editarSolic, setEditarSolic] = React.useState(false)
   const handleExcluir = async () => {
@@ -71,9 +85,16 @@ function Cards(props) {
       console.log(error)
     })
   }
+
+
+  const handleShare = (id) =>{
+    dispatch(share(id))
+    navigate(`/compartilhar-solicitacao/${id}`)
+  }
+
   
   let srcImage = "http://localhost:5000/files/solicitations/";
-  if (solicitacao.person)
+  if (solicitacao.person && solicitacao.person.picture)
   {
     srcImage += solicitacao.person.picture
   }
@@ -86,8 +107,10 @@ function Cards(props) {
     srcImage = wallpaperDoeMais
   }
 
+
     return(
-      <ThemeProvider theme={theme}>
+      <div >
+        <ThemeProvider theme={theme}>
           {solicitacao.person?
                <CardPrincipal sx={{ borderRadius: 3 }}>
                 <div style={{display: solicitacao.person?"flex":'none', width: '100%', justifyContent: 'flex-end'}}>
@@ -96,7 +119,6 @@ function Cards(props) {
                   <IconButton onClick={() => setExcluirSolic(true)} ><DeleteIcon fontSize="small" /></IconButton>
                 </div>
               <div sx={{minHeight: '50%'}} >
-
                 <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
               </div>
               
@@ -131,8 +153,17 @@ function Cards(props) {
                 </div>
                   <Typography variant="body2" className='publicado'>Publicado em {solicitacao.creation_date}</Typography>
               </CardContent>
-          </CardPrincipal>:
-          <CardPrincipal sx={{ borderRadius: 3, height: '100%'}}>
+          </CardPrincipal>
+          
+          :
+          
+          <CardPrincipal id={'card '+solicitacao.id} sx={{ borderRadius: 3, height: '100%'}} >
+            <div style={{display: "flex", width: '100%', justifyContent:'flex-end'}}>                       
+              {/* <div style={{cursor: 'pointer'}}><a href={`https://web.whatsapp.com/send?text=${solicitacao.description?solicitacao.description:"#doesangue"}`} target="_blank"><WhatsAppIcon fontSize="small" color="success"/></a></div> */}
+              <Tooltip title='Compartilhar solicitação' placement='top' >
+                <div style={{cursor: 'pointer'}} id="download_button" onClick={() => handleShare(solicitacao.id)}><ShareIcon fontSize="small" color="disabled"/></div>
+              </Tooltip>
+            </div>
             <div sx={{minHeight: '50%'}} >
               <CardMedia sx={{ minHeight:150 ,maxHeight: 150, width: 'auto' }} image={ srcImage } />
             </div>
@@ -170,13 +201,13 @@ function Cards(props) {
         </CardContent>
 
       </CardPrincipal>
-          }
-            
+          }           
           <ModalExcluir open={excluirSolic} handleClose={() => setExcluirSolic(false)} handleExcluir={handleExcluir}/>
+
           <PostEditSolicitacao open={editarSolic} handleClose={() => setEditarSolic(false)} id_solic={solicitacao.id} />
 
       </ThemeProvider>
-            
+      </div>
     )
       
 }

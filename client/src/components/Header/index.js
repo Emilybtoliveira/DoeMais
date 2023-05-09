@@ -12,6 +12,7 @@ import Fade from '@mui/material/Fade';
 import {Bar} from './styles' 
 import * as palette from "../../utils/variablesColor"
 import {Link} from 'react-router-dom'
+import {useSelector} from 'react-redux'
 
 import logo from '../../assets/logo.svg'
 
@@ -63,6 +64,8 @@ ScrollTop.propTypes = {
 
 
 export default function Header(props) {
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
@@ -76,7 +79,7 @@ export default function Header(props) {
             <Link to='/' >
                 <img src={logo} alt='logo' className='logo' />
             </Link>
-            <div className='menu' >
+            <div className='menuDeslogado' >
                 <Link  className='link' to='/' style={{borderBottom: url === '/'? "3px solid rgba(204, 0, 0, 1)":'none'}}>
                      <h3>Portal</h3>
                 </Link>
@@ -85,6 +88,7 @@ export default function Header(props) {
                 </Link>
 
             </div>
+          
         </Toolbar>
       </Bar>
       <Toolbar id="back-to-top-anchor" />

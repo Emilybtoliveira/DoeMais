@@ -2,7 +2,9 @@ const initialState = {
     profile: null,
     id_user: null,
     location: null,
+    share_id: null,
     cidade: ''
+
   };
   
   function userReducer(state = initialState, action) {
@@ -14,6 +16,8 @@ const initialState = {
             return { ...state, profile: action.payload };
         case 'LOCATION':
             return { ...state, location: action.payload };
+        case 'SHARE_SOLICITATION':
+            return { ...state, share_id: action.payload };
         case 'CITY':
             return { ...state, cidade: action.payload };        
         default:

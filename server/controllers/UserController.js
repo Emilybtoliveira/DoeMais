@@ -1,4 +1,4 @@
-const { User, Donator, Solicitation, Email } = require('../models');
+const { User, Donator, Solicitation, Email, Admin } = require('../models');
 const randomstring = require('randomstring')
 const fs = require('fs')
 const { DATEONLY } = require('sequelize');
@@ -22,7 +22,11 @@ UserController.getAll = async function(req, res){
 
 UserController.getUser = async function(req, res){
     try {
-        const data = await User.findOne({where: { id: req.params.id }, attributes: { exclude: ['password'] }, include: [{model: Donator, as: 'donator'}] }); 
+        const data = await User.findOne({
+            where: { id: req.params.id },
+            attributes: { exclude: ['password'] },
+            include:[{model: Donator, as: 'donator'}, {model: Admin, as: 'admin'}] }); 
+            
         if (!data){
             res.status(404).json({ error: "Nenhum usuário encontrado para o id fornecido." });   
         }
@@ -99,7 +103,7 @@ UserController.register = async function(req, res){
                 gender: req.body.gender,
                 aptitude_status: "undefined",
             })
-
+            
             await Email.create({
                 to: req.body.email,
                 subject: 'Confirmação de e-mail',
@@ -119,7 +123,7 @@ UserController.register = async function(req, res){
 
 UserController.login = async function(req, res){
     try {
-        const user = await User.findOne({ where: { email: req.body.email}, include: [{model: Donator, as: 'donator'}] })
+        const user = await User.findOne({ where: { email: req.body.email}, include: [{model: Donator, as: 'donator'}, {model: Admin, as: 'admin'}] })
         if (!user)
         {
             res.status(400).json({ error: "Não foi encontrado usuário com email correspondente." })
@@ -281,6 +285,7 @@ UserController.recoverPassword = async function(req, res){
         res.status(500).json({ error: error });
     }
 }
+
 UserController.uploadImage = async function(req, res){
     try {
         const { id } = req.params

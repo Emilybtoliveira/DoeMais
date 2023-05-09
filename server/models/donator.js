@@ -29,12 +29,17 @@ module.exports = (sequelize, DataTypes) => {
   Donator.associate = function(models) {
     Donator.hasMany(models.DonationRegister, {
         as: 'donationsRegistry',
-        foreignKey: 'userDonationRegisterId',
+        foreignKey: 'donatorDonationRegisterId',
         onDelete: 'CASCADE'
     }),
 
     Donator.belongsTo(models.User, {
       foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    }),
+
+    Donator.belongsTo(models.Campaign, {
+      foreignKey: 'campaignId',
       onDelete: 'CASCADE'
     })
   }; 
