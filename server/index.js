@@ -35,8 +35,10 @@ const send_emails = new CronJob('*/10 * * * * *', async function() {
 }, null, true, 'America/Sao_Paulo');
 
 const verify_campaigns = new Cronjob('*/59 * * * * *', async function() {
-    const campaigns = await db.Campaign.findAll({where: {is_open: true}})
-
+    const campaigns = await db.Campaign.findAll({
+        where: {is_open: true},
+        include: [{ model: db.Admin, as: 'admin', include: [{ model: db.User }]}]
+    })
     console.log("VERIFICANDO CAMPANHAS")
     campaigns.forEach((campaign) => {
         raffleCampaign(campaign)

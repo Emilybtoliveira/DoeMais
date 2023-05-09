@@ -30,12 +30,26 @@ const raffle = async function(campaign, donators) {
         })
     })
 
+    const winnersInfo = winners.map(winners => `${winners.User.name} - ${winners.User.email}`);
+
+    const emailBody = `<p>Olá,</p><p>Organizador da campanha: ${campaign.admin.User.name} - ${campaign.admin.User.email}</p><p>Agradecemos a participação dos seguintes doadores:</p><ul>${winnersInfo.map(info => `<li>${info}</li>`).join('')}</ul><p>Obrigado por ajudar a salvar vidas!</p>`;
+
+    await db.Email.create({
+        to: 'doemais23@gmail.com',
+        subject: 'Lista de doadores',
+        html: emailBody
+    });
+
     console.log("SORTEOU")
 }
 
 const raffleCampaign = async function (campaign) {
     if (campaign.end_date >= today) {
-        const donators = await db.Donator.findAll({where: {campaignId: campaign.id}})
+        const donators = await db.Donator.findAll({
+            where: {campaignId: campaign.id},
+            include: [{ model: db.User }]
+        })
+
         if (campaign.reward) {
             await raffle(campaign, donators)
         }
