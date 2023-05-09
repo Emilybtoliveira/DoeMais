@@ -83,12 +83,12 @@ React.useEffect(() => {
         <div style={{width: '100%'}} >
           <h1>Solicitações para doação</h1>
           <h4>Ajude pessoas que estão precisando de doação próximos a você!</h4>
-          <Link to='/locais-doacao' style={{color: 'rgba(204, 0, 0, 1)'}} >
-            <div className='local'>
-              <img src={clinica} alt='local de doação' width='3%' />
-              <h3>Locais de doação próximos</h3>
-            </div>
-          </Link>
+          {/*<Link to='/locais-doacao' style={{color: 'rgba(204, 0, 0, 1)'}} >
+          <div className='local'>
+            <img src={clinica} alt='local de doação' width='3%' />
+            <h3>Locais de doação próximos</h3>
+          </div>
+          </Link>*/}
         </div>
         
         <div>
@@ -100,7 +100,7 @@ React.useEffect(() => {
         solicitacoes.length !== 0 ? (
           <Grid container spacing={2} rowSpacing={0} className='grid'>
             {solicitacoes.map((item, i) => (
-              <Grid item key={i} xs={12} md={6} xl={4}>
+              <Grid item key={i} xs={12} sm={12} md={6} lg={4} xl={3}>
                 <Card solicitacao={item} />
               </Grid>
             ))}
@@ -109,7 +109,6 @@ React.useEffect(() => {
           <div className='vazio'>
             {/* {all_solicitacoes? alert('Ainda não temos solicitações cadastradas.')  : '' } */}
             <img src={vazio} alt='sem solicitações'/>
-
             <h4>O feed ainda não possui solicitações compatíveis com seu tipo sanguíneo ou cidade.</h4>
             <Tooltip title={all_solicitacoes? 'Ainda não temos solicitações cadastradas :(': 'Ver'} >
               <h5 onClick={() => setAllSolicitacoes(true)}>Desejo ver solicitações sem ser do meu tipo sanguíneo ou cidade.</h5>

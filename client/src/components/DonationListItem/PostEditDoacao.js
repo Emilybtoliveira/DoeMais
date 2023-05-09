@@ -39,7 +39,7 @@ const theme = createTheme({
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Parabéns! Sua doação sanguínea foi atualizada! </h2>
+                    <h2 style={{marginBottom: '2%', textAlign:'center'}} >Parabéns! Sua doação sanguínea foi atualizada! </h2>
                     <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Mantenha seu registro sempre atualizado para assim saber quando estará disponível para doar novamente! Verifique os dados de cada registro e os altere caso ainda não estejam condizentes.<strong style={{color: '#CE0C0C'}}></strong></p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                     <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
@@ -60,7 +60,7 @@ const ModalFracasso = (props) =>{
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Não conseguimos atualizar sua doação! </h2>
+                    <h2 style={{marginBottom: '2%',  textAlign:'center'}} >Não conseguimos atualizar sua doação! </h2>
                     <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Lembre-se que para atualizar uma doação a nova data deve obedecer ao tempo mínimo de meses entre doações. Edite outras doações ou confira a data da doação que está tentando atualizar e tente novamente!<strong style={{color: '#CE0C0C'}}></strong></p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                     <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
@@ -106,7 +106,7 @@ export default function Solicitacoes (props) {
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
     React.useEffect(() => {
-      const response = api.get(`/donation-register?idUser=${id_user}`).then((response) => {
+      const response = api.get(`/donation-register?idDonator=${id_user}`).then((response) => {
         console.log(response);
         setMinhas_doacoes(response.data)
       }).catch((error) => {
@@ -176,12 +176,13 @@ export default function Solicitacoes (props) {
                 // setErrorMessage(error.response.data.error)
                 // setOpenFailure(true)
                 setIsLoading(false)
+                check = true;
               }
         }
         else if(!(check))
         {
           setOpenFailure(true)
-          check = true;
+          check=true;
         }
     }
 
@@ -207,14 +208,14 @@ export default function Solicitacoes (props) {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                style={{width: '750px', margin:'auto'}}
+                
 
             >
             <ContentModal>
             <h1>Editar doação</h1>
             <h4 style={{marginBottom: '5%'}} >Recadastre a doação com os dados corretos!</h4>
                 <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                     <input type ="date"
                       fullWidth
                       
@@ -224,10 +225,10 @@ export default function Solicitacoes (props) {
                       error={errorDate? true: false}
                       helperText={errorDate? errorDate: false}
                       onChange={handleDate}
-                    style={{height: "55px", width:"165px", textAlign: "center", fontSize:"1em"}}></input>
+                    style={{height: "55px", width:"100%", textAlign: "center", fontSize:"1em"}}></input>
                         
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                         label="Local de doação"
                         name="Hospital"

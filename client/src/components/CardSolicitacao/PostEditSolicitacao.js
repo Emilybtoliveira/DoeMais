@@ -51,10 +51,10 @@ const ModalSucesso = (props) =>{
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <ContentModal>
+            <ContentModal style={{maxWidth:"500px"}}>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '2%'}} >Sua solicitação foi editada. </h2>
+                    <h2 style={{marginBottom: '2%',  textAlign:'center'}} >Sua solicitação foi editada. </h2>
                     <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Sua solicitação  será divulgada por<strong style={{color: '#CE0C0C'}}> 90 dias </strong> a partir da data que você postou. Após esse período, ela será automaticamente removida. Caso o receptor não necessite mais de doações, por favor, lembre-se de <strong style={{color: '#CE0C0C'}}>apagar a solicitação</strong> para evitar confusões e garantir que os doadores possam ajudar outras pessoas que necessitam de doações de sangue.</p>
                     <div style={{display: "flex", justifyContent: 'flex-end'}}>
                                     <Button onClick={props.handleCloseSuccess}  variant="contained" >Ok!</Button>
@@ -272,7 +272,7 @@ export default function Solicitacoes (props) {
                         />
                     </Grid>
                     
-                    <Grid item xs={3}>
+                    <Grid item xs={6} sm={6} md={6} lg={3}>
                             <TextField
                             label="Idade"
                             name="Idade"
@@ -285,7 +285,25 @@ export default function Solicitacoes (props) {
                             onChange={handleIdade}
                             />
                     </Grid>
-                    <Grid item xs={3}>
+                     <Grid item xs={6} sm={6} md={6} lg={3}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Tipo Sanguíneo</InputLabel>
+                            <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={data?.bloodtype}
+                            helperText={errorTipo? errorTipo: false}
+                            error={errorTipo? true: false}
+                            onChange={handleTipo}
+                            >
+                            {options.tipos_sanguineos_solicitacao.map((item,i) =>(
+                                <MenuItem key={i} value={item}>{item}</MenuItem>
+                            ))}
+                            </Select>
+                            {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
+                    </FormControl>
+                    </Grid>
+                    <Grid item xs={6} sm={6} md={6} lg={3}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Estado</InputLabel>
                             <Select
@@ -302,7 +320,7 @@ export default function Solicitacoes (props) {
                             {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
                     </FormControl>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6} sm={6} md={6} lg={3}>
                     <Autocomplete
                         disabled={!data.state}
                         id="cidade"
@@ -328,24 +346,7 @@ export default function Solicitacoes (props) {
                         />
                         
                     </Grid>
-                    <Grid item xs={3}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label" required sx={{background: 'white', pr:1}}>Tipo Sanguíneo</InputLabel>
-                            <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={data?.bloodtype}
-                            helperText={errorTipo? errorTipo: false}
-                            error={errorTipo? true: false}
-                            onChange={handleTipo}
-                            >
-                            {options.tipos_sanguineos_solicitacao.map((item,i) =>(
-                                <MenuItem key={i} value={item}>{item}</MenuItem>
-                            ))}
-                            </Select>
-                            {errorTipo && <FormHelperText error>{errorTipo}</FormHelperText>}
-                    </FormControl>
-                    </Grid>
+                   
                     <Grid item xs={12}>
                         <TextField
                         label="Descrição (Opcional)"

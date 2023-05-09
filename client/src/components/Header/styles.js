@@ -18,7 +18,7 @@ export const Bar = styled(AppBar)`
     }
     .menuLogado{
         display: flex;
-        width: 5%;
+        width: 10%;
         @media (max-width: 720px) {
             width: 50%;
         }
@@ -28,6 +28,7 @@ export const Bar = styled(AppBar)`
         margin-right: 15%;
         text-decoration: none;
     }
+
     h3{
         font-family: 'Cagliostro', sans-serif;
         @media (max-width: 720px) {

@@ -3,6 +3,7 @@ import * as palette from "../../../utils/variablesColor"
 import { Card } from '@mui/material'
 
 export const Container = styled.div`
+margin: 1%;
      @media (max-width: 768px) {
         margin-top: 10%;
     }

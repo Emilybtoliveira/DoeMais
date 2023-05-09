@@ -24,7 +24,8 @@ module.exports = {
         allowNull: false 
       },
       phone: { 
-        type: Sequelize.STRING(20) 
+        type: Sequelize.STRING(20)
+      },
       image: {
         type: Sequelize.STRING,
       },      active: {

@@ -6,6 +6,7 @@ import { durationInMonths } from '@progress/kendo-date-math';
 import {Grid, Button, Modal} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import logo from '../../assets/logo.svg'
 import api from '../../services/api'
 import PostEditDoacao from './PostEditDoacao'
@@ -41,7 +42,7 @@ const IconButton = styled('div')({
             <ContentModal>
                 <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
                 <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
-                    <h2 style={{marginBottom: '5%'}} >Tem certeza que deseja excluir esse registro de doação?</h2>
+                    <h2 style={{marginBottom: '5%', textAlign:'center'}} >Tem certeza que deseja excluir esse registro de doação?</h2>
                     <div style={{display: "flex"}}>
                       <Button onClick={props.handleExcluir}  variant="contained" sx={{mr: '10%'}}  >Sim</Button>
                       <Button onClick={props.handleClose}  variant="outlined" >Cancelar</Button>
@@ -70,6 +71,7 @@ function DonationListItem (props){
           console.log('f')
         })
       }
+      
     let duracaodoacao;
     console.log(doacao.id)
     if (duration == 1) {
@@ -86,24 +88,31 @@ function DonationListItem (props){
     return(
         <ThemeProvider theme ={theme}>
             <Textos>
-                <Grid container className='first'>
-                    <Grid item xs={0.8}>
-                    <div className='icon'><img src = {icon} ></img></div>
+                <Grid container className='first'
+                spacing={0}
+                direction="row"
+                alignItems="center"
+                  justifyContent="center">
+                    <Grid item xs={1}>
+                    <img src = {icon} ></img>
                     </Grid>
-                    <Grid item xs ={8.2}>
+                    <Grid item xs ={8}>
                         <h1>Doação dia {date_list[2]}/{date_list[1]}/{date_list[0]}</h1>
                         <h3>{props.location}</h3>
                     </Grid>
                     <Grid item xs ={2}>
                         {duracaodoacao}
                     </Grid>
+                    
+                    {doacao.validated == false?
                     <Grid item xs={1}>
                         <div style={{textAlign:'right'}}>
                             <IconButton onClick={() => setEditarDonat(true) } style={{color:'#363636'}}><EditIcon fontSize="small"/></IconButton>
-                            <IconButton onClick={() => setExcluirDonat(true)} style={{color:'rgba(204, 0, 0, 1)'}}><DeleteIcon fontSize="small" /></IconButton>
-                        </div>
-                    </Grid>
-            
+                            <IconButton onClick={() => setExcluirDonat(true)} style={{color:'rgba(204, 0, 0, 1)'}}><DeleteIcon fontSize="small" /></IconButton></div></Grid>
+                          :
+                          <Grid item xs={1}>
+                          <div style={{textAlign:'right'}}>
+                            <IconButton onClick={() =>{}} style={{color:'#0C6E0C'}}><DoneAllIcon fontSize="small"/></IconButton></div></Grid>} 
                 </Grid>
                 <ModalExcluir open={excluirDonat} handleClose={() => setExcluirDonat(false)} handleExcluir={handleExcluir}/>
                 <PostEditDoacao idonation = {doacao.id} date ={doacao.date} hospital = {doacao.place} open={editarDonat} handleClose={() => setEditarDonat(false)}/>

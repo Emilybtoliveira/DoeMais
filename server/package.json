@@ -12,18 +12,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@js-joda/core": "^5.5.3",
+    "@js-joda/extra": "^0.11.3",
     "antd": "^5.3.2",
+    "base64url": "^3.0.1",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "concurrently": "^7.6.0",
     "cors": "^2.8.5",
+    "cron": "^2.3.0",
+    "date-fns": "^2.30.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
 
     "html-to-image": "^1.11.11",
 
     "fs": "^0.0.1-security",
-
+    "js-joda": "^1.11.0",
     "mongoose": "^7.0.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.2.0",
@@ -31,6 +36,8 @@
     "nodemon": "^2.0.21",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
+    "qrcode": "^1.5.3",
+    "random-js": "^2.1.0",
     "randomstring": "^1.2.3",
     "sequelize": "^6.29.1"
   },

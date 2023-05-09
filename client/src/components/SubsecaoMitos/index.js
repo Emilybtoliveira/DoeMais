@@ -5,7 +5,7 @@ function SubsecaoMitos (props){
     return(
         <div>
             <Textos id='mitos'>
-            <h1>Mitos sobre a doação de sangue</h1>
+            <h1>Mitos</h1>
                 <br/><br/>
                 <ul>
                     <li>
