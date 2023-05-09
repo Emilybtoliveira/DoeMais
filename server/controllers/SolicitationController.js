@@ -37,7 +37,6 @@ SolicitationController.getSolicitations = async function(req, res){
     try 
     {   
         if(req.query.userId){ //retorna as solicitações do usuario
-
             const data = await Solicitation.findAll({
                 where:{
                     solicitationUserId: req.query.userId,
@@ -60,7 +59,14 @@ SolicitationController.getSolicitations = async function(req, res){
             res.status(200).json({ data });
 
         }else { //retorno de todas as solicitacoes
-            const data = await Solicitation_Person.findAll({include: Solicitation});
+            const data = await Solicitation_Person.findAll({
+                include: {
+                    model: Solicitation,
+                    where: {
+                        status: "open"
+                    }
+                }
+            });
             
             res.status(200).json({ data });        
         }
@@ -72,15 +78,16 @@ SolicitationController.getSolicitations = async function(req, res){
 
 SolicitationController.update = async function(req, res){
     try {
+        const filename = req.file ? req.file.filename : null
         const result = await Solicitation_Person.update({ 
             name: req.body.name,
             bloodtype: req.body.bloodtype,
             description: req.body.description,
-            picture: req.body.picture,
+            picture: filename,
             age: req.body.age,
             city: req.body.city,
             state: req.body.state,
-            hospital: req.body.hospital, 
+            hospital: req.body.hospital,
         }, 
         {
             where: {
@@ -138,7 +145,6 @@ SolicitationController.getUserFeed = async function(req, res){
 
     try {
         const city = req.query.city;
-        console.log(req.query.city)
         const userId = req.query.userId;
 
         const user_donator = await Donator.findOne({
@@ -151,9 +157,7 @@ SolicitationController.getUserFeed = async function(req, res){
             res.status(404).json({ error: 'Nenhum usuário encontrado para o id fornecido.'});
             return;
         }
-
-        if(city){
-
+        if(req.query.city){
             if (user_donator.blood_type){
                 const user_compatibilities = compatibily_map[user_donator.blood_type];
 
@@ -169,9 +173,11 @@ SolicitationController.getUserFeed = async function(req, res){
                         }
                     }
                 })
-                res.status(200).json({ data });
+                
+                    res.status(200).json({ data });
 
             } else {
+                const user_compatibilities = compatibily_map[user_donator.blood_type];
                 const data = await Solicitation_Person.findAll({
                     where: {
                         city: city
@@ -186,11 +192,13 @@ SolicitationController.getUserFeed = async function(req, res){
                 res.status(200).json({ data });
             }
         }
-        else {
+        else{
             const count_recs = await Solicitation_Person.count();
-
             if (count_recs <= 5){
                 const data = await Solicitation_Person.findAll({ 
+                    where: {
+                        bloodtype: user_compatibilities
+                    },
                     include: { 
                         model: Solicitation,
                         where: {
@@ -202,14 +210,17 @@ SolicitationController.getUserFeed = async function(req, res){
             }
             else{
                 const data = await Solicitation_Person.findAll({ 
+                    where: {
+                        bloodtype: user_compatibilities
+                    },
                     include: {
                         model: Solicitation,
                         where: {
                             status: "open"
                         }
                     },  
-                    offset: 2,
-                    limit: 10 
+                    // offset: 2,
+                    // limit: 10 
                 });
                 res.status(200).json({ data });
             }

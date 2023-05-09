@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import * as palette from "../../../utils/variablesColor"
+import { Card } from '@mui/material'
 
 export const Container = styled.div`
 margin: 1%;
@@ -49,4 +50,12 @@ margin: 1%;
         
     }
     
+`
+
+
+
+export const CardLocal = styled(Card)`
+    .content:hover{
+        border: 0.3px solid rgba(204, 0, 0, 0.5);
+    }
 `

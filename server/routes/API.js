@@ -42,7 +42,7 @@ router.post('/upload-img/:id', uploadUser.single('image'), (req, res) => {Contro
 router.get('/solicitations',(req, res) => {Controllers.SolicitationController.getSolicitations(req,res);})
 router.get('/solicitations/feed',(req, res) => {Controllers.SolicitationController.getUserFeed(req,res);})
 router.post('/solicitations', uploadSolicitation.single('picture'), (req, res) => {Controllers.SolicitationController.create(req,res);})
-router.put('/solicitations',(req, res) => {Controllers.SolicitationController.update(req,res);})
+router.put('/solicitations', uploadSolicitation.single('picture'), (req, res) => {Controllers.SolicitationController.update(req,res);})
 router.put('/solicitations/:id',(req, res) => {Controllers.SolicitationController.disable(req,res);})
 
 //Rotas de Registro de Doacoes

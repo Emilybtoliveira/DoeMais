@@ -62,6 +62,7 @@ import { ContentModal } from './styles';
 import styled from 'styled-components'
 import api from '../../services/api'
 import InfoSecao from '../InfoSecao';
+import { border, borderColor } from '@mui/system';
 
 const theme = createTheme({
     components: {
@@ -161,10 +162,11 @@ function Feed(props) {
 
       sessionStorage.removeItem('image')
       setShowModal(false)
-      navigate('/dashboard')
+      navigate('/')
     } catch (error) {
       console.log(error);
     }
+
   }
 
 
@@ -223,7 +225,7 @@ function Feed(props) {
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <div style={{display: "flex", alignItems:'center'}}>
-                        <StyledButton color='secondary' startIcon={data.foto_avatar?<InsertPhotoIcon/>:<UploadIcon />} variant={data.foto_avatar?"outlined": "contained"} onClick={() => inputRef.current.click()}>
+                        <StyledButton sx={{background: 'rgba(236, 222, 222, 1)', color: 'black', '&:hover': {background: 'rgba(189, 163, 163, 1)'} }} color='secondary' startIcon={data.foto_avatar?<InsertPhotoIcon/>:<UploadIcon />} variant={data.foto_avatar?"outlined": "contained"} onClick={() => inputRef.current.click()}>
                         {data.foto_avatar?   data.foto_avatar[0].name : "Upload da foto (Máx: 10MB)"}
                         </StyledButton>
                         <input
@@ -239,8 +241,8 @@ function Feed(props) {
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{display: "flex", justifyContent: 'center'}}>
-                        <Button onClick={handleUploadPhoto}  variant="contained" sx={{mr: '10%' }}  >Enviar</Button>
-                        <Button onClick={handleClose}  variant="outlined"  >Cancelar</Button>
+                        <Button onClick={handleUploadPhoto}  variant="contained" sx={{mr: '10%', background: 'rgba(197, 23, 23, 0.81)','&:hover': {background: 'rgba(197, 23, 23, 0.6)'} }}  >Enviar</Button>
+                        <Button onClick={handleClose}  variant="outlined" sx={{mr: '10%', color: 'rgba(197, 23, 23, 0.81)', borderColor: 'rgba(197, 23, 23, 0.81)','&:hover': {borderColor: 'rgba(197, 23, 23, 0.4)'}}} >Cancelar</Button>
                     </div>
                   </Grid>
                 </Grid>

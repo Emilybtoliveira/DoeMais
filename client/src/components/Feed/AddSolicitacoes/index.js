@@ -6,11 +6,14 @@ import Post from './PostSolicitacao'
 import api from '../../../services/api'
 import {useSelector} from 'react-redux'
 import Card from '../../CardSolicitacao'
+import vazio from '../../../assets/Feed/vazio.svg'
+import CircularProgress from '@mui/material/CircularProgress';
 export default function Solicitacoes () {
   const [openModal, setOpenModal] = useState(false)
   const [minhas_solicitacoes, setMinhas_solicitacoes] = useState([])
   const [isMobile, setIsMobile] = React.useState(false);
   const id_user = useSelector(state => state.user.id_user);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const response = api.get(`/solicitations?userId=${id_user}`).then((response) => {
@@ -32,6 +35,11 @@ export default function Solicitacoes () {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
+  }, []);
 
 
   return (
@@ -52,15 +60,26 @@ export default function Solicitacoes () {
           </Tooltip>
           }
         </div>
-        <div >
+        <div>
+      {isLoading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <CircularProgress style={{ color: 'red' }}/>
+        </div>
+      ) : (
+        minhas_solicitacoes.length !== 0 ? (
           <Grid container spacing={ 2} rowSpacing={0} className='grid'>
             {minhas_solicitacoes.reverse().map((item,i) =>(
               <Grid item key={i}  xs={12} sm={12} md={6} lg={4} xl={3} >
                 <Card  solicitacao={item}/>
               </Grid>            
           ))}
-          </Grid>
-        </div>
+          </Grid> ) : (
+          <div className='vazio'>
+            {/* {all_solicitacoes? alert('Ainda não temos solicitações cadastradas.')  : '' } */}
+            <img src={vazio} alt='sem solicitações'/>
+            <h4>Você ainda não possui solicitações de doação sanguínea.</h4>
+          </div>))}
+          </div>
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
       </Container>
     )
