@@ -184,7 +184,7 @@ function Feed(props) {
     {nome: 'Locais de doação', icone: localNoSelect, iconeSelect: localSelect,width: 20, alt:'Locais',index:3 , component: <LocalDoacao/>},
     {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:5 , component: <Campanhas/>},
     {nome: 'Saiba mais', icone: infoNoSelect, iconeSelect: infoSelect,width: 20, alt:'Saiba mais',index:4 , component: <InfoSecao/>},
-    {/*{nome: 'Editar informações', icone: settingsNoSelect, iconeSelect: settingsSelect, width:25 ,alt:'edit', index:6 , component: <EditProfile/>}*/},
+    /*{nome: 'Editar informações', icone: settingsNoSelect, iconeSelect: settingsSelect, width:25 ,alt:'edit', index:6 , component: <EditProfile/>}*/
 
   ] : 
   [
