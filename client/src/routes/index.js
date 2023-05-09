@@ -33,6 +33,15 @@ function RotaPublica(props) {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   return (
     <>
+      {isLoggedIn?
+      <Navigate to='/dashboard'/>:
+      (props.element)}
+    </> 
+  );
+}
+function RotaPublicaTodos(props) {
+  return (
+    <>
       {(props.element)}
     </> 
   );
@@ -48,7 +57,7 @@ export default function Rotas() {
       <Route path="/confirm-email" exact element={<RotaPublica element={<ConfirmEmail/>}/>}/>
       <Route path="/forgot-password" exact element={<RotaPublica element={<ForgotPassword/>}/>}/>
       <Route path="/recover-password" exact element={<RotaPublica element={<RecoverPassword/>}/>}/>
-      <Route path="/validate-donation-register/:id" exact element={<RotaPublica element={<ValidateDonation/>}/>}/>
+      <Route path="/validate-donation-register/:id" exact element={<RotaPublicaTodos element={<ValidateDonation/>}/>}/>
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
       <Route path='/compartilhar-solicitacao/:id' exact element={<Compartilhamento/>} />
       <Route path="/dashboard" exact element={<RotaPrivada element={<Dashboard/>}/>}/>
