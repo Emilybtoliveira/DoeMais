@@ -1,7 +1,8 @@
         import React , {useEffect, useState} from  'react'
         // import { toJpeg } from 'html-to-image';
         import {toPng} from 'html-to-image';
-        import { saveAs } from 'file-saver';    
+        import { saveAs } from 'file-saver';
+        import html2canvas from 'html2canvas';
 
         import { Container,Content } from './styles'
         import Card from '@mui/material/Card';
@@ -60,16 +61,17 @@ export default function PosterSolicitacao () {
 
     const handleBaixar = () => {
         const node = document.getElementById('part-to-download');
-        toPng(node)
-            .then((dataUrl) => {
-            saveAs(dataUrl, 'solicitacao-sanguinea.png');
+        html2canvas(node, { useCORS: true })
+            .then((canvas) => {
+            canvas.toBlob((blob) => {
+                saveAs(blob, 'solicitacao-sanguinea.png');
+            });
             })
             .catch((err) => {
-            console.log(err)
-            })
+            console.log(err);
+            });
     }
     
-
     return (
         <ThemeProvider theme={theme}>
             <Container>
