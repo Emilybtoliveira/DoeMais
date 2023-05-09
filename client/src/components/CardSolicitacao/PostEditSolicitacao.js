@@ -73,7 +73,6 @@ export default function Solicitacoes (props) {
     // const solic_update = useSelector(state => state.user.solic_update);
     const [data, setData] = useState({})
     const maxLength = 200; 
-
     const StyledButton = styled(Button)({
         width: '100%',
         color: '#000',
@@ -101,8 +100,7 @@ export default function Solicitacoes (props) {
         try{
             const response = await api.get(`solicitations?id=${props.id_solic}`);
             //   const response = await api.get(`solicitations?${id_user}`);
-            // console.log(response.data.data)
-              return response.data.data.person;
+            return response.data.data.person;
             //   return response.data.data; 
         } catch (err) {
           console.error(err);
@@ -163,7 +161,6 @@ export default function Solicitacoes (props) {
    
     const handleValidar =  () => {
         let isValid = true      
-        console.log(data)
         
         if(!data.name){
             setErrorNome("Preencha esse campo!")
@@ -217,11 +214,10 @@ export default function Solicitacoes (props) {
             formData.append('bloodtype', data.bloodtype)
             formData.append('description', data.description)
             formData.append('city', data.city)
-            formData.append('state', data.state.nome)
+            formData.append('state', data.state.nome?data.state.nome:data.state )
             formData.append('hospital', data.hospital)
             formData.append('age', data.age)
             formData.append('id', props.id_solic)
-            console.log(formData)
             try {
                 const response = await api.put('/solicitations', formData, {
                     headers: {
