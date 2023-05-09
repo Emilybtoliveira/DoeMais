@@ -6,14 +6,15 @@ import {useSelector} from 'react-redux'
 import { Card, CardContent, Typography } from '@mui/material';
 import {Link} from 'react-router-dom'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import noLocal from '../../../assets/Feed/noLocal.svg'
 import BloodtypeIcon from '@mui/icons-material/Bloodtype';  
 export default function Mapa () {
-  
+  console.log("aqui")
   const [bloodBanks, setBloodBanks] = useState([]);
   const location = useSelector(state => state.user.location);
   const cidade = useSelector(state => state.user.cidade);
-  const [lat, setLat] = useState(location.latitude);
-  const [lng, setLng] = useState(location.longitude);
+  const [lat, setLat] = useState(location?.latitude);
+  const [lng, setLng] = useState(location?.longitude);
   const [isActive, setIsActive] = useState(false);
 
 
@@ -54,7 +55,9 @@ export default function Mapa () {
 
 
   useEffect(() => {
-    consultaBancoSangue()
+    if(cidade){
+      consultaBancoSangue()
+    }
   }, []);
   
 
@@ -92,6 +95,7 @@ export default function Mapa () {
             <h1>Locais de doação próximos  a você</h1>
           </div>
         <h4>Encontre um banco de sangue e faça a sua parte!</h4>
+        {cidade && location?
         <div className='mapInfo' >
           <div className='map' >
           
@@ -136,7 +140,14 @@ export default function Mapa () {
                 </Grid>
             ))}
             </Grid>
+        </div>: 
+        <div className='mapInfo' style={{height: '100vh'}}>
+          <img src={noLocal} alt='sem localização' width='5%' ></img>
+          <h3 style={{width: '50%', textAlign: 'center'}} >Você precisa ativar sua localização para mostrarmos os bancos de sangue próximos a você.</h3>
+          <h4 style={{width: '50%', textAlign: 'center'}} >Após ativar a localização, deslogue da sua conta e depois entre novamente :).</h4>
+          
         </div>
+        }
       </Container>
     )
 }

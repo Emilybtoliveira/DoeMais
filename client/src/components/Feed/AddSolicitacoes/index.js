@@ -17,7 +17,6 @@ export default function Solicitacoes () {
 
   React.useEffect(() => {
     const response = api.get(`/solicitations?userId=${id_user}`).then((response) => {
-      console.log(response);
       setMinhas_solicitacoes(response.data.data)
     }).catch((error) => {
       console.log(error)

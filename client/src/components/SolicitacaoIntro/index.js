@@ -10,7 +10,7 @@ import img3 from '../../assets/Portal/CardsEstatico/img3.svg';
 
 const solicitacao = [
     {
-        picture: img1,
+        foto: img1,
         name: 'Nicolas Lima da Silva',
         age: 32,
         description:
@@ -25,7 +25,7 @@ const solicitacao = [
     },
   
     {
-        picture: img2,
+        foto: img2,
         name: 'Paulo Oliveira da Silva',
         age: 30,
         description:
@@ -41,7 +41,7 @@ const solicitacao = [
     },
   
     {
-        picture: img3,
+        foto: img3,
         name: 'José Lima da Silva',
         age: 64,
         description:
