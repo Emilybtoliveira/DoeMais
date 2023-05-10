@@ -30,7 +30,8 @@ export default function CriarQRCodeDoacao () {
     <Container>
       <div>
         <h1>Criar QRCode</h1>
-        <h4>Aqui você pode criar um qrcode para validar uma doação sanguínea!</h4>
+        <p>Nessa sessão você pode gerar QRCodes para validar doações de sangue feitas em sua instituição. Basta apenas que o doador tenha um cadastro na nossa plataforma e que você gere um QRCode abaixo.</p><br/>
+        <p>Cada QRCode é de uso único, e ao scanear, basta apenas informar o e-mail da conta cadastrada do usuário em nossa plataforma que nós registraremos automaticamente a doação validada.</p>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <Grid container spacing={2}>
@@ -38,7 +39,7 @@ export default function CriarQRCodeDoacao () {
             <img src={qrCode} alt='QRCode'/>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button onClick={createQrCode}  variant="contained">Gerar QRCode</Button>
+            <Button onClick={createQrCode}  variant="contained" className='button'>Gerar QRCode</Button>
           </Grid>
         </Grid>
       </div>

@@ -39,7 +39,27 @@ export const Container = styled.div`
         }
     }
     
+    .vazio{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 61vh;
 
+        img{
+            width: 8%;
+        }
+        h4{
+            margin-top: 1%;
+            font-weight: 600;
+        }
+        h5{
+            color: ${palette.vermelho};
+            margin-top: 1%;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
 `
 
 export const List = styled.div`

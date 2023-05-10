@@ -5,6 +5,8 @@ import { Container } from './styles'
 import AddIcon from '@mui/icons-material/Add';
 import Post from './PostCampanha'
 import Card from '../../CardCampanha'
+import vazio from '../../../assets/Feed/vazio.svg'
+import CircularProgress from '@mui/material/CircularProgress';
 
 import {
   Grid,
@@ -18,6 +20,7 @@ export default function Campanhas () {
   const [isMobile, setIsMobile] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [minhas_campanhas, setMinhas_campanhas] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCampaigns() {
@@ -50,6 +53,13 @@ export default function Campanhas () {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
+  }, []);
+
+
   return (
     <Container>
       {profile.admin && (
@@ -77,13 +87,24 @@ export default function Campanhas () {
         </div>
       )}
       <div>
+      {isLoading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <CircularProgress style={{ color: 'red' }}/>
+        </div>
+         ) :
+        minhas_campanhas.length>0?
         <Grid container spacing={2} rowSpacing={0} className='grid'>
           {minhas_campanhas.reverse().map((item,i) =>(
             <Grid item key={i}  xs={12} sm={12} md={6} lg={4} xl={3} >
               <Card campanha={item}/>
-            </Grid>            
-        ))}
-        </Grid>
+            </Grid>
+        ))}</Grid>:<div className='vazio'>
+        {/* {all_solicitacoes? alert('Ainda não temos solicitações cadastradas.')  : '' } */}
+        <img src={vazio} alt='sem solicitações'/>
+        <h4>Nenhuma campanha foi registrada ainda.</h4>
+        </div>
+        }
+        
       </div>
       <Post open={openModal} handleClose={() => setOpenModal(false)} />
     </Container>

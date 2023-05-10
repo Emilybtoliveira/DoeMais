@@ -5,13 +5,16 @@ import {useSelector} from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import api from '../../../services/api'
 import Post from './PostDoacao'
+import vazio from '../../../assets/Feed/vazio.svg'
 import DonationListItem from '../../DonationListItem';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function Doacoes () {
     const [openModal, setOpenModal] = useState(false)
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
     const profile = useSelector(state => state.user.profile);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     const id_user = useSelector(state => state.user.id_user);
     React.useEffect(() => {
@@ -22,6 +25,12 @@ export default function Doacoes () {
           console.log(error)
         })
       }, []);
+    
+  React.useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
+  }, []);
      
     
     return (
@@ -38,11 +47,23 @@ export default function Doacoes () {
           </Tooltip>
         </div>
         <Post open={openModal} handleClose={() => setOpenModal(false)} />
+        {isLoading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <CircularProgress style={{ color: 'red' }}/>
+        </div>
+         ) :
+        minhas_doacoes.length>0?(
         <Grid container>
           {minhas_doacoes.sort((a, b) => new Date(a.date) - new Date (b.date)).reverse().map(donation => <Grid item xs={12}>
             <DonationListItem date={donation.date} location={donation.place} id={donation.id} validated={donation.validated}/>
           </Grid>)}
-        </Grid>
+        </Grid>):(
+          <div className='vazio'>
+            {/* {all_solicitacoes? alert('Ainda não temos solicitações cadastradas.')  : '' } */}
+            <img src={vazio} alt='sem solicitações'/>
+            <h4>Você ainda não registrou nenhuma doação sanguínea.</h4>
+          </div>)
+        }
       </Container>
     )
 }

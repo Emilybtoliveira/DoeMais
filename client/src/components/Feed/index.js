@@ -188,7 +188,7 @@ function Feed(props) {
 
   ] : 
   [
-    {nome: 'Criar Doacao', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
+    {nome: 'Validar Doação', icone: solicNoSelec, iconeSelect: solicSelec, width:25 ,alt:'Criar Doacao', index:0 , component: <CreateQRCodeDoacao/> },
     {nome: 'Campanhas', icone: campaignNoSelect, iconeSelect: campaignSelect, width:25 ,alt:'Campanhas', index:1 , component: <Campanhas/> },
   ]
 

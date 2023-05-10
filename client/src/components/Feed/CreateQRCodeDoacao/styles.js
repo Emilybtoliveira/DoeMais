@@ -39,4 +39,13 @@ export const Container = styled.div`
             padding: 0;
         }
     }
+    .button{
+        background-color: rgba(204, 0, 0, 1);
+       
+        font-weight: 600;
+        height: 40px;
+    }
+    .button:hover{
+        background-color: rgba(204, 0, 0, 0.59);
+    }
 `
