@@ -1,4 +1,4 @@
-const { Campaign, Donator, User, DonationRegister, CampaignWinner } = require('../models');
+const { Campaign, Donator, User, Admin, DonationRegister, CampaignWinner } = require('../models');
 const raffleCampaign = require('../raffleCampaign')
 
 const timeElapsed = Date.now();
@@ -143,7 +143,10 @@ CampaignController.join = async function(req, res){
 
 CampaignController.endCampaign = async function(req, res){
     try {
-        const campaign = await Campaign.findByPk(req.query.campaignId)
+        const campaign = await Campaign.findByPk(req.query.campaignId, {
+            include: [{ model: Admin, as: 'admin', include: [{ model: User }]}]
+        })
+
         if (!campaign) {
             res.status(400).json("Essa campanha não existe");
             return;
