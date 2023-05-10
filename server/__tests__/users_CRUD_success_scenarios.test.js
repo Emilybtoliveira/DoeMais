@@ -2,17 +2,6 @@ const request = require("supertest");
 
 const baseURL = "http://localhost:5000";
 
-/* const { Sequelize } = require("sequelize");
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: ":memory:",
-});
-
-
-beforeAll(async () => {
-  await sequelize.sync({ force: true });
-}); */
-
 let user_id;
 let user;
 

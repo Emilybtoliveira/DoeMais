@@ -32,7 +32,7 @@ beforeAll(async () => {
 
 }, 10000);
 
-describe("solicitations successfull CRUD", () => {
+describe("solicitations successfull CRUD scenarios", () => {
 
   test("creates a solicitation", async () => {
     solicitation = {
