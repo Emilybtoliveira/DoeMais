@@ -78,8 +78,15 @@ SolicitationController.getSolicitations = async function(req, res){
 
 SolicitationController.update = async function(req, res){
     try {
-        const filename = req.file ? req.file.filename : null
-        const result = await Solicitation_Person.update({ 
+        const solicitation = await Solicitation_Person.findByPk(req.body.id)
+
+        if (!solicitation) {
+            res.status(404).json({ error: "Não existe solicitação com esse id."});
+            return
+        }
+
+        const filename = req.file ? req.file.filename : solicitation.picture
+        await solicitation.update({ 
             name: req.body.name,
             bloodtype: req.body.bloodtype,
             description: req.body.description,
@@ -88,19 +95,9 @@ SolicitationController.update = async function(req, res){
             city: req.body.city,
             state: req.body.state,
             hospital: req.body.hospital,
-        }, 
-        {
-            where: {
-              id: req.body.id
-            }
-        });
+        })
 
-        if (result[0]){
-            res.status(200).json();    
-        } else{
-            res.status(404).json({ error: "Não existe solicitação com esse id."});    
-        }
-
+        res.status(200).json();
     } catch (error) {
         res.status(500).json({ error: error });
     }
