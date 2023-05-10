@@ -63,6 +63,8 @@ import styled from 'styled-components'
 import api from '../../services/api'
 import InfoSecao from '../InfoSecao';
 import { border, borderColor } from '@mui/system';
+import { use } from 'js-joda';
+import { set } from 'date-fns';
 
 const theme = createTheme({
     components: {
@@ -90,11 +92,19 @@ function Feed(props) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [selectedComponent, setSelectedComponent] = React.useState({
-    index:0,
-    component: profile?.donator? <Solicitacoes/> : <CreateQRCodeDoacao/>
-  }); // Novo estado
+  const [selectedComponent, setSelectedComponent] = React.useState({}); // Novo estado
+
+  
+  React.useEffect((()=>{
+    if(profile){
+      setSelectedComponent({index:0, component: profile?.donator? <Solicitacoes/> : <CreateQRCodeDoacao/>
+      })
+    }
+
+  }), [profile])
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
