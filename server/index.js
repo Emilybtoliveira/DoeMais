@@ -7,6 +7,8 @@ const path = require('path')
 
 const Cronjob = require('cron').CronJob
 const raffleCampaign = require('./raffleCampaign')
+const moment = require('moment')
+const today = moment().format("YYYY-MM-DD");
 
 const API = require('./routes/API.js');
 const CronJob = require('cron').CronJob

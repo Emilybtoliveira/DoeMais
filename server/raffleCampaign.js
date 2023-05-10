@@ -1,9 +1,7 @@
 const { Random } = require('random-js')
 const db = require('./models')
-const moment = require('moment')
 
 const random = new Random()
-const today = moment().format("YYYY-MM-DD");
 
 const raffle = async function(campaign, donators) {
     const numDonators = donators.length;
