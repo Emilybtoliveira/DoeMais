@@ -56,6 +56,7 @@ router.post('/validate-donation-register/:id', (req, res) => {Controllers.Donati
 
 //Rotas de Campanha de doacao
 router.post('/campaign',(req, res) => {Controllers.CampaignController.create(req, res);})
+router.put('/campaign',(req, res) => {Controllers.CampaignController.endCampaign(req, res);})
 router.get('/campaign',(req, res) => {Controllers.CampaignController.getCampaigns(req, res);})
 router.post('/campaign-join',(req, res) => {Controllers.CampaignController.join(req, res);})
 router.get('/campaign-donators',(req, res) => {Controllers.CampaignController.getAllDonatorsOfCampaign(req, res);})

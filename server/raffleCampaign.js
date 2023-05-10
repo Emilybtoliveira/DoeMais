@@ -44,24 +44,22 @@ const raffle = async function(campaign, donators) {
 }
 
 const raffleCampaign = async function (campaign) {
-    if (campaign.end_date >= today) {
-        const donators = await db.Donator.findAll({
-            where: {campaignId: campaign.id},
-            include: [{ model: db.User }]
-        })
+    const donators = await db.Donator.findAll({
+        where: {campaignId: campaign.id},
+        include: [{ model: db.User }]
+    })
 
-        if (campaign.reward) {
-            await raffle(campaign, donators)
-        }
-
-        donators.forEach(async donator => {
-            donator.campaignId = null
-            await donator.save()
-        });
-
-        campaign.is_open = false
-        await campaign.save()
+    if (campaign.reward) {
+        await raffle(campaign, donators)
     }
+
+    donators.forEach(async donator => {
+        donator.campaignId = null
+        await donator.save()
+    });
+
+    campaign.is_open = false
+    await campaign.save()
 }
 
 module.exports = raffleCampaign

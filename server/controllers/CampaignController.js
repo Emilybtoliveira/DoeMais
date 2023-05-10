@@ -1,4 +1,5 @@
 const { Campaign, Donator, User, DonationRegister, CampaignWinner } = require('../models');
+const raffleCampaign = require('../raffleCampaign')
 
 const timeElapsed = Date.now();
 const today = new Date(timeElapsed);
@@ -135,6 +136,22 @@ CampaignController.join = async function(req, res){
         donator.campaignId = req.body.campaignId
         await donator.save()
         res.status(200).json({ message: "Voce se juntou à campanha" });
+    } catch (error) {
+        res.status(404).json({ error: error })
+    }
+}
+
+CampaignController.endCampaign = async function(req, res){
+    try {
+        const campaign = await Campaign.findByPk(req.body.campaignId)
+        if (!campaign) {
+            res.status(400).json("Essa campanha nao existe");
+            return;
+        }
+
+        raffleCampaign(campaign)
+
+        res.status(200).json({ message: "Campanha encerrada com sucesso" });
     } catch (error) {
         res.status(404).json({ error: error })
     }

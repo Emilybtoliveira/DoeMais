@@ -33,14 +33,16 @@ const send_emails = new CronJob('*/1 * * * * *', async function() {
     console.log("ENVIAR EMAILS")
 }, null, true, 'America/Sao_Paulo');
 
-const verify_campaigns = new Cronjob('*/59 * * * * *', async function() {
+const verify_campaigns = new Cronjob('1 0 * * * *', async function() {
     const campaigns = await db.Campaign.findAll({
         where: {is_open: true},
         include: [{ model: db.Admin, as: 'admin', include: [{ model: db.User }]}]
     })
     console.log("VERIFICANDO CAMPANHAS")
     campaigns.forEach((campaign) => {
-        raffleCampaign(campaign)
+        if (campaign.end_date >= today) {
+            raffleCampaign(campaign)
+        }
     });
 }, null, true, 'America/Sao_Paulo');
 
