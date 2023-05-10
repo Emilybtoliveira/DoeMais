@@ -15,6 +15,11 @@ export default function Doacoes () {
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
     const profile = useSelector(state => state.user.profile);
     const [isLoading, setIsLoading] = React.useState(true);
+    const gender = profile.donator.gender; 
+    var gap_month = 4;
+    if (gender == 'm'){
+      gap_month = 3;
+    }
 
     const id_user = useSelector(state => state.user.id_user);
     React.useEffect(() => {
@@ -40,7 +45,7 @@ export default function Doacoes () {
           <h4 className='descTitle'>Aqui você pode registrar suas doações já feitas.</h4>
         </div>
         <div>
-        <Tooltip title="Postar uma solicitação">
+        <Tooltip title="Registrar uma doação">
             <IconButton aria-label="formulario" className='button' onClick={() => setOpenModal(true)}>
               <AddIcon sx={{color:'#fff'}} />
             </IconButton>

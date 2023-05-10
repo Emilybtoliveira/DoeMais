@@ -1,10 +1,15 @@
 import React from 'react';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { CardPrincipal } from './styles';
+import { CardPrincipal, ContentModal } from './styles';
 import campaignPhoto from '../../assets/Feed/campaignPhoto.png'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import api from '../../services/api'
+import {IconButton, Button, Modal} from '@mui/material';
+import PeopleIcon from '@mui/icons-material/People';
+import CloseIcon from '@mui/icons-material/Close';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import logo from '../../assets/logo.svg'
 
 import {
   Snackbar,
@@ -27,10 +32,43 @@ const theme = createTheme({
   },
 });
 
+const ModalExcluir = (props) =>{
+  return(
+      <Modal
+          open={props.open}
+          onClose={props.handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+      >
+          <ContentModal>
+              <img src={logo} alt="logo" style={{marginBottom: '2%'}} />
+              <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >                   
+                  <h2 style={{marginBottom: '2%', textAlign:'center'}} >Tem certeza que deseja fechar essa campanha? </h2>
+                  <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Ao fechar essa campanha, o sorteio dos prêmios será realizado <strong style={{color: '#CE0C0C'}}>automaticamente</strong> por nossa plataforma.</p>
+                  <div style={{display: "flex"}}>
+                    <Button onClick={props.handleExcluir}  variant="contained" sx={{mr: '10%' }}  >Sim</Button>
+                    <Button onClick={props.handleClose}  variant="outlined"  >Cancelar</Button>
+                  </div>
+              </div>
+          </ContentModal>
+      </Modal>
+  )
+}
+
 function Cards(props) {
     const {campanha} = props;
     const profile = useSelector(state => state.user.profile);
-
+    const [excluirSolic, setExcluirSolic] = React.useState(false)
+    const handleExcluir = async () => {
+        try {
+          const response = await api.put(`/campaign?campaignId=${campanha.id}`)
+          setOpenModalWinners(true)
+          window.location.reload()
+        } catch (error) {
+          console.log(error.response.data.error)
+        }
+    }
+  
     const [openModal, setOpenModal] = React.useState(false)
     const [openModalWinners, setOpenModalWinners] = React.useState(false)
     const [users, setUsers] = React.useState([])
@@ -97,7 +135,13 @@ function Cards(props) {
 
     return(
         <ThemeProvider theme={theme}>
-            <CardPrincipal sx={{ borderRadius: 3, backgroundColor: bgCor,":hover": {filter: "brightness(70%)"}}} onClick={handleClickCampanha}>
+            <CardPrincipal sx={{ borderRadius: 3, backgroundColor: bgCor,":hover": {filter: "brightness(70%)"}}}>
+            {profile.admin? 
+            <div>
+              <IconButton onClick={() => setExcluirSolic(true) } style={{color:'rgba(204, 0, 0, 1)'}}><CloseIcon fontSize="medium"/></IconButton>
+              <IconButton onClick={() => handleClickCampanha() } style={{color:'rgba(0, 204, 0, 1)'}}><PeopleIcon fontSize="medium"/></IconButton></div>:<div>
+                <IconButton onClick={() => handleClickCampanha() } style={{color:'rgba(204, 0, 0, 1)'}}><GroupAddIcon fontSize="medium"/></IconButton>
+              </div>}
             <img src={campaignPhoto} style={{width:'100%'}}></img>
                 <CardContent sx={{pt:1, pb: 0}}>
                 {campanha.is_open?
@@ -140,7 +184,7 @@ function Cards(props) {
                 </div>
             </CardPrincipal>
 
-            <ShowDonators open={openModal && profile.admin} handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
+           <ShowDonators open={openModal && profile.admin} handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
             <ShowDonators open={openModalWinners && profile.admin} handleClose={() => setOpenModalWinners(false)} users={winners} name="Ganhadores" />
 
             <Snackbar open={openFailure} autoHideDuration={6000} onClose={()=>{setOpenFailure(false)}}>
@@ -153,6 +197,7 @@ function Cards(props) {
                     Você se juntou à campanha!
                 </Alert>
             </Snackbar>
+            <ModalExcluir open={excluirSolic} handleClose={() => setExcluirSolic(false)} handleExcluir={handleExcluir}/>
         </ThemeProvider>
     )
 }

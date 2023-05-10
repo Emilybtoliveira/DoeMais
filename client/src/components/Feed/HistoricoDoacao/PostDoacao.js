@@ -74,16 +74,16 @@ const ModalFracasso = (props) =>{
 export default function Solicitacoes (props) {
     const {open, handleClose} = props;
     const id_user = useSelector(state => state.user.id_user);
-    const gender = useSelector(state => state.user.gender); 
-    const gap_month = 3;
-    if (gender == 'Masculino'){
-      gap_month = 4;
+    const profile = useSelector(state => state.user.profile); 
+    const gender = profile.donator.gender; 
+    var gap_month = 4;
+    if (gender == 'm'){
+      gap_month = 3;
     }
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
     React.useEffect(() => {
       const response = api.get(`/donation-register?idDonator=${id_user}`).then((response) => {
-        console.log(response);
         setMinhas_doacoes(response.data)
       }).catch((error) => {
         console.log(error)
@@ -95,7 +95,6 @@ export default function Solicitacoes (props) {
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear()
     const today = `${year}-${month<10?`0${month}`:`${month}`}-${date<10?`0${date}`:`${date}`}`
-    console.log(today)
     const [data, setData] = useState({ 
         place:sessionStorage.getItem('hospital') || '',
         date: today || sessionStorage.getItem('date') 

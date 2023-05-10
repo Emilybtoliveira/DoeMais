@@ -15,7 +15,7 @@ function SubsecaoQuemSomos (props){
                 <p>Além disso, buscamos romper a barreira comunicativa entre doadores e solicitantes, promovendo um estreitamento dessa relação e atuando como uma rede comunicativa da doação de sangue. </p>
                 <p>Se você doa sangue com regularidade, está precisando de uma doação para si mesmo ou alguém do seu círculo social, ou ainda sempre teve interesse em doar, mas não sabia por onde começar: Essa plataforma é para você. Aqui você encontrará a resposta para perguntas frequentes como: onde doar, como doar, quem está precisando de doação e ainda se você pode doar.</p>
                 <p>Aos doadores tanto iniciantes quanto mais experientes, temos dentro de nosso sistema funcionalidades que podem te ajudar, como a nossa página de registro de doações, onde você pode registrar cada doação feita e assim manter um acompanhamento de quando estará apto a doar novamente.</p>
-                <p>Por fim, às insituições de saúde oferecemos um serviço de cadastro de campanhas de doação, com premiação ou solidárias, visando fomentar ainda mais essa ação tão essencial, ao passo que promovemos sua instituição!</p>
+                <p>Por fim, às insituições de saúde oferecemos um serviço de cadastro de campanhas de doação, com premiação ou solidárias, visando fomentar ainda mais essa ação tão essencial, ao passo que promovemos sua instituição!    </p>
                 <div className='team'>
                 <Grid container style={{padding:'3%'}}>
                     <Grid item xs={6} md={3}>

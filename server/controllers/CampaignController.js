@@ -95,10 +95,10 @@ CampaignController.join = async function(req, res){
         if (donator.campaignId) {
             if (donator.campaignId == req.body.campaignId)
             {
-                res.status(400).json({ error: "Voce já está nessa campanha" })
+                res.status(400).json({ error: "Você já está nessa campanha" })
                 return
             }
-            res.status(400).json({ error: "Voce já está em outra campanha" })
+            res.status(400).json({ error: "Você já está em outra campanha" })
             return
         }
 
@@ -108,24 +108,24 @@ CampaignController.join = async function(req, res){
         })
 
         if (donations.length == 0) {
-            res.status(400).json({ error: "Voce nao possui uma doacao validada neste tempo da campanha" })
+            res.status(400).json({ error: "Você não possui uma doação validada neste tempo da campanha" })
             return
         }
 
         const campaign = await Campaign.findOne({ where: {id: req.body.campaignId}})
 
         if (!campaign.is_open) {
-            res.status(400).json({ error: "Essa campanha nao esta aberta" })
+            res.status(400).json({ error: "Essa campanha não está aberta" })
             return
         }
 
         if (donations[0].validated_at < campaign.start_date) {
-            res.status(400).json({ error: "Voce nao possui uma doacao validada neste tempo da campanha" })
+            res.status(400).json({ error: "Você não possui uma doação validada neste tempo da campanha" })
             return
         }
 
         if (donations[0].place != campaign.donation_place) {
-            res.status(400).json({ error: "Sua doacao nao foi para a mesma da campanha" })
+            res.status(400).json({ error: "Sua doação não foi para a mesma da campanha" })
             return
         }
 
@@ -135,7 +135,7 @@ CampaignController.join = async function(req, res){
 
         donator.campaignId = req.body.campaignId
         await donator.save()
-        res.status(200).json({ message: "Voce se juntou à campanha" });
+        res.status(200).json({ message: "Você se juntou à campanha" });
     } catch (error) {
         res.status(404).json({ error: error })
     }
@@ -143,13 +143,13 @@ CampaignController.join = async function(req, res){
 
 CampaignController.endCampaign = async function(req, res){
     try {
-        const campaign = await Campaign.findByPk(req.body.campaignId)
+        const campaign = await Campaign.findByPk(req.query.campaignId)
         if (!campaign) {
-            res.status(400).json("Essa campanha nao existe");
+            res.status(400).json("Essa campanha não existe");
             return;
         }
 
-        raffleCampaign(campaign)
+        await raffleCampaign(campaign)
 
         res.status(200).json({ message: "Campanha encerrada com sucesso" });
     } catch (error) {

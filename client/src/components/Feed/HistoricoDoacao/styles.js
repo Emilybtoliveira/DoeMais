@@ -60,6 +60,10 @@ export const Container = styled.div`
             cursor: pointer;
         }
     }
+    .statusDonator{
+        color:green;
+        text-align:right;
+    }
 `
 
 export const List = styled.div`
