@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({limit:"30mb", extended: true}));
 
 app.use('/', API);
 
-const send_emails = new CronJob('*/10 * * * * *', async function() {
+const send_emails = new CronJob('*/1 * * * * *', async function() {
     
     const emails = await db.Email.findAll();
     emails.forEach((email) => {
