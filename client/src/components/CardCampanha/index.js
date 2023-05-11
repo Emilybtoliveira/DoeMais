@@ -9,6 +9,7 @@ import {IconButton, Button, Modal} from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import CloseIcon from '@mui/icons-material/Close';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import logo from '../../assets/logo.svg'
 
 import {
@@ -58,7 +59,7 @@ const ModalExcluir = (props) =>{
 function Cards(props) {
     const {campanha} = props;
     const profile = useSelector(state => state.user.profile);
-    const [excluirSolic, setExcluirSolic] = React.useState(false)
+    const [fecharCampanha, setFecharCampanha] = React.useState(false)
     const handleExcluir = async () => {
         try {
           const response = await api.put(`/campaign?campaignId=${campanha.id}`)
@@ -136,12 +137,18 @@ function Cards(props) {
     return(
         <ThemeProvider theme={theme}>
             <CardPrincipal sx={{ borderRadius: 3, backgroundColor: bgCor,":hover": {filter: "brightness(70%)"}}}>
-            {profile.admin? 
+            {profile.admin && campanha.is_open? 
             <div>
-              <IconButton onClick={() => setExcluirSolic(true) } style={{color:'rgba(204, 0, 0, 1)'}}><CloseIcon fontSize="medium"/></IconButton>
-              <IconButton onClick={() => handleClickCampanha() } style={{color:'rgba(0, 204, 0, 1)'}}><PeopleIcon fontSize="medium"/></IconButton></div>:<div>
+              <IconButton onClick={() => setFecharCampanha(true) } style={{color:'rgba(204, 0, 0, 1)'}}><CloseIcon fontSize="medium"/></IconButton>
+              <IconButton onClick={() => handleClickCampanha() } style={{color:'rgba(0, 204, 0, 1)'}}><PeopleIcon fontSize="medium"/></IconButton></div>:!profile.admin && campanha.is_open?<div>
                 <IconButton onClick={() => handleClickCampanha() } style={{color:'rgba(204, 0, 0, 1)'}}><GroupAddIcon fontSize="medium"/></IconButton>
-              </div>}
+              </div>:profile.admin && !campanha.is_open?     
+              <div>
+                <IconButton onClick={() => handleClickCampanha() } style={{color:'rgba(200, 150, 0, 1)'}}><EmojiEventsIcon fontSize="medium"/></IconButton>
+              </div>
+              :!profile.admin && !campanha.is_open?<div>
+                <IconButton style={{color:'rgba(100, 100, 100, 1)'}}><GroupAddIcon fontSize="medium"/></IconButton></div>:
+                <div></div>}
             <img src={campaignPhoto} style={{width:'100%'}}></img>
                 <CardContent sx={{pt:1, pb: 0}}>
                 {campanha.is_open?
@@ -184,8 +191,8 @@ function Cards(props) {
                 </div>
             </CardPrincipal>
 
-           <ShowDonators open={openModal && profile.admin} handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
-            <ShowDonators open={openModalWinners && profile.admin} handleClose={() => setOpenModalWinners(false)} users={winners} name="Ganhadores" />
+           <ShowDonators open={openModal && profile.admin } handleClose={() => setOpenModal(false)} users={users} name="Doadores"/>
+            <ShowDonators open={openModalWinners && profile.admin && !fecharCampanha} handleClose={() => setOpenModalWinners(false)} users={winners} name="Ganhadores" />
 
             <Snackbar open={openFailure} autoHideDuration={6000} onClose={()=>{setOpenFailure(false)}}>
                 <Alert onClose={()=>{setOpenFailure(false)}} severity="error" variant="filled" sx={{ width: '100%' }}>
@@ -197,7 +204,7 @@ function Cards(props) {
                     Você se juntou à campanha!
                 </Alert>
             </Snackbar>
-            <ModalExcluir open={excluirSolic} handleClose={() => setExcluirSolic(false)} handleExcluir={handleExcluir}/>
+            <ModalExcluir open={fecharCampanha} handleClose={() => setFecharCampanha(false)} handleExcluir={handleExcluir}/>
         </ThemeProvider>
     )
 }

@@ -61,13 +61,18 @@ export default function Campanhas (props) {
               </div>: users.length < 0 && name == 'Ganhadores'?
               <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >
                   <h2 style={{marginBottom: '2%', textAlign:'center'}} >Parabéns! A campanha se encerrou.</h2>
-                  <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Nossa equipe agradece a todos os contribuintes dessa causa solidária! Graças a vocês conseguimos gerar um impacto na vida de muitas pessoas!</p>
+                  <p style={{marginBottom: '2%',fontSize: '14px', textAlign: 'center'}} >Nossa equipe agradece a todos os contribuintes dessa causa solidária! Graças a vocês conseguimos gerar um impacto na vida de muitas pessoas!</p>
               </div>
-                :
+                : name != 'Ganhadores'?
                   <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >
                       <h2 style={{marginBottom: '2%', textAlign:'center'}} >Doadores ainda não se juntaram à sua campanha</h2>
-                      <p style={{marginBottom: '2%',fontSize: '11px', textAlign: 'center'}} >Sua campanha foi divulgada para os usuários de nossa plataforma e se encerrará precisamente no <strong style={{color: '#CE0C0C'}}>dia especificado</strong>. No dia de encerramento, em caso de uma campanha com prêmios, será feito automaticamente o sorteio. Caso deseje encerrar a campanha antes, basta clicar no <strong style={{color: '#CE0C0C'}}>ícone de X</strong> dentro do card.</p>
+                      <p style={{marginBottom: '2%',fontSize: '14px', textAlign: 'center'}} >Sua campanha foi divulgada para os usuários de nossa plataforma e se encerrará precisamente no <strong style={{color: '#CE0C0C'}}>dia especificado</strong>. No dia de encerramento, em caso de uma campanha com prêmios, será feito automaticamente o sorteio. Caso deseje encerrar a campanha antes, basta clicar no <strong style={{color: '#CE0C0C'}}>ícone de X</strong> dentro do card.</p>
               
+                  </div>: 
+              <div style={{display: "flex", justifyContent: 'center', alignItems:'center', flexDirection:'column'}} >
+                  <h2 style={{marginBottom: '2%', textAlign:'center'}}>A campanha se encerrou sem vencedores</h2>
+                  <p style={{marginBottom: '2%',fontSize: '14px', textAlign: 'center'}} >Sua campanha foi divulgada para os usuários de nossa plataforma mas fechou antes que alguém se cadastrasse.</p>
+          
                   </div>
                 }
             </ContentModal>
