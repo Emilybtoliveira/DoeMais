@@ -26,12 +26,21 @@ app.use(bodyParser.urlencoded({limit:"30mb", extended: true}));
 
 app.use('/', API);
 
+let isSendingEmail = false
+
 const send_emails = new CronJob('*/1 * * * * *', async function() {
+    if (isSendingEmail) {
+        return
+    }
+
+    isSendingEmail = true
     
     const emails = await db.Email.findAll();
-    emails.forEach((email) => {
-        sendEmail(email);
-    });
+    for (const email of emails) {
+        await sendEmail(email);
+    }
+
+    isSendingEmail = false
     console.log("ENVIAR EMAILS")
 }, null, true, 'America/Sao_Paulo');
 
@@ -41,15 +50,18 @@ const verify_campaigns = new Cronjob('1 0 * * * *', async function() {
         include: [{ model: db.Admin, as: 'admin', include: [{ model: db.User }]}]
     })
     console.log("VERIFICANDO CAMPANHAS")
-    campaigns.forEach((campaign) => {
+    campaigns.forEach(async (campaign) => {
         if (campaign.end_date >= today) {
-            raffleCampaign(campaign)
+            await raffleCampaign(campaign)
         }
     });
 }, null, true, 'America/Sao_Paulo');
 
-db.sequelize.sync().then((req) => {
-    app.listen(PORT, () => console.log('Servidor escutando na porta: '+ PORT))
-    send_emails.start()
-    verify_campaigns.start()
-})
+const startServer = async () => {
+    await db.sequelize.sync();
+    app.listen(PORT, () => console.log('Servidor escutando na porta: ' + PORT));
+    send_emails.start();
+    verify_campaigns.start();
+};
+
+startServer();

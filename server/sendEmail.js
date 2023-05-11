@@ -9,6 +9,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const enviarEmail = async function (email) {
+    console.log("TENTAR ENVIAR EMAIL")
     const mailOptions = {
         from: 'doemais@gmail.com',
         to: email.to,
@@ -17,13 +18,16 @@ const enviarEmail = async function (email) {
         html: email.html
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Erro ao enviar email: ', erro);
-            return
-        } else {
-            console.log("Email enviado")
-        }
+    await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Erro ao enviar email: ', error);
+                reject(error);
+            } else {
+                console.log("Email enviado");
+                resolve(info);
+            }
+        });
     });
 
     await email.destroy()

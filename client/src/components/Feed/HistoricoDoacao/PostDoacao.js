@@ -83,7 +83,7 @@ export default function Solicitacoes (props) {
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
     React.useEffect(() => {
-      const response = api.get(`/donation-register?idDonator=${id_user}`).then((response) => {
+      const response = api.get(`/donation-register?idDonator=${profile.donator.id}`).then((response) => {
         setMinhas_doacoes(response.data)
       }).catch((error) => {
         console.log(error)
@@ -150,7 +150,7 @@ export default function Solicitacoes (props) {
             // setIsLoading(true);
 
             const formData = {
-                idDonator: id_user,
+                idDonator: profile.donator.id,
                 place: data.place,
                 date: data.date,
                 validater: false

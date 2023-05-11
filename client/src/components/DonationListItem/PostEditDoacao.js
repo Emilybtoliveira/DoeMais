@@ -75,7 +75,8 @@ export default function Solicitacoes (props) {
     const {open, handleClose} = props;
     const id_user = useSelector(state => state.user.id_user);
     var check = true;
-    const gender = useSelector(state => state.user.gender); 
+    const gender = useSelector(state => state.user.gender);
+    const profile = useSelector(state => state.user.profile)
     let newDate = new Date()
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
@@ -106,7 +107,7 @@ export default function Solicitacoes (props) {
     const [minhas_doacoes, setMinhas_doacoes] = useState([])
 
     React.useEffect(() => {
-      const response = api.get(`/donation-register?idDonator=${id_user}`).then((response) => {
+      const response = api.get(`/donation-register?idDonator=${profile.donator.id}`).then((response) => {
         console.log(response);
         setMinhas_doacoes(response.data)
       }).catch((error) => {
@@ -153,7 +154,6 @@ export default function Solicitacoes (props) {
             // setIsLoading(true);
 
             const formData = {
-                idUser: id_user,
                 place: data.place,
                 date: data.date,
                 id: props.idonation
