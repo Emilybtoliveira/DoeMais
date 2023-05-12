@@ -29,6 +29,11 @@ beforeAll(async () => {
 
 }, 10000);
 
+afterAll(async() =>{
+  const response = await req.delete("/user/"+user_id);
+  if (response.status != 200) console.log('[BeforeAll] Não deletado o usuario');
+})
+
 describe("donations successful CRUD scenarios", () => {
     test("creates a donation register", async () => {
         const register = {
@@ -57,7 +62,7 @@ describe("donations successful CRUD scenarios", () => {
         registerId = response.body.id;
 
         expect(response.status).toBe(200);
-        expect(response.body.date).toBe("2023-03-08");
+        expect(response.body.date).toBe("2023-08-03");
         expect(response.body.place).toBe(register.place);
     });
 

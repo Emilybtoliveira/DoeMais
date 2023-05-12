@@ -174,7 +174,6 @@ SolicitationController.getUserFeed = async function(req, res){
                     res.status(200).json({ data });
 
             } else {
-                const user_compatibilities = compatibily_map[user_donator.blood_type];
                 const data = await Solicitation_Person.findAll({
                     where: {
                         city: city
@@ -189,39 +188,16 @@ SolicitationController.getUserFeed = async function(req, res){
                 res.status(200).json({ data });
             }
         }
-        else{
-            const count_recs = await Solicitation_Person.count();
-            if (count_recs <= 5){
-                const data = await Solicitation_Person.findAll({ 
+        else{            
+            const data = await Solicitation_Person.findAll({ 
+                include: { 
+                    model: Solicitation,
                     where: {
-                        bloodtype: user_compatibilities
-                    },
-                    include: { 
-                        model: Solicitation,
-                        where: {
-                            status: "open"
-                        }
-                    } 
-                });
-                res.status(200).json({ data });
-            }
-            else{
-                const data = await Solicitation_Person.findAll({ 
-                    where: {
-                        bloodtype: user_compatibilities
-                    },
-                    include: {
-                        model: Solicitation,
-                        where: {
-                            status: "open"
-                        }
-                    },  
-                    // offset: 2,
-                    // limit: 10 
-                });
-                res.status(200).json({ data });
-            }
-
+                        status: "open"
+                    }
+                } 
+            });
+            res.status(200).json({ data });
         }
     } catch (error) {
         res.status(500).json({ message: error})

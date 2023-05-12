@@ -32,6 +32,12 @@ beforeAll(async () => {
 
 }, 10000);
 
+afterAll(async() =>{
+  const response = await req.delete("/user/"+user_id);
+  if (response.status != 200) console.log('[BeforeAll] Não deletado o usuario');
+})
+
+
 describe("solicitations successfull CRUD scenarios", () => {
 
   test("creates a solicitation", async () => {
@@ -70,7 +76,7 @@ describe("solicitations successfull CRUD scenarios", () => {
 
   test("updates a solicitation", async () => {
     solicitation = {
-      id: user_id,
+      id: solicitation_id,
       name: "Pessoa solicitante edit",
       bloodtype: "O-",
       description: "adicionando descrição",

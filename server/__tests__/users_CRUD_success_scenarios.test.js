@@ -24,7 +24,7 @@ describe("users successfull CRUD", () => {
     const response = await req.post("/register").send(user);
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe("E-mail enviado");
+    expect(response.body.message).toBe("Cadastro concluido, enviaremos um email para confirmaçao");
 
   }, 10000);
 
@@ -70,5 +70,10 @@ describe("users successfull CRUD", () => {
     expect(user.donator.blood_type).toBe("O+");
     expect(user.donator.flag_chat).toBe("F");
     expect(user.donator.gender).toBe("F");  
+  })
+
+  test("deletes the created user", async() => {
+    const response = await req.delete("/user/"+user_id);
+    expect(response.status).toBe(200);
   })
 });

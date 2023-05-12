@@ -29,6 +29,11 @@ beforeAll(async () => {
 
 }, 10000);
 
+afterAll(async() =>{
+  const response = await req.delete("/user/"+user_id);
+  if (response.status != 200) console.log('[BeforeAll] Não deletado o usuario');
+})
+
 describe("user feed successful scenarios", () => {
   test("creates 5 solicitations in a row", async () => {
     const bloodtypes = ["A+", "B+", "O+", "AB+", "A-", "B-", "O-", "AB-"];

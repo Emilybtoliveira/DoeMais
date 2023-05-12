@@ -41,7 +41,7 @@ const send_emails = new CronJob('*/1 * * * * *', async function() {
     }
 
     isSendingEmail = false
-    console.log("ENVIAR EMAILS")
+    //console.log("ENVIAR EMAILS")
 }, null, true, 'America/Sao_Paulo');
 
 const verify_campaigns = new Cronjob('1 0 * * * *', async function() {
@@ -49,7 +49,7 @@ const verify_campaigns = new Cronjob('1 0 * * * *', async function() {
         where: {is_open: true},
         include: [{ model: db.Admin, as: 'admin', include: [{ model: db.User }]}]
     })
-    console.log("VERIFICANDO CAMPANHAS")
+    //console.log("VERIFICANDO CAMPANHAS")
     campaigns.forEach(async (campaign) => {
         if (campaign.end_date >= today) {
             await raffleCampaign(campaign)
